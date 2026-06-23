@@ -1,67 +1,11 @@
-from typing import Optional
-
 import numpy as np
 
 from wavelet_codes import WaveletCode
 
 
-def is_prime(number: int) -> bool:
+def read_binary_vector(prompt: str) -> list[int]:
     """
-    Проверяет, является ли число простым.
-    Для GF(p) нам нужна простая характеристика поля p.
-    """
-    if number < 2:
-        return False
-
-    if number == 2:
-        return True
-
-    if number % 2 == 0:
-        return False
-
-    divisor = 3
-
-    while divisor * divisor <= number:
-        if number % divisor == 0:
-            return False
-        divisor += 2
-
-    return True
-
-
-def read_int(prompt: str, default: Optional[int] = None) -> int:
-    """
-    Считывает целое число.
-    Если задан default, то пустой ввод заменяется значением по умолчанию.
-    """
-    while True:
-        raw_value = input(prompt).strip()
-
-        if raw_value == "" and default is not None:
-            return default
-
-        try:
-            return int(raw_value)
-        except ValueError:
-            print("Ошибка: нужно ввести целое число.")
-
-
-def read_prime_field() -> int:
-    """
-    Считывает характеристику поля GF(p).
-    """
-    while True:
-        field = read_int("Введите характеристику поля p [2]: ", default=2)
-
-        if is_prime(field):
-            return field
-
-        print("Ошибка: p должно быть простым числом. Например: 2, 3, 5, 7, 11.")
-
-
-def read_vector(prompt: str, field: int) -> list[int]:
-    """
-    Считывает вектор элементов поля.
+    Считывает бинарный вектор.
 
     Можно вводить:
         1 0 1 1
@@ -81,16 +25,13 @@ def read_vector(prompt: str, field: int) -> list[int]:
         try:
             vector = [int(part) for part in parts]
         except ValueError:
-            print("Ошибка: вектор должен содержать только целые числа.")
+            print("Ошибка: вектор должен содержать только числа 0 и 1.")
             continue
 
-        invalid_values = [value for value in vector if value < 0 or value >= field]
+        invalid_values = [value for value in vector if value not in (0, 1)]
 
         if invalid_values:
-            print(
-                f"Ошибка: элементы должны принадлежать GF({field}), "
-                f"то есть быть в диапазоне от 0 до {field - 1}."
-            )
+            print("Ошибка: в бинарном коде элементы должны быть только 0 или 1.")
             continue
 
         return vector
@@ -98,7 +39,7 @@ def read_vector(prompt: str, field: int) -> list[int]:
 
 def print_matrix(title: str, matrix: np.ndarray) -> None:
     """
-    Красиво печатает матрицу.
+    Печатает матрицу в удобном виде.
     """
     print(f"\n{title}:")
     for row in matrix:
@@ -106,37 +47,27 @@ def print_matrix(title: str, matrix: np.ndarray) -> None:
 
 
 def main() -> None:
-    print("Построение и кодирование линейного вейвлетного кода")
-    print("-" * 55)
+    print("Кодирование линейного вейвлетного кода над GF(2)")
+    print("-" * 60)
 
-    field = read_prime_field()
+    field = 2
 
-    if field != 2:
-        print(
-            "\nПредупреждение: сейчас кодирование работает над GF(p), "
-            "но дальнейшая BPSK-модуляция обычно предполагает бинарный случай GF(2)."
-        )
-
-    h = read_vector(
-        prompt=f"\nВведите коэффициенты h через пробел или запятую, элементы GF({field}): ",
-        field=field,
+    h = read_binary_vector(
+        "Введите коэффициенты масштабирующей функции h: "
     )
 
     if len(h) % 2 != 0:
         print("\nОшибка: количество коэффициентов h должно быть чётным.")
         return
 
-    message = read_vector(
-        prompt=f"Введите информационное слово v, элементы GF({field}): ",
-        field=field,
+    message = read_binary_vector(
+        "Введите информационное слово v: "
     )
 
     codeword_length = 2 * len(message)
 
     if len(h) > codeword_length:
-        print(
-            "\nОшибка: количество коэффициентов h не может быть больше длины кодового слова."
-        )
+        print("\nОшибка: количество коэффициентов h не может быть больше длины кодового слова.")
         print(f"len(h) = {len(h)}, n = {codeword_length}")
         return
 
@@ -148,7 +79,7 @@ def main() -> None:
             codeword_length=codeword_length,
             field=field,
             a=a,
-            name="Interactive wavelet code",
+            name="Binary wavelet code",
         )
     except ValueError as error:
         print("\nОшибка при построении кода:")
@@ -158,10 +89,10 @@ def main() -> None:
     codeword = code.encode(message)
 
     print("\nРезультат")
-    print("-" * 55)
+    print("-" * 60)
 
     print("Код:", code.name)
-    print(f"Поле: GF({field})")
+    print("Поле: GF(2)")
     print("k =", code.k)
     print("n =", code.n)
     print("a =", a)
