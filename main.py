@@ -16,6 +16,7 @@ from decode.maximum_likelihood_decoding import (
     hard_maximum_likelihood_decode,
     soft_maximum_likelihood_decode,
 )
+from decode.chase_decoding import chase_decode
 
 def read_binary_vector(prompt: str) -> list[int]:
     """
@@ -120,6 +121,11 @@ def main() -> None:
         default=42,
     )
 
+    chase_unreliable_positions_count = read_optional_int(
+        "Введите число наименее надёжных позиций для алгоритма Чейза p [2]: ",
+        default=2,
+    )
+
     try:
         code, codeword = encode_wavelet_message(
             h=h,
@@ -158,6 +164,16 @@ def main() -> None:
         soft_mld_result = soft_maximum_likelihood_decode(
             received_symbols=received_symbols,
             generator_matrix=code.generator_matrix,
+        )
+
+        chase_result = chase_decode(
+            received_word=hard_bits,
+            received_symbols=received_symbols,
+            reliability=reliability,
+            parity_check_matrix=parity_check_matrix,
+            generator_matrix=code.generator_matrix,
+            unreliable_positions_count=chase_unreliable_positions_count,
+            inner_decoder_max_error_weight=1,
         )
 
 
@@ -217,13 +233,14 @@ def main() -> None:
     )
 
     print("Синдром:", syndrome_result.syndrome.tolist())
-    print("Найденный вектор ошибки:", syndrome_result.error_vector.tolist())
-    print("Исправленное кодовое слово:", syndrome_result.corrected_word.tolist())
-    print("Статус:", syndrome_result.message)
 
-    if syndrome_result.decoded_message is not None:
-        print("Восстановленное информационное слово:", syndrome_result.decoded_message.tolist())
-        print("Внимание: синдромное декодирование с max_error_weight=1 корректно исправляет одиночные ошибки только если все ненулевые столбцы H_C различны.")
+    if syndrome_result.success:
+        print("Найденный вектор ошибки:", syndrome_result.error_vector.tolist())
+        print("Исправленное кодовое слово:", syndrome_result.corrected_word.tolist())
+        print("Статус:", syndrome_result.message)
+    else:
+        print("Вектор ошибки не найден.")
+        print("Слово оставлено без исправления:", syndrome_result.corrected_word.tolist())
 
     print("\nЭтап 6. Декодирование методом максимального правдоподобия")
 
@@ -244,6 +261,38 @@ def main() -> None:
     print("Лучшее кодовое слово:", soft_mld_result.decoded_codeword.tolist())
     print("Восстановленное информационное слово:", soft_mld_result.decoded_message.tolist())
     print("Статус:", soft_mld_result.message)
+
+    print("\nЭтап 7. Декодирование алгоритмом Чейза")
+
+    print("Количество наименее надёжных позиций p:", chase_unreliable_positions_count)
+    print("Наименее надёжные позиции:", chase_result.unreliable_positions.tolist())
+    print("Количество успешных кандидатов:", chase_result.candidates_count)
+
+    if not chase_result.success:
+        print("Статус:", chase_result.message)
+    else:
+        print("Минимальная евклидова метрика:", round(chase_result.metric, 6))
+        print("Неоднозначность:", "да" if chase_result.ambiguous else "нет")
+        print("Лучшее кодовое слово:", chase_result.decoded_codeword.tolist())
+
+        if chase_result.decoded_message is not None:
+            print(
+                "Восстановленное информационное слово:",
+                chase_result.decoded_message.tolist(),
+            )
+
+        print("Статус:", chase_result.message)
+
+        print("\nКандидаты Чейза:")
+        for index, candidate in enumerate(chase_result.candidates, start=1):
+            print(f"  Кандидат {index}:")
+            print("    test_pattern:", candidate.test_pattern.tolist())
+            print("    trial_word:", candidate.trial_word.tolist())
+            print("    decoded_codeword:", candidate.decoded_codeword.tolist())
+            print("    metric:", round(candidate.metric, 6))
+
+            if candidate.decoded_message is not None:
+                print("    decoded_message:", candidate.decoded_message.tolist())
 
 if __name__ == "__main__":
     main()
