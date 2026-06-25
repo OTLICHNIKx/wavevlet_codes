@@ -88,6 +88,27 @@ def read_optional_int(prompt: str, default: Optional[int] = None) -> Optional[in
         except ValueError:
             print("Ошибка: нужно ввести целое число.")
 
+def read_non_negative_int(prompt: str, default: int) -> int:
+    """
+    Считывает неотрицательное целое число.
+    """
+    while True:
+        raw_value = input(prompt).strip()
+
+        if raw_value == "":
+            return default
+
+        try:
+            value = int(raw_value)
+        except ValueError:
+            print("Ошибка: нужно ввести целое число.")
+            continue
+
+        if value < 0:
+            print("Ошибка: значение должно быть неотрицательным.")
+            continue
+
+        return value
 
 def print_matrix(title: str, matrix: np.ndarray) -> None:
     print(f"\n{title}:")
@@ -121,16 +142,35 @@ def main() -> None:
         default=42,
     )
 
+    max_error_weight = read_non_negative_int(
+        "Введите максимальный вес ошибок в таблице синдромов t [1]:: ",
+        default=1,
+    )
+
     chase_unreliable_positions_count = read_optional_int(
         "Введите число наименее надёжных позиций для алгоритма Чейза p [2]: ",
         default=2,
     )
+
+    if chase_unreliable_positions_count <= 0:
+        print("\nОшибка: p для алгоритма Чейза должно быть положительным.")
+        return
 
     try:
         code, codeword = encode_wavelet_message(
             h=h,
             message=message,
         )
+
+        if max_error_weight > code.n:
+            raise ValueError(
+                f"max_error_weight не может быть больше длины кодового слова n = {code.n}"
+            )
+
+        if chase_unreliable_positions_count > code.n:
+            raise ValueError(
+                f"p для алгоритма Чейза не может быть больше длины кодового слова n = {code.n}"
+            )
 
         bpsk_symbols = bpsk_modulate(codeword)
         received_symbols = awgn_channel(
@@ -153,7 +193,7 @@ def main() -> None:
             received_word=hard_bits,
             parity_check_matrix=parity_check_matrix,
             generator_matrix=code.generator_matrix,
-            max_error_weight=1,
+            max_error_weight=max_error_weight,
         )
 
         hard_mld_result = hard_maximum_likelihood_decode(
@@ -173,7 +213,7 @@ def main() -> None:
             parity_check_matrix=parity_check_matrix,
             generator_matrix=code.generator_matrix,
             unreliable_positions_count=chase_unreliable_positions_count,
-            inner_decoder_max_error_weight=1,
+            inner_decoder_max_error_weight=max_error_weight,
         )
 
 
@@ -190,6 +230,8 @@ def main() -> None:
     print("n =", code.n)
     print("sigma шума =", noise_std)
     print("seed =", seed)
+    print("max_error_weight для таблицы синдромов =", max_error_weight)
+    print("p для алгоритма Чейза =", chase_unreliable_positions_count)
 
     print("\nКоэффициенты h:")
     print(code.components["h"].tolist())
