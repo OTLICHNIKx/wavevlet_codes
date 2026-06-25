@@ -12,6 +12,10 @@ from modulation.demodulator import (
 )
 
 from decode.syndrome_decoding import syndrome_decode
+from decode.maximum_likelihood_decoding import (
+    hard_maximum_likelihood_decode,
+    soft_maximum_likelihood_decode,
+)
 
 def read_binary_vector(prompt: str) -> list[int]:
     """
@@ -146,6 +150,17 @@ def main() -> None:
             max_error_weight=1,
         )
 
+        hard_mld_result = hard_maximum_likelihood_decode(
+            received_word=hard_bits,
+            generator_matrix=code.generator_matrix,
+        )
+
+        soft_mld_result = soft_maximum_likelihood_decode(
+            received_symbols=received_symbols,
+            generator_matrix=code.generator_matrix,
+        )
+
+
     except ValueError as error:
         print("\nОшибка:")
         print(error)
@@ -209,6 +224,26 @@ def main() -> None:
     if syndrome_result.decoded_message is not None:
         print("Восстановленное информационное слово:", syndrome_result.decoded_message.tolist())
         print("Внимание: синдромное декодирование с max_error_weight=1 корректно исправляет одиночные ошибки только если все ненулевые столбцы H_C различны.")
+
+    print("\nЭтап 6. Декодирование методом максимального правдоподобия")
+
+    print("\nHard MLD")
+    print("Метрика:", hard_mld_result.metric_name)
+    print("Перебрано кодовых слов:", hard_mld_result.candidates_count)
+    print("Минимальная метрика:", hard_mld_result.metric)
+    print("Неоднозначность:", "да" if hard_mld_result.ambiguous else "нет")
+    print("Лучшее кодовое слово:", hard_mld_result.decoded_codeword.tolist())
+    print("Восстановленное информационное слово:", hard_mld_result.decoded_message.tolist())
+    print("Статус:", hard_mld_result.message)
+
+    print("\nSoft MLD")
+    print("Метрика:", soft_mld_result.metric_name)
+    print("Перебрано кодовых слов:", soft_mld_result.candidates_count)
+    print("Минимальная метрика:", round(soft_mld_result.metric, 6))
+    print("Неоднозначность:", "да" if soft_mld_result.ambiguous else "нет")
+    print("Лучшее кодовое слово:", soft_mld_result.decoded_codeword.tolist())
+    print("Восстановленное информационное слово:", soft_mld_result.decoded_message.tolist())
+    print("Статус:", soft_mld_result.message)
 
 if __name__ == "__main__":
     main()
