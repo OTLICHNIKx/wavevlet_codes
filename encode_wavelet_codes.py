@@ -1,119 +1,87 @@
+from typing import Iterable, Tuple
+
 import numpy as np
 
 from wavelet_codes import WaveletCode
 
 
-def read_binary_vector(prompt: str) -> list[int]:
+FIELD = 2
+
+
+def ensure_binary_vector(values: Iterable[int], name: str = "vector") -> np.ndarray:
     """
-    Считывает бинарный вектор.
-
-    Можно вводить:
-        1 0 1 1
-    или:
-        1,0,1,1
+    Проверяет, что вход является бинарным вектором.
     """
-    while True:
-        raw_value = input(prompt).strip()
+    vector = np.asarray(list(values), dtype=int).reshape(-1)
 
-        if not raw_value:
-            print("Ошибка: вектор не должен быть пустым.")
-            continue
+    if vector.size == 0:
+        raise ValueError(f"{name} не должен быть пустым")
 
-        raw_value = raw_value.replace(",", " ")
-        parts = raw_value.split()
+    if not np.all((vector == 0) | (vector == 1)):
+        raise ValueError(f"{name} должен содержать только 0 и 1")
 
-        try:
-            vector = [int(part) for part in parts]
-        except ValueError:
-            print("Ошибка: вектор должен содержать только числа 0 и 1.")
-            continue
-
-        invalid_values = [value for value in vector if value not in (0, 1)]
-
-        if invalid_values:
-            print("Ошибка: в бинарном коде элементы должны быть только 0 или 1.")
-            continue
-
-        return vector
+    return vector.astype(np.uint8)
 
 
-def print_matrix(title: str, matrix: np.ndarray) -> None:
+def build_wavelet_code_for_message(
+    h: Iterable[int],
+    message: Iterable[int],
+    a: int = 1,
+    shift: int = 1,
+) -> WaveletCode:
     """
-    Печатает матрицу в удобном виде.
+    Строит бинарный линейный вейвлетный код под длину сообщения.
+
+    Для нашей схемы:
+        k = len(message)
+        n = 2k
     """
-    print(f"\n{title}:")
-    for row in matrix:
-        print(" ".join(str(int(value)) for value in row))
+    h_vector = ensure_binary_vector(h, name="h")
+    message_vector = ensure_binary_vector(message, name="message")
 
+    if len(h_vector) % 2 != 0:
+        raise ValueError("Количество коэффициентов h должно быть чётным")
 
-def main() -> None:
-    print("Кодирование линейного вейвлетного кода над GF(2)")
-    print("-" * 60)
+    codeword_length = 2 * len(message_vector)
 
-    field = 2
-
-    h = read_binary_vector(
-        "Введите коэффициенты масштабирующей функции h: "
-    )
-
-    if len(h) % 2 != 0:
-        print("\nОшибка: количество коэффициентов h должно быть чётным.")
-        return
-
-    message = read_binary_vector(
-        "Введите информационное слово v: "
-    )
-
-    codeword_length = 2 * len(message)
-
-    if len(h) > codeword_length:
-        print("\nОшибка: количество коэффициентов h не может быть больше длины кодового слова.")
-        print(f"len(h) = {len(h)}, n = {codeword_length}")
-        return
-
-    a = 1
-
-    try:
-        code = WaveletCode.from_scaling_coefficients(
-            h=h,
-            codeword_length=codeword_length,
-            field=field,
-            a=a,
-            name="Binary wavelet code",
+    if len(h_vector) > codeword_length:
+        raise ValueError(
+            "Количество коэффициентов h не может быть больше длины кодового слова: "
+            f"len(h) = {len(h_vector)}, n = {codeword_length}"
         )
-    except ValueError as error:
-        print("\nОшибка при построении кода:")
-        print(error)
-        return
 
-    codeword = code.encode(message)
-
-    print("\nРезультат")
-    print("-" * 60)
-
-    print("Код:", code.name)
-    print("Поле: GF(2)")
-    print("k =", code.k)
-    print("n =", code.n)
-    print("a =", a)
-
-    print("\nКоэффициенты h:")
-    print(code.components["h"].tolist())
-
-    print("\nКоэффициенты g:")
-    print(code.components["g"].tolist())
-
-    print_matrix("Матрица H_wavelet", code.components["H_wavelet"])
-    print_matrix("Матрица G_wavelet", code.components["G_wavelet"])
-    print_matrix("Матрица J", code.components["J"])
-    print_matrix("Порождающая матрица G_C размера k x n", code.generator_matrix)
-
-    print("\nИнформационное слово v:")
-    print(message)
-
-    print("\nКодовое слово x:")
-    print(codeword.tolist())
+    return WaveletCode.from_scaling_coefficients(
+        h=h_vector,
+        codeword_length=codeword_length,
+        field=FIELD,
+        a=a,
+        shift=shift,
+        name="Binary wavelet code",
+    )
 
 
-if __name__ == "__main__":
-    main()
+def encode_wavelet_message(
+    h: Iterable[int],
+    message: Iterable[int],
+    a: int = 1,
+    shift: int = 1,
+) -> Tuple[WaveletCode, np.ndarray]:
+    """
+    Строит код и кодирует информационное сообщение.
+
+    Возвращает:
+        code — объект WaveletCode
+        codeword — кодовое слово
+    """
+    message_vector = ensure_binary_vector(message, name="message")
+
+    code = build_wavelet_code_for_message(
+        h=h,
+        message=message_vector,
+        a=a,
+        shift=shift,
+    )
+
+    codeword = code.encode(message_vector)
+
+    return code, codeword
