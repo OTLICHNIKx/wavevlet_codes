@@ -11,6 +11,11 @@ from modulation.demodulator import (
     reliability_from_llr,
 )
 
+from decode.syndrome_decoding import (
+    build_parity_check_matrix_from_generator,
+    syndrome_decode,
+)
+
 
 def read_binary_vector(prompt: str) -> list[int]:
     """
@@ -136,6 +141,17 @@ def main() -> None:
         hard_bits = hard_decision_from_llr(llr)
         reliability = reliability_from_llr(llr)
 
+        parity_check_matrix = build_parity_check_matrix_from_generator(
+            code.generator_matrix
+        )
+
+        syndrome_result = syndrome_decode(
+            received_word=hard_bits,
+            parity_check_matrix=parity_check_matrix,
+            generator_matrix=code.generator_matrix,
+            max_error_weight=1,
+        )
+
     except ValueError as error:
         print("\nОшибка:")
         print(error)
@@ -180,6 +196,21 @@ def main() -> None:
     print("\nДальше эти данные пойдут в декодер:")
     print("Принятое слово y:", hard_bits.tolist())
     print_float_vector("Достоверности l", reliability)
+
+    print("\nЭтап 5. Синдромное декодирование")
+
+    print_matrix(
+        "Проверочная матрица H, построенная по G_C",
+        parity_check_matrix,
+    )
+
+    print("Синдром:", syndrome_result.syndrome.tolist())
+    print("Найденный вектор ошибки:", syndrome_result.error_vector.tolist())
+    print("Исправленное кодовое слово:", syndrome_result.corrected_word.tolist())
+    print("Статус:", syndrome_result.message)
+
+    if syndrome_result.decoded_message is not None:
+        print("Восстановленное информационное слово:", syndrome_result.decoded_message.tolist())
 
 
 if __name__ == "__main__":
