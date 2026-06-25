@@ -77,6 +77,230 @@ def gf_rank(matrix: np.ndarray, field: int) -> int:
 
     return rank
 
+def gf_inverse_matrix(matrix: np.ndarray, field: int) -> np.ndarray:
+    """
+    Находит обратную матрицу над GF(field).
+
+    Сейчас основной случай — GF(2), но функция работает и для простого field.
+    """
+    matrix = to_field_matrix(matrix, field=field, name="matrix")
+
+    if matrix.shape[0] != matrix.shape[1]:
+        raise ValueError("Обратная матрица существует только для квадратной матрицы")
+
+    size = matrix.shape[0]
+
+    left = matrix.copy()
+    right = np.eye(size, dtype=int)
+
+    augmented = np.concatenate([left, right], axis=1)
+    augmented = np.mod(augmented, field)
+
+    pivot_row = 0
+
+    for column in range(size):
+        pivot = None
+
+        for row in range(pivot_row, size):
+            if augmented[row, column] % field != 0:
+                pivot = row
+                break
+
+        if pivot is None:
+            raise ValueError(
+                "Матрица прямого вейвлетного преобразования необратима. "
+                "Для выбранных коэффициентов h нельзя построить корректные "
+                "матрицы обратного преобразования."
+            )
+
+        if pivot != pivot_row:
+            augmented[[pivot_row, pivot]] = augmented[[pivot, pivot_row]]
+
+        inverse = pow(int(augmented[pivot_row, column]), -1, field)
+        augmented[pivot_row] = np.mod(augmented[pivot_row] * inverse, field)
+
+        for row in range(size):
+            if row != pivot_row and augmented[row, column] % field != 0:
+                factor = augmented[row, column]
+                augmented[row] = np.mod(
+                    augmented[row] - factor * augmented[pivot_row],
+                    field,
+                )
+
+        pivot_row += 1
+
+    return np.mod(augmented[:, size:], field).astype(np.uint8)
+
+
+def build_inverse_wavelet_matrices(
+    h_matrix: np.ndarray,
+    g_matrix: np.ndarray,
+    field: int,
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Строит матрицы обратного вейвлетного преобразования.
+
+    Прямое преобразование:
+        a = H · s
+        d = G · s
+
+    Объединённая матрица:
+        A = [H]
+            [G]
+
+    Если A обратима, то:
+        s = A^(-1) · [a]
+                    [d]
+
+    Из A^(-1) получаем:
+        H_inverse
+        G_inverse
+    """
+    h_matrix = to_field_matrix(h_matrix, field=field, name="H_direct")
+    g_matrix = to_field_matrix(g_matrix, field=field, name="G_direct")
+
+    if h_matrix.shape != g_matrix.shape:
+        raise ValueError("Матрицы H_direct и G_direct должны иметь одинаковый размер")
+
+    k, n = h_matrix.shape
+
+    if 2 * k != n:
+        raise ValueError(
+            "Для текущей реализации ожидается код первого порядка: n = 2k"
+        )
+
+    analysis_matrix = np.vstack([h_matrix, g_matrix])
+    inverse_analysis_matrix = gf_inverse_matrix(analysis_matrix, field)
+
+    h_inverse_transposed = inverse_analysis_matrix[:, :k]
+    g_inverse_transposed = inverse_analysis_matrix[:, k:]
+
+    h_inverse_matrix = h_inverse_transposed.T
+    g_inverse_matrix = g_inverse_transposed.T
+
+    return (
+        np.mod(h_inverse_matrix, field).astype(np.uint8),
+        np.mod(g_inverse_matrix, field).astype(np.uint8),
+    )
+
+
+def check_wavelet_inverse_conditions(
+    h_direct: np.ndarray,
+    g_direct: np.ndarray,
+    h_inverse: np.ndarray,
+    g_inverse: np.ndarray,
+    field: int,
+) -> None:
+    """
+    Проверяет условия согласованности прямого и обратного преобразования.
+
+    Проверяем:
+        H_bar · H^T = I
+        G_bar · G^T = I
+        H_bar · G^T = 0
+        G_bar · H^T = 0
+        H^T · H_bar + G^T · G_bar = I
+    """
+    h_direct = to_field_matrix(h_direct, field=field, name="H_direct")
+    g_direct = to_field_matrix(g_direct, field=field, name="G_direct")
+    h_inverse = to_field_matrix(h_inverse, field=field, name="H_inverse")
+    g_inverse = to_field_matrix(g_inverse, field=field, name="G_inverse")
+
+    k, n = h_direct.shape
+
+    identity_k = np.eye(k, dtype=int)
+    identity_n = np.eye(n, dtype=int)
+    zero_k = np.zeros((k, k), dtype=int)
+
+    checks = {
+        "H_inverse @ H_direct.T": (
+            gf_matmul(h_inverse, h_direct.T, field),
+            identity_k,
+        ),
+        "G_inverse @ G_direct.T": (
+            gf_matmul(g_inverse, g_direct.T, field),
+            identity_k,
+        ),
+        "H_inverse @ G_direct.T": (
+            gf_matmul(h_inverse, g_direct.T, field),
+            zero_k,
+        ),
+        "G_inverse @ H_direct.T": (
+            gf_matmul(g_inverse, h_direct.T, field),
+            zero_k,
+        ),
+        "H_direct.T @ H_inverse + G_direct.T @ G_inverse": (
+            np.mod(
+                gf_matmul(h_direct.T, h_inverse, field)
+                + gf_matmul(g_direct.T, g_inverse, field),
+                field,
+            ),
+            identity_n,
+        ),
+    }
+
+    for name, (actual, expected) in checks.items():
+        if not np.all(np.mod(actual, field) == np.mod(expected, field)):
+            raise ValueError(
+                f"Условие обратного вейвлетного преобразования не выполнено: {name}"
+            )
+
+
+def build_wavelet_parity_check_matrix(
+    h_inverse: np.ndarray,
+    g_inverse: np.ndarray,
+    j_matrix: np.ndarray,
+    field: int,
+    b: int = 1,
+    generator_matrix: np.ndarray | None = None,
+) -> np.ndarray:
+    """
+    Строит проверочную матрицу H_C по обратному вейвлетному преобразованию.
+
+    Теоретическая формула:
+        H_C = H_bar^T + b · J^T · G_bar^T
+
+    В нашей программной ориентации матрица H_C хранится как k x n,
+    поэтому используем эквивалентную форму:
+        H_C = H_bar + b · J^T · G_bar
+    """
+    h_inverse = to_field_matrix(h_inverse, field=field, name="H_inverse")
+    g_inverse = to_field_matrix(g_inverse, field=field, name="G_inverse")
+    j_matrix = to_field_matrix(j_matrix, field=field, name="J")
+
+    if h_inverse.shape != g_inverse.shape:
+        raise ValueError("Матрицы H_inverse и G_inverse должны иметь одинаковый размер")
+
+    k, _ = h_inverse.shape
+
+    if j_matrix.shape != (k, k):
+        raise ValueError("Матрица J должна иметь размер k x k")
+
+    parity_check_matrix = np.mod(
+        h_inverse + (b % field) * gf_matmul(j_matrix.T, g_inverse, field),
+        field,
+    )
+
+    if gf_rank(parity_check_matrix, field) < k:
+        raise ValueError("Проверочная матрица H_C вырождена")
+
+    if generator_matrix is not None:
+        generator_matrix = to_field_matrix(
+            generator_matrix,
+            field=field,
+            name="generator_matrix",
+        )
+
+        product = gf_matmul(parity_check_matrix, generator_matrix.T, field)
+
+        if not np.all(product == 0):
+            raise ValueError(
+                "Проверочная матрица H_C несогласована с G_C: "
+                "H_C @ G_C.T должно быть равно 0"
+            )
+
+    return parity_check_matrix.astype(np.uint8)
+
 
 def build_detail_coefficients(h: Iterable[int], field: int) -> np.ndarray:
     """
@@ -157,18 +381,26 @@ def build_wavelet_generator_matrix(
     codeword_length: int,
     field: int = 2,
     a: int = 1,
+    b: int = 1,
     shift: int = 1,
     check_rank: bool = True,
 ) -> tuple[np.ndarray, dict]:
     """
-    Строит порождающую матрицу линейного вейвлетного кода.
+    Строит порождающую и проверочную матрицы линейного вейвлетного кода.
 
-    Теоретическая формула:
+    Прямые матрицы:
+        H_direct
+        G_direct
+
+    Обратные матрицы:
+        H_inverse
+        G_inverse
+
+    Порождающая матрица:
         G_C = H^T + a * G^T * J
 
-    В программе возвращаем матрицу размера k x n,
-    чтобы кодировать строкой:
-        codeword = message @ generator_matrix
+    Проверочная матрица:
+        H_C = H_bar^T + b * J^T * G_bar^T
     """
     h_vector = to_field_vector(h, field, name="h")
     g_vector = build_detail_coefficients(h_vector, field)
@@ -176,13 +408,13 @@ def build_wavelet_generator_matrix(
     n = codeword_length
     k = n // 2
 
-    h_matrix = build_cyclic_filter_matrix(
+    h_direct_matrix = build_cyclic_filter_matrix(
         coefficients=h_vector,
         codeword_length=n,
         field=field,
     )
 
-    g_matrix = build_cyclic_filter_matrix(
+    g_direct_matrix = build_cyclic_filter_matrix(
         coefficients=g_vector,
         codeword_length=n,
         field=field,
@@ -194,13 +426,29 @@ def build_wavelet_generator_matrix(
         shift=shift,
     )
 
+    h_inverse_matrix, g_inverse_matrix = build_inverse_wavelet_matrices(
+        h_matrix=h_direct_matrix,
+        g_matrix=g_direct_matrix,
+        field=field,
+    )
+
+    check_wavelet_inverse_conditions(
+        h_direct=h_direct_matrix,
+        g_direct=g_direct_matrix,
+        h_inverse=h_inverse_matrix,
+        g_inverse=g_inverse_matrix,
+        field=field,
+    )
+
     # Математическая матрица G_C имеет размер n x k.
     generator_column_form = np.mod(
-        h_matrix.T + (a % field) * gf_matmul(g_matrix.T, j_matrix, field),
+        h_direct_matrix.T
+        + (a % field) * gf_matmul(g_direct_matrix.T, j_matrix, field),
         field,
     )
 
-    # Для Python удобнее k x n.
+    # Для Python удобнее k x n:
+    # codeword = message @ generator_matrix
     generator_matrix = generator_column_form.T
 
     if check_rank:
@@ -212,17 +460,120 @@ def build_wavelet_generator_matrix(
                 f"Нужно выбрать другие коэффициенты h или параметр a."
             )
 
+    parity_check_matrix = build_wavelet_parity_check_matrix(
+        h_inverse=h_inverse_matrix,
+        g_inverse=g_inverse_matrix,
+        j_matrix=j_matrix,
+        field=field,
+        b=b,
+        generator_matrix=generator_matrix,
+    )
+
     components = {
         "h": h_vector,
         "g": g_vector,
-        "H_wavelet": h_matrix,
-        "G_wavelet": g_matrix,
+
+        "H_direct": h_direct_matrix,
+        "G_direct": g_direct_matrix,
+
+        "H_inverse": h_inverse_matrix,
+        "G_inverse": g_inverse_matrix,
+
+        # Старые имена оставляем, чтобы не сломать main.py.
+        "H_wavelet": h_direct_matrix,
+        "G_wavelet": g_direct_matrix,
+
         "J": j_matrix,
+        "a": a,
+        "b": b,
+
         "G_C_column_form": generator_column_form,
         "generator_matrix": generator_matrix,
+        "parity_check_matrix": parity_check_matrix,
     }
 
     return generator_matrix, components
+
+def build_wavelet_parity_check_matrix_from_components(
+    components: dict,
+    field: int = 2,
+    b: int = 1,
+    check_compatibility: bool = True,
+) -> np.ndarray:
+    """
+    Строит проверочную матрицу линейного вейвлетного кода.
+
+    Теоретическая формула:
+        H_C = H_bar^T + b * J^T * G_bar^T
+
+    В программе матрицы хранятся в транспонированной форме,
+    поэтому используем эквивалентную форму размера k x n:
+        parity_check_matrix = H_bar + b * J.T @ G_bar
+    """
+    h_bar_matrix = components.get("H_inverse_wavelet", components["H_wavelet"])
+    g_bar_matrix = components.get("G_inverse_wavelet", components["G_wavelet"])
+    j_matrix = components["J"]
+
+    h_bar_matrix = to_field_matrix(
+        h_bar_matrix,
+        field=field,
+        name="H_bar",
+    )
+
+    g_bar_matrix = to_field_matrix(
+        g_bar_matrix,
+        field=field,
+        name="G_bar",
+    )
+
+    j_matrix = to_field_matrix(
+        j_matrix,
+        field=field,
+        name="J",
+    )
+
+    if h_bar_matrix.shape != g_bar_matrix.shape:
+        raise ValueError("Матрицы H_bar и G_bar должны иметь одинаковый размер")
+
+    if j_matrix.shape[0] != j_matrix.shape[1]:
+        raise ValueError("Матрица J должна быть квадратной")
+
+    if j_matrix.shape[0] != h_bar_matrix.shape[0]:
+        raise ValueError(
+            "Размер J должен совпадать с количеством строк H_bar и G_bar"
+        )
+
+    parity_check_matrix = np.mod(
+        h_bar_matrix + (b % field) * gf_matmul(j_matrix.T, g_bar_matrix, field),
+        field,
+    )
+
+    if gf_rank(parity_check_matrix, field) < parity_check_matrix.shape[0]:
+        raise ValueError(
+            "Проверочная матрица вырождена: её строки линейно зависимы"
+        )
+
+    if check_compatibility and "generator_matrix" in components:
+        generator_matrix = to_field_matrix(
+            components["generator_matrix"],
+            field=field,
+            name="generator_matrix",
+        )
+
+        product = gf_matmul(
+            parity_check_matrix,
+            generator_matrix.T,
+            field,
+        )
+
+        if not np.all(product == 0):
+            raise ValueError(
+                "Проверочная матрица H_C несогласована с G_C: "
+                "H_C @ G_C.T должно быть равно 0. "
+                "Нужно проверить построение H_bar и G_bar."
+            )
+
+    return parity_check_matrix.astype(np.uint8)
 
 
 @dataclass
@@ -271,6 +622,7 @@ class WaveletCode:
         codeword_length: int,
         field: int = 2,
         a: int = 1,
+        b: int = 1,
         shift: int = 1,
         name: str = "Wavelet code from scaling coefficients",
     ) -> "WaveletCode":
@@ -279,6 +631,7 @@ class WaveletCode:
             codeword_length=codeword_length,
             field=field,
             a=a,
+            b=b,
             shift=shift,
         )
 

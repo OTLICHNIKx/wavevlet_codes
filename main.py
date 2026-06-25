@@ -141,9 +141,7 @@ def main() -> None:
         hard_bits = hard_decision_from_llr(llr)
         reliability = reliability_from_llr(llr)
 
-        parity_check_matrix = build_parity_check_matrix_from_generator(
-            code.generator_matrix
-        )
+        parity_check_matrix = code.components["parity_check_matrix"]
 
         syndrome_result = syndrome_decode(
             received_word=hard_bits,
@@ -174,6 +172,9 @@ def main() -> None:
 
     print_matrix("Матрица H_wavelet", code.components["H_wavelet"])
     print_matrix("Матрица G_wavelet", code.components["G_wavelet"])
+    print_matrix("Матрица H_inverse", code.components["H_inverse"])
+    print_matrix("Матрица G_inverse", code.components["G_inverse"])
+    print_matrix("Проверочная матрица H_C", code.components["parity_check_matrix"])
     print_matrix("Матрица J", code.components["J"])
     print_matrix("Порождающая матрица G_C размера k x n", code.generator_matrix)
 
@@ -200,7 +201,7 @@ def main() -> None:
     print("\nЭтап 5. Синдромное декодирование")
 
     print_matrix(
-        "Проверочная матрица H, построенная по G_C",
+        "Проверочная матрица H_C по вейвлетной формуле",
         parity_check_matrix,
     )
 
