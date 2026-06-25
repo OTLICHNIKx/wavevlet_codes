@@ -11,11 +11,7 @@ from modulation.demodulator import (
     reliability_from_llr,
 )
 
-from decode.syndrome_decoding import (
-    build_parity_check_matrix_from_generator,
-    syndrome_decode,
-)
-
+from decode.syndrome_decoding import syndrome_decode
 
 def read_binary_vector(prompt: str) -> list[int]:
     """
@@ -170,8 +166,8 @@ def main() -> None:
     print("\nКоэффициенты g:")
     print(code.components["g"].tolist())
 
-    print_matrix("Матрица H_wavelet", code.components["H_wavelet"])
-    print_matrix("Матрица G_wavelet", code.components["G_wavelet"])
+    print_matrix("Матрица H_direct", code.components["H_direct"])
+    print_matrix("Матрица G_direct", code.components["G_direct"])
     print_matrix("Матрица H_inverse", code.components["H_inverse"])
     print_matrix("Матрица G_inverse", code.components["G_inverse"])
     print_matrix("Проверочная матрица H_C", code.components["parity_check_matrix"])
@@ -212,7 +208,7 @@ def main() -> None:
 
     if syndrome_result.decoded_message is not None:
         print("Восстановленное информационное слово:", syndrome_result.decoded_message.tolist())
-
+        print("Внимание: синдромное декодирование с max_error_weight=1 корректно исправляет одиночные ошибки только если все ненулевые столбцы H_C различны.")
 
 if __name__ == "__main__":
     main()
