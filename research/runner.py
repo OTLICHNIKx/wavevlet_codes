@@ -134,6 +134,21 @@ def make_skipped_decoder_result(
         skip_reason=reason,
     )
 
+def get_chase_p_for_code(
+    code_config: CodeResearchConfig,
+    decoder_config: DecoderResearchConfig,
+) -> int:
+    """
+    Возвращает число наименее надёжных позиций p для алгоритма Чейза.
+
+    Если для конкретного кода задано своё значение, используем его.
+    Иначе используем общее значение из DecoderResearchConfig.
+    """
+    if code_config.chase_unreliable_positions_count is not None:
+        return code_config.chase_unreliable_positions_count
+
+    return decoder_config.chase_unreliable_positions_count
+
 
 def run_decoders_for_channel_output(
     received_words: np.ndarray,
@@ -141,6 +156,7 @@ def run_decoders_for_channel_output(
     reliability: np.ndarray,
     parity_check_matrix: np.ndarray,
     generator_matrix: np.ndarray,
+    code_config: CodeResearchConfig,
     decoder_config: DecoderResearchConfig,
 ) -> list[DecoderBatchResult]:
     """
@@ -150,6 +166,11 @@ def run_decoders_for_channel_output(
     k = generator_matrix.shape[0]
 
     results: list[DecoderBatchResult] = []
+
+    chase_p = get_chase_p_for_code(
+        code_config=code_config,
+        decoder_config=decoder_config,
+    )
 
     if decoder_config.run_syndrome:
         results.append(
@@ -213,7 +234,7 @@ def run_decoders_for_channel_output(
                 reliability=reliability,
                 parity_check_matrix=parity_check_matrix,
                 generator_matrix=generator_matrix,
-                unreliable_positions_count=decoder_config.chase_unreliable_positions_count,
+                unreliable_positions_count=chase_p,
                 inner_decoder_max_error_weight=decoder_config.chase_inner_decoder_max_error_weight,
             )
         )
@@ -351,6 +372,7 @@ def run_code_research(
             reliability=reliability,
             parity_check_matrix=parity_check_matrix,
             generator_matrix=generator_matrix,
+            code_config=code_config,
             decoder_config=decoder_config,
         )
 
@@ -393,6 +415,8 @@ def run_code_research(
                 f"    {decoder_result.decoder_name}: "
                 f"BER={metrics.ber:.6f}, "
                 f"FER={metrics.frame_error_rate:.6f}, "
+                f"failure={metrics.failure_rate:.6f}, "
+                f"ambiguous={metrics.ambiguous_rate:.6f}, "
                 f"time={metrics.total_time_sec:.3f}s"
             )
 

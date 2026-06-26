@@ -15,6 +15,8 @@ class CodeResearchConfig:
     b: int = 1
     shift: int = 1
 
+    chase_unreliable_positions_count: int | None = None
+
 
 @dataclass(frozen=True)
 class DecoderResearchConfig:
@@ -77,6 +79,7 @@ DEFAULT_RESEARCH_CONFIG = ResearchConfig(
             n=16,
             k=8,
             h=(1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+            chase_unreliable_positions_count=4,
         ),
         CodeResearchConfig(
             name="wavelet_32_16",
@@ -88,6 +91,7 @@ DEFAULT_RESEARCH_CONFIG = ResearchConfig(
                 1, 1, 0, 1, 1, 1, 0, 1,
                 1, 0, 1, 1,
             ),
+            chase_unreliable_positions_count=6,
         ),
         CodeResearchConfig(
             name="wavelet_64_32",
@@ -99,6 +103,7 @@ DEFAULT_RESEARCH_CONFIG = ResearchConfig(
                 1, 1, 1, 1, 1, 0, 1, 0,
                 0, 0, 1, 1, 1, 1, 1, 1,
             ),
+            chase_unreliable_positions_count=8,
         ),
     ),
 

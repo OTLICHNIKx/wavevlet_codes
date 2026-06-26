@@ -19,7 +19,16 @@ def main() -> None:
     config = replace(
         DEFAULT_RESEARCH_CONFIG,
         message_count=100,
-        ebn0_db_values=(1.0,),
+        ebn0_db_values=(
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+        ),
         results_dir="research_results/small_test",
     )
 
