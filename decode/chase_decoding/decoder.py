@@ -120,6 +120,7 @@ def chase_decode(
     generator_matrix: np.ndarray,
     unreliable_positions_count: int = 2,
     inner_decoder_max_error_weight: int = 1,
+    syndrome_table: Optional[dict[tuple[int, ...], np.ndarray]] = None,
 ) -> ChaseDecodingResult:
     """
     Алгоритм Чейза.
@@ -175,6 +176,7 @@ def chase_decode(
             received_word=trial_word,
             parity_check_matrix=parity_check_matrix,
             generator_matrix=generator_matrix,
+            syndrome_table=syndrome_table,
             max_error_weight=inner_decoder_max_error_weight,
         )
 
