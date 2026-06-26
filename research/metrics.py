@@ -16,19 +16,19 @@ class BatchMetrics:
         количество ошибочных информационных битов
 
     ber:
-        bit error rate по информационным битам
+        Bit Error Rate по информационным битам
 
-    packet_errors:
-        количество ошибочных пакетов по информационным сообщениям
+    frame_errors:
+        количество ошибочных кадров
 
-    packet_error_rate:
-        доля сообщений, восстановленных с ошибкой
+    frame_error_rate:
+        FER = Frame Error Rate
 
-    codeword_packet_errors:
-        количество ошибочных пакетов по кодовым словам
+    codeword_errors:
+        количество ошибочно восстановленных кодовых слов
 
-    codeword_packet_error_rate:
-        доля кодовых слов, восстановленных с ошибкой
+    codeword_error_rate:
+        доля ошибочно восстановленных кодовых слов
 
     failure_rate:
         доля случаев, когда декодер не вернул успешный результат
@@ -46,14 +46,11 @@ class BatchMetrics:
     total_bits: int
     ber: float
 
-    packet_errors: int
-    packet_error_rate: float
-
     frame_errors: int
     frame_error_rate: float
 
-    codeword_packet_errors: Optional[int]
-    codeword_packet_error_rate: Optional[float]
+    codeword_errors: Optional[int]
+    codeword_error_rate: Optional[float]
 
     failure_count: int
     failure_rate: float
@@ -107,7 +104,7 @@ def bit_error_rate(
     count_failure_as_full_error: bool = True,
 ) -> float:
     """
-    BER по информационным сообщениям.
+    BER = Bit Error Rate по информационным сообщениям.
 
     Если count_failure_as_full_error=True, то неуспешное декодирование
     считается ошибкой во всех k битах сообщения.
@@ -116,7 +113,9 @@ def bit_error_rate(
     decoded_messages = _to_2d_array(decoded_messages, "decoded_messages")
 
     if original_messages.shape != decoded_messages.shape:
-        raise ValueError("original_messages и decoded_messages должны иметь одинаковую форму")
+        raise ValueError(
+            "original_messages и decoded_messages должны иметь одинаковую форму"
+        )
 
     message_count, message_length = original_messages.shape
 
@@ -128,9 +127,9 @@ def bit_error_rate(
     )
 
     bit_errors_by_row = np.sum(original_messages != decoded_messages, axis=1)
+    bit_errors_by_row = bit_errors_by_row.astype(int)
 
     if count_failure_as_full_error:
-        bit_errors_by_row = bit_errors_by_row.astype(int)
         bit_errors_by_row[~success_flags] = message_length
 
     total_errors = int(np.sum(bit_errors_by_row))
@@ -138,38 +137,6 @@ def bit_error_rate(
 
     return float(total_errors / total_bits)
 
-
-def packet_error_rate(
-    original_messages: np.ndarray,
-    decoded_messages: np.ndarray,
-    success_flags: Optional[np.ndarray] = None,
-) -> float:
-    """
-    PER / FER по информационным сообщениям.
-
-    Пакет считается ошибочным, если:
-        1. decoded_message отличается от original_message;
-        2. декодер завершился неуспешно.
-    """
-    original_messages = _to_2d_array(original_messages, "original_messages")
-    decoded_messages = _to_2d_array(decoded_messages, "decoded_messages")
-
-    if original_messages.shape != decoded_messages.shape:
-        raise ValueError("original_messages и decoded_messages должны иметь одинаковую форму")
-
-    message_count = original_messages.shape[0]
-
-    success_flags = _to_bool_flags(
-        flags=success_flags,
-        length=message_count,
-        default=True,
-        name="success_flags",
-    )
-
-    message_errors = np.any(original_messages != decoded_messages, axis=1)
-    packet_errors = np.logical_or(message_errors, ~success_flags)
-
-    return float(np.mean(packet_errors))
 
 def frame_error_rate(
     original_messages: np.ndarray,
@@ -184,25 +151,39 @@ def frame_error_rate(
     Frame считается ошибочным, если:
         1. decoded_message отличается от original_message;
         2. декодер завершился неуспешно.
-
-    Сейчас FER совпадает с packet_error_rate, но оставляем отдельную функцию,
-    чтобы в итоговой таблице была стандартная метрика FER.
     """
-    return packet_error_rate(
-        original_messages=original_messages,
-        decoded_messages=decoded_messages,
-        success_flags=success_flags,
+    original_messages = _to_2d_array(original_messages, "original_messages")
+    decoded_messages = _to_2d_array(decoded_messages, "decoded_messages")
+
+    if original_messages.shape != decoded_messages.shape:
+        raise ValueError(
+            "original_messages и decoded_messages должны иметь одинаковую форму"
+        )
+
+    message_count = original_messages.shape[0]
+
+    success_flags = _to_bool_flags(
+        flags=success_flags,
+        length=message_count,
+        default=True,
+        name="success_flags",
     )
 
-def codeword_packet_error_rate(
+    message_errors = np.any(original_messages != decoded_messages, axis=1)
+    frame_errors = np.logical_or(message_errors, ~success_flags)
+
+    return float(np.mean(frame_errors))
+
+
+def codeword_error_rate(
     original_codewords: np.ndarray,
     decoded_codewords: np.ndarray,
     success_flags: Optional[np.ndarray] = None,
 ) -> float:
     """
-    Пакетная ошибка по кодовым словам.
+    Доля ошибочно восстановленных кодовых слов.
 
-    Пакет считается ошибочным, если:
+    Кодовое слово считается ошибочным, если:
         1. decoded_codeword отличается от original_codeword;
         2. декодер завершился неуспешно.
     """
@@ -210,7 +191,9 @@ def codeword_packet_error_rate(
     decoded_codewords = _to_2d_array(decoded_codewords, "decoded_codewords")
 
     if original_codewords.shape != decoded_codewords.shape:
-        raise ValueError("original_codewords и decoded_codewords должны иметь одинаковую форму")
+        raise ValueError(
+            "original_codewords и decoded_codewords должны иметь одинаковую форму"
+        )
 
     message_count = original_codewords.shape[0]
 
@@ -222,9 +205,9 @@ def codeword_packet_error_rate(
     )
 
     codeword_errors = np.any(original_codewords != decoded_codewords, axis=1)
-    packet_errors = np.logical_or(codeword_errors, ~success_flags)
+    codeword_errors = np.logical_or(codeword_errors, ~success_flags)
 
-    return float(np.mean(packet_errors))
+    return float(np.mean(codeword_errors))
 
 
 def failure_rate(success_flags: np.ndarray) -> float:
@@ -261,31 +244,15 @@ def calculate_batch_metrics(
     decoded_codewords: Optional[np.ndarray] = None,
 ) -> BatchMetrics:
     """
-    Считает все основные метрики для одного декодера.
-
-    original_messages:
-        исходные информационные сообщения
-
-    decoded_messages:
-        восстановленные информационные сообщения
-
-    success_flags:
-        флаг успешности декодирования для каждого сообщения
-
-    ambiguous_flags:
-        флаг неоднозначности решения для каждого сообщения
-
-    total_time_sec:
-        полное время работы декодера на всём наборе сообщений
-
-    original_codewords / decoded_codewords:
-        нужны для оценки пакетных ошибок по кодовым словам
+    Считает основные метрики для одного декодера.
     """
     original_messages = _to_2d_array(original_messages, "original_messages")
     decoded_messages = _to_2d_array(decoded_messages, "decoded_messages")
 
     if original_messages.shape != decoded_messages.shape:
-        raise ValueError("original_messages и decoded_messages должны иметь одинаковую форму")
+        raise ValueError(
+            "original_messages и decoded_messages должны иметь одинаковую форму"
+        )
 
     message_count, message_length = original_messages.shape
 
@@ -315,16 +282,13 @@ def calculate_batch_metrics(
     ber = float(bit_errors / total_bits)
 
     message_errors = np.any(original_messages != decoded_messages, axis=1)
-    packet_errors_flags = np.logical_or(message_errors, ~success_flags)
+    frame_error_flags = np.logical_or(message_errors, ~success_flags)
 
-    packet_errors = int(np.sum(packet_errors_flags))
-    per = float(packet_errors / message_count)
+    frame_errors = int(np.sum(frame_error_flags))
+    fer = float(frame_errors / message_count)
 
-    frame_errors = packet_errors
-    fer = per
-
-    codeword_packet_errors = None
-    codeword_per = None
+    codeword_errors = None
+    cwer = None
 
     if original_codewords is not None and decoded_codewords is not None:
         original_codewords = _to_2d_array(original_codewords, "original_codewords")
@@ -340,11 +304,11 @@ def calculate_batch_metrics(
                 "Количество кодовых слов должно совпадать с количеством сообщений"
             )
 
-        codeword_errors = np.any(original_codewords != decoded_codewords, axis=1)
-        codeword_packet_errors_flags = np.logical_or(codeword_errors, ~success_flags)
+        codeword_error_flags = np.any(original_codewords != decoded_codewords, axis=1)
+        codeword_error_flags = np.logical_or(codeword_error_flags, ~success_flags)
 
-        codeword_packet_errors = int(np.sum(codeword_packet_errors_flags))
-        codeword_per = float(codeword_packet_errors / message_count)
+        codeword_errors = int(np.sum(codeword_error_flags))
+        cwer = float(codeword_errors / message_count)
 
     failure_count = int(np.sum(~success_flags))
     failure = float(failure_count / message_count)
@@ -361,14 +325,11 @@ def calculate_batch_metrics(
         total_bits=total_bits,
         ber=ber,
 
-        packet_errors=packet_errors,
-        packet_error_rate=per,
-
         frame_errors=frame_errors,
         frame_error_rate=fer,
 
-        codeword_packet_errors=codeword_packet_errors,
-        codeword_packet_error_rate=codeword_per,
+        codeword_errors=codeword_errors,
+        codeword_error_rate=cwer,
 
         failure_count=failure_count,
         failure_rate=failure,
