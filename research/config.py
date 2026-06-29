@@ -103,7 +103,7 @@ DEFAULT_RESEARCH_CONFIG = ResearchConfig(
                 1, 1, 1, 1, 1, 0, 1, 0,
                 0, 0, 1, 1, 1, 1, 1, 1,
             ),
-            chase_unreliable_positions_count=8,
+            chase_unreliable_positions_count=10,
         ),
     ),
 
