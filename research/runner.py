@@ -4,6 +4,7 @@ from dataclasses import asdict
 from typing import Any
 
 import numpy as np
+from wavelet_codes import WaveletCode
 
 from encode_wavelet_codes import encode_wavelet_message
 from modulation.demodulator import (
@@ -85,17 +86,22 @@ def bpsk_modulate_batch(codewords: np.ndarray) -> np.ndarray:
     return 1.0 - 2.0 * codewords
 
 
-def build_code_from_config(code_config: CodeResearchConfig):
+def build_code_from_config(code_config: CodeResearchConfig) -> WaveletCode:
     """
     Строит WaveletCode по настройкам исследуемого кода.
-    """
-    dummy_message = np.zeros(code_config.k, dtype=np.uint8)
 
-    code, _ = encode_wavelet_message(
+    Если code_config.g задан, используем явную пару фильтров h/g.
+    Если g=None, то g строится автоматически из h.
+    """
+    code = WaveletCode.from_scaling_coefficients(
         h=code_config.h,
-        message=dummy_message,
+        g=code_config.g,
+        codeword_length=code_config.n,
+        field=2,
         a=code_config.a,
+        b=code_config.b,
         shift=code_config.shift,
+        name=code_config.name,
     )
 
     if code.n != code_config.n:
@@ -133,6 +139,31 @@ def make_skipped_decoder_result(
         skipped=True,
         skip_reason=reason,
     )
+
+def get_syndrome_t_for_code(
+    code_config: CodeResearchConfig,
+    decoder_config: DecoderResearchConfig,
+) -> int:
+    """
+    Возвращает t для синдромного декодирования.
+    """
+    if code_config.syndrome_max_error_weight is not None:
+        return code_config.syndrome_max_error_weight
+
+    return decoder_config.syndrome_max_error_weight
+
+
+def get_chase_inner_t_for_code(
+    code_config: CodeResearchConfig,
+    decoder_config: DecoderResearchConfig,
+) -> int:
+    """
+    Возвращает t внутреннего синдромного декодера в алгоритме Чейза.
+    """
+    if code_config.chase_inner_decoder_max_error_weight is not None:
+        return code_config.chase_inner_decoder_max_error_weight
+
+    return decoder_config.chase_inner_decoder_max_error_weight
 
 def get_chase_p_for_code(
     code_config: CodeResearchConfig,
@@ -172,13 +203,23 @@ def run_decoders_for_channel_output(
         decoder_config=decoder_config,
     )
 
+    syndrome_t = get_syndrome_t_for_code(
+        code_config=code_config,
+        decoder_config=decoder_config,
+    )
+
+    chase_inner_t = get_chase_inner_t_for_code(
+        code_config=code_config,
+        decoder_config=decoder_config,
+    )
+
     if decoder_config.run_syndrome:
         results.append(
             syndrome_decode_batch(
                 received_words=received_words,
                 parity_check_matrix=parity_check_matrix,
                 generator_matrix=generator_matrix,
-                max_error_weight=decoder_config.syndrome_max_error_weight,
+                max_error_weight=syndrome_t,
             )
         )
 
@@ -235,7 +276,7 @@ def run_decoders_for_channel_output(
                 parity_check_matrix=parity_check_matrix,
                 generator_matrix=generator_matrix,
                 unreliable_positions_count=chase_p,
-                inner_decoder_max_error_weight=decoder_config.chase_inner_decoder_max_error_weight,
+                inner_decoder_max_error_weight=chase_inner_t,
             )
         )
 
@@ -259,6 +300,31 @@ def decoder_result_to_summary_row(
         "k": code_config.k,
         "code_rate": code_config.k / code_config.n,
         "h": " ".join(str(value) for value in code_config.h),
+        "g": (
+            ""
+            if code_config.g is None
+            else " ".join(str(value) for value in code_config.g)
+        ),
+        "expected_min_distance": (
+            ""
+            if code_config.expected_min_distance is None
+            else code_config.expected_min_distance
+        ),
+        "syndrome_t": (
+            ""
+            if code_config.syndrome_max_error_weight is None
+            else code_config.syndrome_max_error_weight
+        ),
+        "chase_inner_t": (
+            ""
+            if code_config.chase_inner_decoder_max_error_weight is None
+            else code_config.chase_inner_decoder_max_error_weight
+        ),
+        "chase_p": (
+            ""
+            if code_config.chase_unreliable_positions_count is None
+            else code_config.chase_unreliable_positions_count
+        ),
         "ebn0_db": ebn0_db,
         "sigma": sigma,
         "message_count": message_count,

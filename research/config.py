@@ -11,10 +11,16 @@ class CodeResearchConfig:
     n: int
     k: int
     h: tuple[int, ...]
+    g: tuple[int, ...] | None = None
+
     a: int = 1
     b: int = 1
     shift: int = 1
 
+    expected_min_distance: int | None = None
+
+    syndrome_max_error_weight: int | None = None
+    chase_inner_decoder_max_error_weight: int | None = None
     chase_unreliable_positions_count: int | None = None
 
 
@@ -78,19 +84,22 @@ DEFAULT_RESEARCH_CONFIG = ResearchConfig(
             name="wavelet_16_8",
             n=16,
             k=8,
-            h=(1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+            h=(1, 0, 0, 1, 0, 1, 0),
+            g=(1, 1, 1, 1, 0, 1, 1),
+            expected_min_distance=5,
+            syndrome_max_error_weight=2,
+            chase_inner_decoder_max_error_weight=2,
             chase_unreliable_positions_count=4,
         ),
         CodeResearchConfig(
             name="wavelet_32_16",
             n=32,
             k=16,
-            h=(
-                1, 1, 1, 1, 1, 1, 1, 1,
-                0, 1, 1, 1, 1, 1, 1, 0,
-                1, 1, 0, 1, 1, 1, 0, 1,
-                1, 0, 1, 1,
-            ),
+            h=(1, 0, 0, 0, 0, 0, 0, 0, 1, 1),
+            g=(0, 1, 0, 0, 1, 1, 0, 1, 0, 1),
+            expected_min_distance=8,
+            syndrome_max_error_weight=3,
+            chase_inner_decoder_max_error_weight=3,
             chase_unreliable_positions_count=6,
         ),
         CodeResearchConfig(
@@ -103,7 +112,11 @@ DEFAULT_RESEARCH_CONFIG = ResearchConfig(
                 1, 1, 1, 1, 1, 0, 1, 0,
                 0, 0, 1, 1, 1, 1, 1, 1,
             ),
-            chase_unreliable_positions_count=10,
+            g=None,
+            expected_min_distance=None,
+            syndrome_max_error_weight=4,
+            chase_inner_decoder_max_error_weight=4,
+            chase_unreliable_positions_count=8,
         ),
     ),
 

@@ -384,6 +384,7 @@ def build_wavelet_generator_matrix(
     b: int = 1,
     shift: int = 1,
     check_rank: bool = True,
+    g: Optional[Iterable[int]] = None,
 ) -> tuple[np.ndarray, dict]:
     """
     Строит порождающую и проверочную матрицы линейного вейвлетного кода.
@@ -403,10 +404,31 @@ def build_wavelet_generator_matrix(
         H_C = H_bar^T + b * J^T * G_bar^T
     """
     h_vector = to_field_vector(h, field, name="h")
-    g_vector = build_detail_coefficients(h_vector, field)
+    if g is None:
+        g_vector = build_detail_coefficients(h_vector, field)
+    else:
+        g_vector = to_field_vector(g, field, name="g")
 
     n = codeword_length
     k = n // 2
+
+    if len(h_vector) > n:
+        raise ValueError(
+            f"Количество коэффициентов h не может быть больше n: "
+            f"len(h) = {len(h_vector)}, n = {n}"
+        )
+
+    if len(g_vector) > n:
+        raise ValueError(
+            f"Количество коэффициентов g не может быть больше n: "
+            f"len(g) = {len(g_vector)}, n = {n}"
+        )
+
+    if len(h_vector) != len(g_vector):
+        raise ValueError(
+            f"Фильтры h и g должны иметь одинаковую длину: "
+            f"len(h) = {len(h_vector)}, len(g) = {len(g_vector)}"
+        )
 
     h_direct_matrix = build_cyclic_filter_matrix(
         coefficients=h_vector,
@@ -535,17 +557,19 @@ class WaveletCode:
 
     @classmethod
     def from_scaling_coefficients(
-        cls,
-        h: Iterable[int],
-        codeword_length: int,
-        field: int = 2,
-        a: int = 1,
-        b: int = 1,
-        shift: int = 1,
-        name: str = "Wavelet code from scaling coefficients",
+            cls,
+            h: Iterable[int],
+            codeword_length: int,
+            field: int = 2,
+            a: int = 1,
+            b: int = 1,
+            shift: int = 1,
+            name: str = "Wavelet code from scaling coefficients",
+            g: Optional[Iterable[int]] = None,
     ) -> "WaveletCode":
         generator_matrix, components = build_wavelet_generator_matrix(
             h=h,
+            g=g,
             codeword_length=codeword_length,
             field=field,
             a=a,
