@@ -1,6 +1,6 @@
 import numpy as np
 
-from encode_wavelet_codes import encode_wavelet_message
+from wavelet import encode_wavelet_message
 from modulation.modulator import bpsk_modulate
 from modulation.demodulator import bpsk_llr, hard_decision_from_llr, reliability_from_llr
 from research.decoder_wrappers import (

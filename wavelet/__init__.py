@@ -1,15 +1,15 @@
 """
-Устаревший путь импорта.
+Пакет реализации линейных вейвлет-кодов.
 
-Основная реализация перенесена в:
+Основные публичные объекты:
 
-    wavelet.code
-
-Файл временно оставлен для совместимости со старыми скриптами.
-Новый код должен импортировать объекты из пакета wavelet.
+    WaveletCode
+    build_wavelet_generator_matrix
+    build_wavelet_parity_check_matrix
+    encode_wavelet_message
 """
 
-from wavelet.code import (
+from .code import (
     WaveletCode,
     build_cyclic_filter_matrix,
     build_detail_coefficients,
@@ -23,6 +23,12 @@ from wavelet.code import (
     gf_rank,
     to_field_matrix,
     to_field_vector,
+)
+
+from .encoder import (
+    build_wavelet_code_for_message,
+    encode_wavelet_message,
+    ensure_binary_vector,
 )
 
 __all__ = [
@@ -39,4 +45,7 @@ __all__ = [
     "gf_rank",
     "to_field_matrix",
     "to_field_vector",
+    "build_wavelet_code_for_message",
+    "encode_wavelet_message",
+    "ensure_binary_vector",
 ]

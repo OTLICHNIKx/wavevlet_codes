@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 
 from channel.awgn import awgn_channel
-from encode_wavelet_codes import encode_wavelet_message
+from wavelet import encode_wavelet_message
 from modulation.modulator import bpsk_modulate
 from modulation.demodulator import (
     bpsk_llr,

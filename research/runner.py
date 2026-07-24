@@ -4,9 +4,8 @@ from dataclasses import asdict
 from typing import Any
 
 import numpy as np
-from wavelet_codes import WaveletCode
+from wavelet import WaveletCode
 
-from encode_wavelet_codes import encode_wavelet_message
 from modulation.demodulator import (
     bpsk_llr,
     hard_decision_from_llr,

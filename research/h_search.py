@@ -8,7 +8,7 @@ import numpy as np
 
 from decode.maximum_likelihood_decoding import build_codebook
 from research.config import CodeResearchConfig, DEFAULT_RESEARCH_CONFIG
-from wavelet_codes import WaveletCode
+from wavelet import WaveletCode
 
 
 @dataclass(frozen=True)
