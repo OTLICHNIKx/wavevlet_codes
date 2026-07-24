@@ -1,16 +1,17 @@
 import csv
 import os
-from dataclasses import asdict
 from typing import Any
 
 import numpy as np
-from wavelet import WaveletCode
 
 from modulation.demodulator import (
     bpsk_llr,
     hard_decision_from_llr,
     reliability_from_llr,
 )
+
+from research.code_factory import build_code_from_config
+
 from research.config import (
     CodeResearchConfig,
     DecoderResearchConfig,
@@ -83,40 +84,6 @@ def bpsk_modulate_batch(codewords: np.ndarray) -> np.ndarray:
         raise ValueError("codewords должен содержать только 0 и 1")
 
     return 1.0 - 2.0 * codewords
-
-
-def build_code_from_config(code_config: CodeResearchConfig) -> WaveletCode:
-    """
-    Строит WaveletCode по настройкам исследуемого кода.
-
-    Если code_config.g задан, используем явную пару фильтров h/g.
-    Если g=None, то g строится автоматически из h.
-    """
-    code = WaveletCode.from_scaling_coefficients(
-        h=code_config.h,
-        g=code_config.g,
-        codeword_length=code_config.n,
-        field=2,
-        a=code_config.a,
-        b=code_config.b,
-        shift=code_config.shift,
-        name=code_config.name,
-    )
-
-    if code.n != code_config.n:
-        raise ValueError(
-            f"Ожидалась длина кода n = {code_config.n}, "
-            f"но построен код n = {code.n}"
-        )
-
-    if code.k != code_config.k:
-        raise ValueError(
-            f"Ожидалась размерность k = {code_config.k}, "
-            f"но построен код k = {code.k}"
-        )
-
-    return code
-
 
 def make_skipped_decoder_result(
     decoder_name: str,
@@ -295,35 +262,99 @@ def decoder_result_to_summary_row(
     """
     base_row: dict[str, Any] = {
         "code_name": code_config.name,
+        "code_family": code_config.family,
+
         "n": code_config.n,
         "k": code_config.k,
         "code_rate": code_config.k / code_config.n,
-        "h": " ".join(str(value) for value in code_config.h),
+
+        "h": (
+            ""
+            if code_config.h is None
+            else " ".join(
+                str(value)
+                for value in code_config.h
+            )
+        ),
+
         "g": (
             ""
             if code_config.g is None
-            else " ".join(str(value) for value in code_config.g)
+            else " ".join(
+                str(value)
+                for value in code_config.g
+            )
         ),
+
+        "bch_m": (
+            ""
+            if code_config.bch_m is None
+            else code_config.bch_m
+        ),
+
+        "bch_designed_distance": (
+            ""
+            if code_config.bch_designed_distance is None
+            else code_config.bch_designed_distance
+        ),
+
+        "bch_first_root": (
+            ""
+            if code_config.family != "bch"
+            else code_config.bch_first_root
+        ),
+
+        "bch_primitive_polynomial": (
+            ""
+            if code_config.bch_primitive_polynomial is None
+            else code_config.bch_primitive_polynomial
+        ),
+
+        "bch_shortening_count": (
+            code_config.bch_shortening_count
+        ),
+        "bch_puncture_count": (
+            code_config.bch_puncture_count
+        ),
+
         "expected_min_distance": (
             ""
             if code_config.expected_min_distance is None
             else code_config.expected_min_distance
         ),
+
         "syndrome_t": (
             ""
             if code_config.syndrome_max_error_weight is None
             else code_config.syndrome_max_error_weight
         ),
+
         "chase_inner_t": (
             ""
-            if code_config.chase_inner_decoder_max_error_weight is None
-            else code_config.chase_inner_decoder_max_error_weight
+            if (
+                    code_config
+                    .chase_inner_decoder_max_error_weight
+                    is None
+            )
+            else (
+                code_config
+                .chase_inner_decoder_max_error_weight
+            )
         ),
+
         "chase_p": (
             ""
-            if code_config.chase_unreliable_positions_count is None
-            else code_config.chase_unreliable_positions_count
+            if (
+                    code_config
+                    .chase_unreliable_positions_count
+                    is None
+            )
+            else (
+                code_config
+                .chase_unreliable_positions_count
+            )
         ),
+
         "ebn0_db": ebn0_db,
         "sigma": sigma,
         "message_count": message_count,
@@ -389,7 +420,11 @@ def run_code_research(
     Запускает исследование для одного кода на всех Eb/N0.
     """
     print()
-    print(f"Код {code_config.name}: n={code_config.n}, k={code_config.k}")
+    print(
+        f"Код {code_config.name} "
+        f"[{code_config.family}]: "
+        f"n={code_config.n}, k={code_config.k}"
+    )
 
     code = build_code_from_config(code_config)
 
@@ -403,7 +438,7 @@ def run_code_research(
 
     transmitted_symbols = bpsk_modulate_batch(codewords)
 
-    parity_check_matrix = code.components["parity_check_matrix"]
+    parity_check_matrix = code.parity_check_matrix
     generator_matrix = code.generator_matrix
 
     rows: list[dict[str, Any]] = []

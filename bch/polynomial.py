@@ -295,3 +295,53 @@ def polynomial_to_string(
             terms.append(f"{variable}^{degree}")
 
     return " + ".join(terms)
+
+def gf2_polynomial_reciprocal(
+    polynomial: int,
+) -> int:
+    """
+    Строит взаимный, или обратный, полином.
+
+    Для:
+
+        p(x) = p_0 + p_1*x + ... + p_d*x^d
+
+    взаимный полином:
+
+        p*(x) = x^d * p(x^-1)
+
+    То есть коэффициенты записываются в обратном порядке.
+
+    Например:
+
+        x^4 + x + 1
+        0b10011
+
+    превращается в:
+
+        x^4 + x^3 + 1
+        0b11001
+    """
+    polynomial = validate_binary_polynomial(polynomial)
+
+    if polynomial == 0:
+        raise ValueError(
+            "Нельзя построить взаимный полином "
+            "для нулевого полинома"
+        )
+
+    degree = gf2_polynomial_degree(polynomial)
+    reciprocal = 0
+
+    for source_degree in range(degree + 1):
+        coefficient = (
+            polynomial >> source_degree
+        ) & 1
+
+        if coefficient == 0:
+            continue
+
+        target_degree = degree - source_degree
+        reciprocal |= 1 << target_degree
+
+    return reciprocal

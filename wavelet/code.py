@@ -555,6 +555,33 @@ class WaveletCode:
     def n(self) -> int:
         return self.generator_matrix.shape[1]
 
+    @property
+    def parity_check_matrix(self) -> np.ndarray:
+        """
+        Возвращает проверочную матрицу вейвлет-кода.
+
+        Свойство добавлено для общего интерфейса с BCHCode.
+        """
+        if self.components is None:
+            raise ValueError(
+                "Для WaveletCode отсутствуют компоненты построения"
+            )
+
+        parity_check_matrix = self.components.get(
+            "parity_check_matrix"
+        )
+
+        if parity_check_matrix is None:
+            raise ValueError(
+                "В components отсутствует parity_check_matrix"
+            )
+
+        return to_field_matrix(
+            parity_check_matrix,
+            field=self.field,
+            name="parity_check_matrix",
+        )
+
     @classmethod
     def from_scaling_coefficients(
             cls,
