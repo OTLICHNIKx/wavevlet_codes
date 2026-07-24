@@ -2,11 +2,29 @@
 Пакет реализации бинарных BCH-кодов.
 """
 
+from .cyclotomic import (
+    build_all_binary_cyclotomic_cosets,
+    build_binary_cyclotomic_coset,
+    canonicalize_binary_cyclotomic_coset,
+    find_binary_cyclotomic_coset,
+    validate_binary_cyclotomic_code_length,
+)
+
 from .field import (
     DEFAULT_PRIMITIVE_POLYNOMIALS,
     GF2m,
     create_gf2m,
     integer_polynomial_degree,
+)
+
+from .generator import (
+    BCHGeneratorResult,
+    build_bch_generator_polynomial,
+    build_minimal_polynomial,
+    evaluate_binary_polynomial_in_field,
+    evaluate_extension_field_polynomial,
+    multiply_extension_field_polynomials,
+    trim_extension_field_polynomial,
 )
 
 from .polynomial import (
@@ -30,6 +48,18 @@ __all__ = [
     "GF2m",
     "create_gf2m",
     "integer_polynomial_degree",
+    "build_all_binary_cyclotomic_cosets",
+    "build_binary_cyclotomic_coset",
+    "canonicalize_binary_cyclotomic_coset",
+    "find_binary_cyclotomic_coset",
+    "validate_binary_cyclotomic_code_length",
+    "BCHGeneratorResult",
+    "build_bch_generator_polynomial",
+    "build_minimal_polynomial",
+    "evaluate_binary_polynomial_in_field",
+    "evaluate_extension_field_polynomial",
+    "multiply_extension_field_polynomials",
+    "trim_extension_field_polynomial",
     "coefficients_to_integer",
     "gf2_polynomial_add",
     "gf2_polynomial_degree",
