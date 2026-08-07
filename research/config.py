@@ -1,5 +1,7 @@
-from dataclasses import dataclass, replace
-from typing import Literal
+import json
+from dataclasses import asdict, dataclass, replace
+from pathlib import Path
+from typing import Any, Literal
 
 
 CodeFamily = Literal[
@@ -43,6 +45,24 @@ class CodeResearchConfig:
     syndrome_max_error_weight: int | None = None
     chase_inner_decoder_max_error_weight: int | None = None
     chase_unreliable_positions_count: int | None = None
+
+    def to_json_dict(self) -> dict[str, Any]:
+        """Сериализует конфиг в JSON-совместимый словарь."""
+        return asdict(self)
+
+    @classmethod
+    def from_json_dict(cls, data: dict[str, Any]) -> "CodeResearchConfig":
+        """Десериализует конфиг из JSON-совместимого словаря."""
+        converted = data.copy()
+
+        for key in ("h", "g"):
+            if converted.get(key) is not None:
+                converted[key] = tuple(int(v) for v in converted[key])
+
+        if "family" in converted:
+            converted["family"] = str(converted["family"])
+
+        return cls(**converted)
 
     def __post_init__(self) -> None:
         if self.n <= 0:
@@ -164,6 +184,15 @@ class DecoderResearchConfig:
     # Полный MLD имеет сложность 2^k.
     max_k_for_mld: int = 16
 
+    def to_json_dict(self) -> dict[str, Any]:
+        """Сериализует конфиг в JSON-совместимый словарь."""
+        return asdict(self)
+
+    @classmethod
+    def from_json_dict(cls, data: dict[str, Any]) -> "DecoderResearchConfig":
+        """Десериализует конфиг из JSON-совместимого словаря."""
+        return cls(**dict(data))
+
 
 @dataclass(frozen=True)
 class ResearchConfig:
@@ -181,6 +210,83 @@ class ResearchConfig:
     decoders: DecoderResearchConfig
 
     results_dir: str
+
+    def to_json_dict(self) -> dict[str, Any]:
+        """Сериализует конфиг в JSON-совместимый словарь."""
+        data = asdict(self)
+        data["ebn0_db_values"] = list(self.ebn0_db_values)
+        data["codes"] = [c.to_json_dict() for c in self.codes]
+        data["decoders"] = self.decoders.to_json_dict()
+        return data
+
+    @classmethod
+    def from_json_dict(cls, data: dict[str, Any]) -> "ResearchConfig":
+        """Десериализует конфиг из JSON-совместимого словаря."""
+        converted = data.copy()
+
+        converted["ebn0_db_values"] = tuple(
+            float(v) for v in converted["ebn0_db_values"]
+        )
+        converted["codes"] = tuple(
+            CodeResearchConfig.from_json_dict(c) for c in converted["codes"]
+        )
+        converted["decoders"] = DecoderResearchConfig.from_json_dict(
+            converted["decoders"]
+        )
+        converted["results_dir"] = str(converted["results_dir"])
+
+        return cls(**converted)
+
+    def save_json(self, path: str | Path) -> None:
+        """Сохраняет конфиг в JSON-файл."""
+        path = Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(self.to_json_dict(), indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+    @classmethod
+    def load_json(cls, path: str | Path) -> "ResearchConfig":
+        """Загружает конфиг из JSON-файла."""
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        return cls.from_json_dict(data)
+
+    def estimate_workload(self) -> dict[str, int]:
+        """Возвращает оценку объёма вычислений."""
+        code_counts = {"chase_patterns": 0, "mld_codewords": 0}
+
+        dec = self.decoders
+        decoders_enabled = [
+            dec.run_syndrome,
+            dec.run_hard_mld,
+            dec.run_soft_mld,
+            dec.run_chase,
+        ]
+        num_decoders = sum(bool(d) for d in decoders_enabled)
+
+        for code in self.codes:
+            chase_p = (
+                code.chase_unreliable_positions_count
+                if code.chase_unreliable_positions_count is not None
+                else dec.chase_unreliable_positions_count
+            )
+            code_counts["chase_patterns"] += 2 ** chase_p
+            if dec.run_hard_mld or dec.run_soft_mld:
+                if code.k <= dec.max_k_for_mld:
+                    code_counts["mld_codewords"] += 2 ** code.k
+
+        return {
+            "code_count": len(self.codes),
+            "decoder_count": num_decoders,
+            "ebn0_point_count": len(self.ebn0_db_values),
+            "message_count": self.message_count,
+            "total_series": len(self.codes) * num_decoders * len(self.ebn0_db_values),
+            "total_frames": len(self.codes) * num_decoders * len(self.ebn0_db_values)
+            * self.message_count,
+            "chase_patterns_total": code_counts["chase_patterns"],
+            "mld_codewords_total": code_counts["mld_codewords"],
+        }
 
 
 WAVELET_16_8_CONFIG = CodeResearchConfig(
@@ -224,11 +330,13 @@ WAVELET_64_32_CONFIG = CodeResearchConfig(
     ),
     g=None,
 
-    # Для этой матрицы ранее нашли d_min = 8.
-    expected_min_distance=8,
+    # Проверено: все ошибки веса <= 3 имеют разные синдромы,
+    # и найдено кодовое слово веса 8. Текущая строгая граница:
+    # 7 <= d_min <= 8; точное d_min отдельно не доказано.
+    expected_min_distance=None,
 
-    # При d_min = 8 гарантированное уникальное исправление:
-    # floor((8 - 1) / 2) = 3.
+    # Проверенная уникальность синдромов до веса 3 позволяет
+    # использовать гарантированный радиус t=3.
     syndrome_max_error_weight=3,
     chase_inner_decoder_max_error_weight=3,
     chase_unreliable_positions_count=8,

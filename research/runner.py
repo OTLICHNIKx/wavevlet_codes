@@ -1,6 +1,6 @@
 import csv
 import os
-from typing import Any
+from typing import Any, Callable
 
 import numpy as np
 
@@ -369,16 +369,22 @@ def decoder_result_to_summary_row(
                 "bit_errors": "",
                 "total_bits": "",
                 "ber": "",
+                "pessimistic_ber": "",
+                "ber_on_success": "",
                 "frame_errors": "",
                 "frame_error_rate": "",
                 "codeword_errors": "",
                 "codeword_error_rate": "",
                 "failure_count": "",
                 "failure_rate": "",
+                "miscorrection_count": "",
+                "miscorrection_rate": "",
+                "conditional_miscorrection_rate": "",
                 "ambiguous_count": "",
                 "ambiguous_rate": "",
                 "total_time_sec": "",
                 "avg_time_ms": "",
+                "average_decoding_time_ms": "",
             }
         )
         return base_row
@@ -388,6 +394,8 @@ def decoder_result_to_summary_row(
             "bit_errors": metrics.bit_errors,
             "total_bits": metrics.total_bits,
             "ber": metrics.ber,
+            "pessimistic_ber": metrics.pessimistic_ber,
+            "ber_on_success": metrics.ber_on_success,
             "frame_errors": metrics.frame_errors,
             "frame_error_rate": metrics.frame_error_rate,
             "codeword_errors": (
@@ -400,14 +408,33 @@ def decoder_result_to_summary_row(
             ),
             "failure_count": metrics.failure_count,
             "failure_rate": metrics.failure_rate,
+            "miscorrection_count": metrics.miscorrection_count,
+            "miscorrection_rate": metrics.miscorrection_rate,
+            "conditional_miscorrection_rate": (
+                metrics.conditional_miscorrection_rate
+            ),
             "ambiguous_count": metrics.ambiguous_count,
             "ambiguous_rate": metrics.ambiguous_rate,
             "total_time_sec": metrics.total_time_sec,
             "avg_time_ms": metrics.avg_time_ms,
+            "average_decoding_time_ms": metrics.avg_time_ms,
         }
     )
 
     return base_row
+
+
+def _emit_progress(
+    callback: Callable[[dict], None] | None,
+    payload: dict,
+) -> None:
+    """Отправляет прогресс наружу; ошибки колбэка не должны ломать расчёт."""
+    if callback is None:
+        return
+    try:
+        callback(payload)
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def run_code_research(
@@ -415,6 +442,7 @@ def run_code_research(
     dataset: CodeResearchDataset,
     decoder_config: DecoderResearchConfig,
     ebn0_db_values: tuple[float, ...],
+    progress_callback: Callable[[dict], None] | None = None,
 ) -> list[dict[str, Any]]:
     """
     Запускает исследование для одного кода на всех Eb/N0.
@@ -424,6 +452,30 @@ def run_code_research(
         f"Код {code_config.name} "
         f"[{code_config.family}]: "
         f"n={code_config.n}, k={code_config.k}"
+    )
+
+    decoders_planned = sum(
+        1
+        for enabled in (
+            decoder_config.run_syndrome,
+            decoder_config.run_hard_mld,
+            decoder_config.run_soft_mld,
+            decoder_config.run_chase,
+        )
+        if enabled
+    )
+
+    _emit_progress(
+        progress_callback,
+        {
+            "stage": "code_started",
+            "code": code_config.name,
+            "family": code_config.family,
+            "n": code_config.n,
+            "k": code_config.k,
+            "ebn0_point_count": len(ebn0_db_values),
+            "planned_decoders": decoders_planned,
+        },
     )
 
     code = build_code_from_config(code_config)
@@ -476,6 +528,8 @@ def run_code_research(
             decoder_config=decoder_config,
         )
 
+        decoders_finished = 0
+
         for decoder_result in decoder_results:
             if decoder_result.skipped:
                 row = decoder_result_to_summary_row(
@@ -488,6 +542,20 @@ def run_code_research(
                 )
                 rows.append(row)
                 print(f"    {decoder_result.decoder_name}: skipped")
+
+                decoders_finished += 1
+                _emit_progress(
+                    progress_callback,
+                    {
+                        "stage": "running",
+                        "code": code_config.name,
+                        "ebn0_db": float(ebn0_db),
+                        "decoder": decoder_result.decoder_name,
+                        "skipped": True,
+                        "completed_decoders": decoders_finished,
+                        "planned_decoders": decoders_planned,
+                    },
+                )
                 continue
 
             metrics = calculate_batch_metrics(
@@ -520,6 +588,41 @@ def run_code_research(
                 f"time={metrics.total_time_sec:.3f}s"
             )
 
+            decoders_finished += 1
+            _emit_progress(
+                progress_callback,
+                {
+                    "stage": "running",
+                    "code": code_config.name,
+                    "ebn0_db": float(ebn0_db),
+                    "decoder": decoder_result.decoder_name,
+                    "skipped": False,
+                    "ber": metrics.ber,
+                    "fer": metrics.frame_error_rate,
+                    "failure_rate": metrics.failure_rate,
+                    "completed_decoders": decoders_finished,
+                    "planned_decoders": decoders_planned,
+                },
+            )
+
+        _emit_progress(
+            progress_callback,
+            {
+                "stage": "ebn0_finished",
+                "code": code_config.name,
+                "ebn0_db": float(ebn0_db),
+                "decoders_finished": decoders_finished,
+            },
+        )
+
+    _emit_progress(
+        progress_callback,
+        {
+            "stage": "code_finished",
+            "code": code_config.name,
+        },
+    )
+
     return rows
 
 
@@ -543,7 +646,10 @@ def write_summary_csv(
         writer.writerows(rows)
 
 
-def run_research(config: ResearchConfig) -> list[dict[str, Any]]:
+def run_research(
+    config: ResearchConfig,
+    progress_callback: Callable[[dict], None] | None = None,
+) -> list[dict[str, Any]]:
     """
     Полный запуск исследования.
     """
@@ -552,6 +658,56 @@ def run_research(config: ResearchConfig) -> list[dict[str, Any]]:
     print("Количество сообщений:", config.message_count)
     print("Eb/N0 values:", config.ebn0_db_values)
     print("Результаты:", config.results_dir)
+
+    total_units = (
+        len(config.codes)
+        * len(config.ebn0_db_values)
+        * sum(
+            1
+            for enabled in (
+                config.decoders.run_syndrome,
+                config.decoders.run_hard_mld,
+                config.decoders.run_soft_mld,
+                config.decoders.run_chase,
+            )
+            if enabled
+        )
+    )
+    completed_units = 0
+
+    def _tracking_callback(payload: dict) -> None:
+        nonlocal completed_units
+
+        if (
+            payload.get("stage") == "running"
+            and "decoder" in payload
+        ):
+            completed_units += 1
+            enriched = {
+                **payload,
+                "completed": completed_units,
+                "total": total_units,
+            }
+        else:
+            enriched = {
+                "completed": completed_units,
+                "total": total_units,
+                **payload,
+            }
+
+        _emit_progress(progress_callback, enriched)
+
+    _emit_progress(
+        progress_callback,
+        {
+            "stage": "validating",
+            "codes": [c.name for c in config.codes],
+            "ebn0_db_values": list(config.ebn0_db_values),
+            "message_count": config.message_count,
+            "completed": 0,
+            "total": total_units,
+        },
+    )
 
     datasets = build_all_datasets(
         message_count=config.message_count,
@@ -570,6 +726,7 @@ def run_research(config: ResearchConfig) -> list[dict[str, Any]]:
             dataset=dataset,
             decoder_config=config.decoders,
             ebn0_db_values=config.ebn0_db_values,
+            progress_callback=_tracking_callback,
         )
 
         all_rows.extend(rows)
@@ -579,6 +736,16 @@ def run_research(config: ResearchConfig) -> list[dict[str, Any]]:
     write_summary_csv(
         rows=all_rows,
         output_path=output_path,
+    )
+
+    _emit_progress(
+        progress_callback,
+        {
+            "stage": "writing_results",
+            "output_path": output_path,
+            "completed": completed_units,
+            "total": total_units,
+        },
     )
 
     print()

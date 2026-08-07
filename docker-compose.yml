@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: webapp/backend/Dockerfile
+    environment:
+      WAVELET_PROJECT_ROOT: /app
+      WAVELET_RESULTS_ROOT: /app/research_results
+      WAVELET_WEBAPP_DATA: /app/webapp_data
+      PYTHONPATH: /app:/app/webapp/backend
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ./research_results:/app/research_results
+      - ./webapp_data:/app/webapp_data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: webapp/frontend/Dockerfile
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"

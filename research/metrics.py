@@ -45,6 +45,8 @@ class BatchMetrics:
     bit_errors: int
     total_bits: int
     ber: float
+    pessimistic_ber: float
+    ber_on_success: float
 
     frame_errors: int
     frame_error_rate: float
@@ -54,6 +56,10 @@ class BatchMetrics:
 
     failure_count: int
     failure_rate: float
+
+    miscorrection_count: int
+    miscorrection_rate: float
+    conditional_miscorrection_rate: float
 
     ambiguous_count: int
     ambiguous_rate: float
@@ -281,6 +287,16 @@ def calculate_batch_metrics(
     total_bits = int(message_count * message_length)
     ber = float(bit_errors / total_bits)
 
+    successful_bit_errors = np.sum(
+        original_messages[success_flags] != decoded_messages[success_flags]
+    )
+    successful_bits = int(np.sum(success_flags) * message_length)
+    ber_on_success = (
+        float(successful_bit_errors / successful_bits)
+        if successful_bits > 0
+        else 0.0
+    )
+
     message_errors = np.any(original_messages != decoded_messages, axis=1)
     frame_error_flags = np.logical_or(message_errors, ~success_flags)
 
@@ -313,6 +329,16 @@ def calculate_batch_metrics(
     failure_count = int(np.sum(~success_flags))
     failure = float(failure_count / message_count)
 
+    miscorrection_flags = np.logical_and(success_flags, message_errors)
+    miscorrection_count = int(np.sum(miscorrection_flags))
+    miscorrection = float(miscorrection_count / message_count)
+    success_count = int(np.sum(success_flags))
+    conditional_miscorrection = (
+        float(miscorrection_count / success_count)
+        if success_count > 0
+        else 0.0
+    )
+
     ambiguous_count = int(np.sum(ambiguous_flags))
     ambiguous = float(ambiguous_count / message_count)
 
@@ -324,6 +350,8 @@ def calculate_batch_metrics(
         bit_errors=bit_errors,
         total_bits=total_bits,
         ber=ber,
+        pessimistic_ber=ber,
+        ber_on_success=ber_on_success,
 
         frame_errors=frame_errors,
         frame_error_rate=fer,
@@ -333,6 +361,10 @@ def calculate_batch_metrics(
 
         failure_count=failure_count,
         failure_rate=failure,
+
+        miscorrection_count=miscorrection_count,
+        miscorrection_rate=miscorrection,
+        conditional_miscorrection_rate=conditional_miscorrection,
 
         ambiguous_count=ambiguous_count,
         ambiguous_rate=ambiguous,
