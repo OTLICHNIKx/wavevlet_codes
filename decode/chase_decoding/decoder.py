@@ -1,3 +1,4 @@
+from collections.abc import Mapping
 from dataclasses import dataclass
 from itertools import product
 from typing import Optional
@@ -120,7 +121,7 @@ def chase_decode(
     generator_matrix: np.ndarray,
     unreliable_positions_count: int = 2,
     inner_decoder_max_error_weight: int = 1,
-    syndrome_table: Optional[dict[tuple[int, ...], np.ndarray]] = None,
+    syndrome_table: Optional[Mapping[tuple[int, ...], np.ndarray]] = None,
 ) -> ChaseDecodingResult:
     """
     Алгоритм Чейза.

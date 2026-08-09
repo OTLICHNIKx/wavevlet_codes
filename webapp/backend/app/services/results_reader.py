@@ -28,11 +28,19 @@ NON_METRIC_NUMERIC_COLUMNS = {
     "skipped",
     "bit_errors",
     "total_bits",
+    "success_count",
+    "successful_decoded_bits",
+    "bit_errors_on_success",
     "frame_errors",
     "codeword_errors",
     "failure_count",
     "ambiguous_count",
     "miscorrection_count",
+    "syndrome_table_build_time_sec",
+    "syndrome_table_pattern_count",
+    "syndrome_table_entry_count",
+    "syndrome_table_collision_count",
+    "syndrome_table_memory_bytes",
     "total_time_sec",
 }
 
@@ -108,7 +116,19 @@ def zero_adjusted_value(
     if mode == "epsilon":
         return epsilon
     if mode == "floor":
-        denominator = row.get("total_bits") if metric == "ber" else row.get("message_count")
+        denominator_by_metric = {
+            "ber": "total_bits",
+            "pessimistic_ber": "total_bits",
+            "ber_on_success": "successful_decoded_bits",
+            "frame_error_rate": "message_count",
+            "failure_rate": "message_count",
+            "miscorrection_rate": "message_count",
+            "conditional_miscorrection_rate": "success_count",
+        }
+        denominator_column = denominator_by_metric.get(metric)
+        if denominator_column is None:
+            return None
+        denominator = row.get(denominator_column)
         if isinstance(denominator, (int, float)) and denominator > 0:
             return 0.5 / float(denominator)
     return None

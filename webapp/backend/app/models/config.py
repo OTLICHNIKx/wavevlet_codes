@@ -1,11 +1,12 @@
 """Pydantic-схемы конфигурации эксперимента для API."""
 
+import math
 from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
 
 
-CodeFamily = Literal["wavelet", "bch", "bch_derived", "bch_extended"]
+CodeFamily = Literal["wavelet", "bch", "bch_derived"]
 
 
 class CodeConfigSchema(BaseModel):
@@ -35,9 +36,9 @@ class CodeConfigSchema(BaseModel):
 
     expected_min_distance: int | None = None
 
-    syndrome_max_error_weight: int | None = None
-    chase_inner_decoder_max_error_weight: int | None = None
-    chase_unreliable_positions_count: int | None = None
+    syndrome_max_error_weight: int | None = Field(default=None, ge=0)
+    chase_inner_decoder_max_error_weight: int | None = Field(default=None, ge=0)
+    chase_unreliable_positions_count: int | None = Field(default=None, gt=0)
 
     @field_validator("h", "g")
     @classmethod
@@ -70,8 +71,8 @@ class DecoderConfigSchema(BaseModel):
 
     syndrome_max_error_weight: int = Field(default=2, ge=0)
     chase_inner_decoder_max_error_weight: int = Field(default=2, ge=0)
-    chase_unreliable_positions_count: int = Field(default=4, ge=0)
-    max_k_for_mld: int = Field(default=16, ge=0)
+    chase_unreliable_positions_count: int = Field(default=4, gt=0)
+    max_k_for_mld: int = Field(default=16, gt=0)
 
 
 class ResearchConfigSchema(BaseModel):
@@ -91,8 +92,8 @@ class ResearchConfigSchema(BaseModel):
     @classmethod
     def ebn0_finite(cls, v: list[float]) -> list[float]:
         for x in v:
-            if not isinstance(x, (int, float)):
-                raise ValueError(f"Eb/N0 должен быть числом, получено {x!r}")
+            if not isinstance(x, (int, float)) or not math.isfinite(float(x)):
+                raise ValueError(f"Eb/N0 должен быть конечным числом, получено {x!r}")
         return [float(x) for x in v]
 
 

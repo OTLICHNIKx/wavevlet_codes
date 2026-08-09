@@ -4,7 +4,7 @@ export type ExperimentStatus =
 
 export interface CodeConfig {
   name: string;
-  family: "wavelet" | "bch" | "bch_derived" | "bch_extended";
+  family: "wavelet" | "bch" | "bch_derived";
   n: number;
   k: number;
   h?: number[] | null;

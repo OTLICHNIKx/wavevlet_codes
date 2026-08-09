@@ -1,0 +1,1163 @@
+diff --git a/.gitignore b/.gitignore
+index b61fba7..85b8fa3 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -5,4 +5,5 @@ __pycache__/
+ webapp_data/
+ webapp/frontend/node_modules/
+ webapp/frontend/dist/
+-research_results/web/
+\ No newline at end of file
++research_results/web/
++*.tsbuildinfo
+diff --git a/research/decoder_wrappers.py b/research/decoder_wrappers.py
+index 4ac5b8e..0de6c7f 100644
+--- a/research/decoder_wrappers.py
++++ b/research/decoder_wrappers.py
+@@ -70,6 +70,7 @@ def syndrome_decode_batch(
+     parity_check_matrix: np.ndarray,
+     generator_matrix: np.ndarray,
+     max_error_weight: int,
++    syndrome_table: Optional[dict[tuple[int, ...], np.ndarray]] = None,
+ ) -> DecoderBatchResult:
+     """
+     Пакетный запуск синдромного декодера.
+@@ -94,10 +95,11 @@ def syndrome_decode_batch(
+     success_flags = np.zeros(message_count, dtype=bool)
+     ambiguous_flags = np.zeros(message_count, dtype=bool)
+ 
+-    syndrome_table = build_syndrome_table(
+-        parity_check_matrix=parity_check_matrix,
+-        max_error_weight=max_error_weight,
+-    )
++    if syndrome_table is None:
++        syndrome_table = build_syndrome_table(
++            parity_check_matrix=parity_check_matrix,
++            max_error_weight=max_error_weight,
++        )
+ 
+     start_time = perf_counter()
+ 
+@@ -268,6 +270,7 @@ def chase_decode_batch(
+     generator_matrix: np.ndarray,
+     unreliable_positions_count: int,
+     inner_decoder_max_error_weight: int,
++    syndrome_table: Optional[dict[tuple[int, ...], np.ndarray]] = None,
+ ) -> DecoderBatchResult:
+     """
+     Пакетный запуск алгоритма Чейза.
+@@ -300,10 +303,11 @@ def chase_decode_batch(
+     success_flags = np.zeros(message_count, dtype=bool)
+     ambiguous_flags = np.zeros(message_count, dtype=bool)
+ 
+-    syndrome_table = build_syndrome_table(
+-        parity_check_matrix=parity_check_matrix,
+-        max_error_weight=inner_decoder_max_error_weight,
+-    )
++    if syndrome_table is None:
++        syndrome_table = build_syndrome_table(
++            parity_check_matrix=parity_check_matrix,
++            max_error_weight=inner_decoder_max_error_weight,
++        )
+ 
+     start_time = perf_counter()
+ 
+diff --git a/research/metrics.py b/research/metrics.py
+index 75c9436..add7b9d 100644
+--- a/research/metrics.py
++++ b/research/metrics.py
+@@ -46,7 +46,11 @@ class BatchMetrics:
+     total_bits: int
+     ber: float
+     pessimistic_ber: float
+-    ber_on_success: float
++    ber_on_success: float | None
++
++    success_count: int
++    successful_decoded_bits: int
++    bit_errors_on_success: int
+ 
+     frame_errors: int
+     frame_error_rate: float
+@@ -59,7 +63,7 @@ class BatchMetrics:
+ 
+     miscorrection_count: int
+     miscorrection_rate: float
+-    conditional_miscorrection_rate: float
++    conditional_miscorrection_rate: float | None
+ 
+     ambiguous_count: int
+     ambiguous_rate: float
+@@ -287,14 +291,18 @@ def calculate_batch_metrics(
+     total_bits = int(message_count * message_length)
+     ber = float(bit_errors / total_bits)
+ 
+-    successful_bit_errors = np.sum(
+-        original_messages[success_flags] != decoded_messages[success_flags]
++    success_count = int(np.sum(success_flags))
++    bit_errors_on_success = int(
++        np.sum(
++            original_messages[success_flags]
++            != decoded_messages[success_flags]
++        )
+     )
+-    successful_bits = int(np.sum(success_flags) * message_length)
++    successful_decoded_bits = int(success_count * message_length)
+     ber_on_success = (
+-        float(successful_bit_errors / successful_bits)
+-        if successful_bits > 0
+-        else 0.0
++        float(bit_errors_on_success / successful_decoded_bits)
++        if successful_decoded_bits > 0
++        else None
+     )
+ 
+     message_errors = np.any(original_messages != decoded_messages, axis=1)
+@@ -332,11 +340,10 @@ def calculate_batch_metrics(
+     miscorrection_flags = np.logical_and(success_flags, message_errors)
+     miscorrection_count = int(np.sum(miscorrection_flags))
+     miscorrection = float(miscorrection_count / message_count)
+-    success_count = int(np.sum(success_flags))
+     conditional_miscorrection = (
+         float(miscorrection_count / success_count)
+         if success_count > 0
+-        else 0.0
++        else None
+     )
+ 
+     ambiguous_count = int(np.sum(ambiguous_flags))
+@@ -353,6 +360,10 @@ def calculate_batch_metrics(
+         pessimistic_ber=ber,
+         ber_on_success=ber_on_success,
+ 
++        success_count=success_count,
++        successful_decoded_bits=successful_decoded_bits,
++        bit_errors_on_success=bit_errors_on_success,
++
+         frame_errors=frame_errors,
+         frame_error_rate=fer,
+ 
+diff --git a/research/runner.py b/research/runner.py
+index 283d884..4cb13ef 100644
+--- a/research/runner.py
++++ b/research/runner.py
+@@ -1,9 +1,11 @@
+ import csv
+ import os
++from time import perf_counter
+ from typing import Any, Callable
+ 
+ import numpy as np
+ 
++from decode.syndrome_decoding import build_syndrome_table
+ from modulation.demodulator import (
+     bpsk_llr,
+     hard_decision_from_llr,
+@@ -147,6 +149,54 @@ def get_chase_p_for_code(
+     return decoder_config.chase_unreliable_positions_count
+ 
+ 
++SyndromeTable = dict[tuple[int, ...], np.ndarray]
++
++
++def build_syndrome_table_cache(
++    parity_check_matrix: np.ndarray,
++    code_config: CodeResearchConfig,
++    decoder_config: DecoderResearchConfig,
++) -> tuple[dict[int, SyndromeTable], dict[int, float]]:
++    """
++    Один раз строит таблицы синдромов, необходимые для кода.
++
++    Таблица зависит только от H и максимального веса t, поэтому
++    её не нужно перестраивать для каждой точки Eb/N0. Если syndrome
++    и Chase используют одинаковый t, они совместно используют одну
++    и ту же таблицу.
++    """
++    required_weights: set[int] = set()
++
++    if decoder_config.run_syndrome:
++        required_weights.add(
++            get_syndrome_t_for_code(
++                code_config=code_config,
++                decoder_config=decoder_config,
++            )
++        )
++
++    if decoder_config.run_chase:
++        required_weights.add(
++            get_chase_inner_t_for_code(
++                code_config=code_config,
++                decoder_config=decoder_config,
++            )
++        )
++
++    tables: dict[int, SyndromeTable] = {}
++    build_times: dict[int, float] = {}
++
++    for max_error_weight in sorted(required_weights):
++        start_time = perf_counter()
++        tables[max_error_weight] = build_syndrome_table(
++            parity_check_matrix=parity_check_matrix,
++            max_error_weight=max_error_weight,
++        )
++        build_times[max_error_weight] = perf_counter() - start_time
++
++    return tables, build_times
++
++
+ def run_decoders_for_channel_output(
+     received_words: np.ndarray,
+     received_symbols: np.ndarray,
+@@ -155,6 +205,7 @@ def run_decoders_for_channel_output(
+     generator_matrix: np.ndarray,
+     code_config: CodeResearchConfig,
+     decoder_config: DecoderResearchConfig,
++    syndrome_tables: dict[int, SyndromeTable] | None = None,
+ ) -> list[DecoderBatchResult]:
+     """
+     Запускает все включённые декодеры для одного кода и одного Eb/N0.
+@@ -186,6 +237,11 @@ def run_decoders_for_channel_output(
+                 parity_check_matrix=parity_check_matrix,
+                 generator_matrix=generator_matrix,
+                 max_error_weight=syndrome_t,
++                syndrome_table=(
++                    None
++                    if syndrome_tables is None
++                    else syndrome_tables.get(syndrome_t)
++                ),
+             )
+         )
+ 
+@@ -243,6 +299,11 @@ def run_decoders_for_channel_output(
+                 generator_matrix=generator_matrix,
+                 unreliable_positions_count=chase_p,
+                 inner_decoder_max_error_weight=chase_inner_t,
++                syndrome_table=(
++                    None
++                    if syndrome_tables is None
++                    else syndrome_tables.get(chase_inner_t)
++                ),
+             )
+         )
+ 
+@@ -256,6 +317,7 @@ def decoder_result_to_summary_row(
+     decoder_result: DecoderBatchResult,
+     metrics: BatchMetrics | None,
+     message_count: int,
++    syndrome_table_build_time_sec: float = 0.0,
+ ) -> dict[str, Any]:
+     """
+     Преобразует результат декодера и метрики в строку summary.csv.
+@@ -300,7 +362,7 @@ def decoder_result_to_summary_row(
+ 
+         "bch_first_root": (
+             ""
+-            if code_config.family != "bch"
++            if code_config.family not in ("bch", "bch_derived")
+             else code_config.bch_first_root
+         ),
+ 
+@@ -361,6 +423,7 @@ def decoder_result_to_summary_row(
+         "decoder": decoder_result.decoder_name,
+         "skipped": decoder_result.skipped,
+         "skip_reason": decoder_result.skip_reason or "",
++        "syndrome_table_build_time_sec": syndrome_table_build_time_sec,
+     }
+ 
+     if metrics is None:
+@@ -371,6 +434,9 @@ def decoder_result_to_summary_row(
+                 "ber": "",
+                 "pessimistic_ber": "",
+                 "ber_on_success": "",
++                "success_count": "",
++                "successful_decoded_bits": "",
++                "bit_errors_on_success": "",
+                 "frame_errors": "",
+                 "frame_error_rate": "",
+                 "codeword_errors": "",
+@@ -395,7 +461,12 @@ def decoder_result_to_summary_row(
+             "total_bits": metrics.total_bits,
+             "ber": metrics.ber,
+             "pessimistic_ber": metrics.pessimistic_ber,
+-            "ber_on_success": metrics.ber_on_success,
++            "ber_on_success": (
++                "" if metrics.ber_on_success is None else metrics.ber_on_success
++            ),
++            "success_count": metrics.success_count,
++            "successful_decoded_bits": metrics.successful_decoded_bits,
++            "bit_errors_on_success": metrics.bit_errors_on_success,
+             "frame_errors": metrics.frame_errors,
+             "frame_error_rate": metrics.frame_error_rate,
+             "codeword_errors": (
+@@ -411,7 +482,9 @@ def decoder_result_to_summary_row(
+             "miscorrection_count": metrics.miscorrection_count,
+             "miscorrection_rate": metrics.miscorrection_rate,
+             "conditional_miscorrection_rate": (
+-                metrics.conditional_miscorrection_rate
++                ""
++                if metrics.conditional_miscorrection_rate is None
++                else metrics.conditional_miscorrection_rate
+             ),
+             "ambiguous_count": metrics.ambiguous_count,
+             "ambiguous_rate": metrics.ambiguous_rate,
+@@ -493,6 +566,19 @@ def run_code_research(
+     parity_check_matrix = code.parity_check_matrix
+     generator_matrix = code.generator_matrix
+ 
++    syndrome_tables, syndrome_table_build_times = build_syndrome_table_cache(
++        parity_check_matrix=parity_check_matrix,
++        code_config=code_config,
++        decoder_config=decoder_config,
++    )
++
++    for table_t, build_time in syndrome_table_build_times.items():
++        print(
++            f"  Таблица синдромов t={table_t}: "
++            f"{len(syndrome_tables[table_t])} синдромов, "
++            f"построение {build_time:.3f}s"
++        )
++
+     rows: list[dict[str, Any]] = []
+ 
+     for ebn0_db in ebn0_db_values:
+@@ -526,11 +612,26 @@ def run_code_research(
+             generator_matrix=generator_matrix,
+             code_config=code_config,
+             decoder_config=decoder_config,
++            syndrome_tables=syndrome_tables,
+         )
+ 
+         decoders_finished = 0
+ 
++        syndrome_t = get_syndrome_t_for_code(
++            code_config=code_config,
++            decoder_config=decoder_config,
++        )
++        chase_inner_t = get_chase_inner_t_for_code(
++            code_config=code_config,
++            decoder_config=decoder_config,
++        )
++
+         for decoder_result in decoder_results:
++            table_build_time = 0.0
++            if decoder_result.decoder_name == "syndrome":
++                table_build_time = syndrome_table_build_times.get(syndrome_t, 0.0)
++            elif decoder_result.decoder_name == "chase":
++                table_build_time = syndrome_table_build_times.get(chase_inner_t, 0.0)
+             if decoder_result.skipped:
+                 row = decoder_result_to_summary_row(
+                     code_config=code_config,
+@@ -539,6 +640,7 @@ def run_code_research(
+                     decoder_result=decoder_result,
+                     metrics=None,
+                     message_count=len(messages),
++                    syndrome_table_build_time_sec=table_build_time,
+                 )
+                 rows.append(row)
+                 print(f"    {decoder_result.decoder_name}: skipped")
+@@ -575,6 +677,7 @@ def run_code_research(
+                 decoder_result=decoder_result,
+                 metrics=metrics,
+                 message_count=len(messages),
++                syndrome_table_build_time_sec=table_build_time,
+             )
+ 
+             rows.append(row)
+diff --git a/tests/test_research_miscorrection_metrics.py b/tests/test_research_miscorrection_metrics.py
+index 2989506..11b968a 100644
+--- a/tests/test_research_miscorrection_metrics.py
++++ b/tests/test_research_miscorrection_metrics.py
+@@ -20,4 +20,23 @@ def test_miscorrection_metrics_distinguish_success_from_correctness() -> None:
+     assert metrics.miscorrection_rate == 1 / 3
+     assert metrics.conditional_miscorrection_rate == 1 / 2
+     assert metrics.ber_on_success == 1 / 4
+-    assert metrics.pessimistic_ber == metrics.ber
+\ No newline at end of file
++    assert metrics.pessimistic_ber == metrics.ber
++
++def test_conditional_metrics_are_undefined_without_successes() -> None:
++    original = np.array([[0, 1], [1, 0]], dtype=np.uint8)
++    decoded = np.zeros_like(original)
++    success = np.array([False, False])
++
++    metrics = calculate_batch_metrics(
++        original_messages=original,
++        decoded_messages=decoded,
++        success_flags=success,
++        ambiguous_flags=np.zeros(2, dtype=bool),
++        total_time_sec=0.001,
++    )
++
++    assert metrics.success_count == 0
++    assert metrics.successful_decoded_bits == 0
++    assert metrics.bit_errors_on_success == 0
++    assert metrics.ber_on_success is None
++    assert metrics.conditional_miscorrection_rate is None
+diff --git a/tests/test_research_syndrome_table_cache.py b/tests/test_research_syndrome_table_cache.py
+new file mode 100644
+index 0000000..635f51f
+--- /dev/null
++++ b/tests/test_research_syndrome_table_cache.py
+@@ -0,0 +1,77 @@
++from dataclasses import replace
++
++import numpy as np
++
++from research import runner
++from research.config import DecoderResearchConfig, WAVELET_16_8_CONFIG
++
++
++def test_equal_syndrome_and_chase_t_build_one_table(monkeypatch) -> None:
++    calls: list[int] = []
++
++    def fake_build_syndrome_table(*, parity_check_matrix, max_error_weight):
++        calls.append(max_error_weight)
++        return {(0,): np.zeros(parity_check_matrix.shape[1], dtype=np.uint8)}
++
++    monkeypatch.setattr(runner, "build_syndrome_table", fake_build_syndrome_table)
++
++    code_config = replace(
++        WAVELET_16_8_CONFIG,
++        syndrome_max_error_weight=2,
++        chase_inner_decoder_max_error_weight=2,
++    )
++    decoder_config = DecoderResearchConfig(
++        run_syndrome=True,
++        run_hard_mld=False,
++        run_soft_mld=False,
++        run_chase=True,
++        syndrome_max_error_weight=2,
++        chase_inner_decoder_max_error_weight=2,
++        chase_unreliable_positions_count=4,
++        max_k_for_mld=16,
++    )
++
++    tables, build_times = runner.build_syndrome_table_cache(
++        parity_check_matrix=np.zeros((8, 16), dtype=np.uint8),
++        code_config=code_config,
++        decoder_config=decoder_config,
++    )
++
++    assert calls == [2]
++    assert set(tables) == {2}
++    assert set(build_times) == {2}
++
++
++def test_different_syndrome_and_chase_t_build_two_tables(monkeypatch) -> None:
++    calls: list[int] = []
++
++    def fake_build_syndrome_table(*, parity_check_matrix, max_error_weight):
++        calls.append(max_error_weight)
++        return {(0,): np.zeros(parity_check_matrix.shape[1], dtype=np.uint8)}
++
++    monkeypatch.setattr(runner, "build_syndrome_table", fake_build_syndrome_table)
++
++    code_config = replace(
++        WAVELET_16_8_CONFIG,
++        syndrome_max_error_weight=2,
++        chase_inner_decoder_max_error_weight=3,
++    )
++    decoder_config = DecoderResearchConfig(
++        run_syndrome=True,
++        run_hard_mld=False,
++        run_soft_mld=False,
++        run_chase=True,
++        syndrome_max_error_weight=2,
++        chase_inner_decoder_max_error_weight=3,
++        chase_unreliable_positions_count=4,
++        max_k_for_mld=16,
++    )
++
++    tables, _ = runner.build_syndrome_table_cache(
++        parity_check_matrix=np.zeros((8, 16), dtype=np.uint8),
++        code_config=code_config,
++        decoder_config=decoder_config,
++    )
++
++    assert calls == [2, 3]
++    assert set(tables) == {2, 3}
+diff --git a/webapp/backend/app/models/config.py b/webapp/backend/app/models/config.py
+index 65165d3..bd06f31 100644
+--- a/webapp/backend/app/models/config.py
++++ b/webapp/backend/app/models/config.py
+@@ -1,11 +1,12 @@
+ """Pydantic-схемы конфигурации эксперимента для API."""
+ 
++import math
+ from typing import Literal
+ 
+ from pydantic import BaseModel, Field, field_validator
+ 
+ 
+-CodeFamily = Literal["wavelet", "bch", "bch_derived", "bch_extended"]
++CodeFamily = Literal["wavelet", "bch", "bch_derived"]
+ 
+ 
+ class CodeConfigSchema(BaseModel):
+@@ -35,9 +36,9 @@ class CodeConfigSchema(BaseModel):
+ 
+     expected_min_distance: int | None = None
+ 
+-    syndrome_max_error_weight: int | None = None
+-    chase_inner_decoder_max_error_weight: int | None = None
+-    chase_unreliable_positions_count: int | None = None
++    syndrome_max_error_weight: int | None = Field(default=None, ge=0)
++    chase_inner_decoder_max_error_weight: int | None = Field(default=None, ge=0)
++    chase_unreliable_positions_count: int | None = Field(default=None, gt=0)
+ 
+     @field_validator("h", "g")
+     @classmethod
+@@ -70,8 +71,8 @@ class DecoderConfigSchema(BaseModel):
+ 
+     syndrome_max_error_weight: int = Field(default=2, ge=0)
+     chase_inner_decoder_max_error_weight: int = Field(default=2, ge=0)
+-    chase_unreliable_positions_count: int = Field(default=4, ge=0)
+-    max_k_for_mld: int = Field(default=16, ge=0)
++    chase_unreliable_positions_count: int = Field(default=4, gt=0)
++    max_k_for_mld: int = Field(default=16, gt=0)
+ 
+ 
+ class ResearchConfigSchema(BaseModel):
+@@ -91,8 +92,8 @@ class ResearchConfigSchema(BaseModel):
+     @classmethod
+     def ebn0_finite(cls, v: list[float]) -> list[float]:
+         for x in v:
+-            if not isinstance(x, (int, float)):
+-                raise ValueError(f"Eb/N0 должен быть числом, получено {x!r}")
++            if not isinstance(x, (int, float)) or not math.isfinite(float(x)):
++                raise ValueError(f"Eb/N0 должен быть конечным числом, получено {x!r}")
+         return [float(x) for x in v]
+ 
+ 
+diff --git a/webapp/backend/app/services/config_adapter.py b/webapp/backend/app/services/config_adapter.py
+index 82b6d7f..3430253 100644
+--- a/webapp/backend/app/services/config_adapter.py
++++ b/webapp/backend/app/services/config_adapter.py
+@@ -5,6 +5,7 @@ from typing import Any
+ 
+ import numpy as np
+ 
++from decode.syndrome_decoding import recover_message_from_codeword
+ from app.models.config import ResearchConfigSchema, ValidationResponse
+ from research.code_factory import build_code_from_config
+ from research.config import (
+@@ -107,9 +108,20 @@ def validate_schema(schema: ResearchConfigSchema) -> ValidationResponse:
+                 raise ValueError("проверочная матрица не имеет полного ранга")
+ 
+             message = np.zeros((1, code_config.k), dtype=np.uint8)
++            message[0, 0] = 1
++            if code_config.k > 1:
++                message[0, -1] = 1
++
+             encoded = (message @ generator) % 2
+             if not np.all((encoded @ parity_check.T) % 2 == 0):
+                 raise ValueError("encode sanity check не пройден")
++
++            restored = recover_message_from_codeword(
++                corrected_word=encoded[0],
++                generator_matrix=generator,
++            )
++            if not np.array_equal(restored, message[0]):
++                raise ValueError("encode/extract round-trip не пройден")
+         except (TypeError, ValueError) as exc:
+             errors.append(f"{code_config.name}: {exc}")
+ 
+@@ -118,6 +130,29 @@ def validate_schema(schema: ResearchConfigSchema) -> ValidationResponse:
+             if code_config.chase_unreliable_positions_count is not None
+             else config.decoders.chase_unreliable_positions_count
+         )
++        syndrome_t = (
++            code_config.syndrome_max_error_weight
++            if code_config.syndrome_max_error_weight is not None
++            else config.decoders.syndrome_max_error_weight
++        )
++        chase_t = (
++            code_config.chase_inner_decoder_max_error_weight
++            if code_config.chase_inner_decoder_max_error_weight is not None
++            else config.decoders.chase_inner_decoder_max_error_weight
++        )
++
++        if chase_p > code_config.n:
++            errors.append(
++                f"{code_config.name}: Chase p={chase_p} больше длины n={code_config.n}"
++            )
++        if syndrome_t > code_config.n:
++            errors.append(
++                f"{code_config.name}: syndrome t={syndrome_t} больше длины n={code_config.n}"
++            )
++        if chase_t > code_config.n:
++            errors.append(
++                f"{code_config.name}: Chase t={chase_t} больше длины n={code_config.n}"
++            )
+         if config.decoders.run_chase and chase_p >= 12:
+             warnings.append(
+                 f"{code_config.name}: Chase p={chase_p} требует {2 ** chase_p:,} шаблонов"
+diff --git a/webapp/backend/app/services/results_reader.py b/webapp/backend/app/services/results_reader.py
+index cb68e7c..681d645 100644
+--- a/webapp/backend/app/services/results_reader.py
++++ b/webapp/backend/app/services/results_reader.py
+@@ -28,11 +28,15 @@ NON_METRIC_NUMERIC_COLUMNS = {
+     "skipped",
+     "bit_errors",
+     "total_bits",
++    "success_count",
++    "successful_decoded_bits",
++    "bit_errors_on_success",
+     "frame_errors",
+     "codeword_errors",
+     "failure_count",
+     "ambiguous_count",
+     "miscorrection_count",
++    "syndrome_table_build_time_sec",
+     "total_time_sec",
+ }
+ 
+@@ -108,7 +112,19 @@ def zero_adjusted_value(
+     if mode == "epsilon":
+         return epsilon
+     if mode == "floor":
+-        denominator = row.get("total_bits") if metric == "ber" else row.get("message_count")
++        denominator_by_metric = {
++            "ber": "total_bits",
++            "pessimistic_ber": "total_bits",
++            "ber_on_success": "successful_decoded_bits",
++            "frame_error_rate": "message_count",
++            "failure_rate": "message_count",
++            "miscorrection_rate": "message_count",
++            "conditional_miscorrection_rate": "success_count",
++        }
++        denominator_column = denominator_by_metric.get(metric)
++        if denominator_column is None:
++            return None
++        denominator = row.get(denominator_column)
+         if isinstance(denominator, (int, float)) and denominator > 0:
+             return 0.5 / float(denominator)
+     return None
+\ No newline at end of file
+diff --git a/webapp/backend/tests/test_results.py b/webapp/backend/tests/test_results.py
+index db3fe64..eb8d9ea 100644
+--- a/webapp/backend/tests/test_results.py
++++ b/webapp/backend/tests/test_results.py
+@@ -9,7 +9,22 @@ def test_summary_and_zero_floor(tmp_path: Path) -> None:
+     with path.open("w", encoding="utf-8", newline="") as handle:
+         writer = csv.DictWriter(
+             handle,
+-            fieldnames=["code_name", "decoder", "ebn0_db", "ber", "total_bits", "message_count"],
++            fieldnames=[
++                "code_name",
++                "decoder",
++                "ebn0_db",
++                "ber",
++                "pessimistic_ber",
++                "ber_on_success",
++                "frame_error_rate",
++                "failure_rate",
++                "miscorrection_rate",
++                "conditional_miscorrection_rate",
++                "total_bits",
++                "successful_decoded_bits",
++                "success_count",
++                "message_count",
++            ],
+         )
+         writer.writeheader()
+         writer.writerow(
+@@ -18,7 +33,15 @@ def test_summary_and_zero_floor(tmp_path: Path) -> None:
+                 "decoder": "chase",
+                 "ebn0_db": 2.0,
+                 "ber": 0,
++                "pessimistic_ber": 0,
++                "ber_on_success": 0,
++                "frame_error_rate": 0,
++                "failure_rate": 0,
++                "miscorrection_rate": 0,
++                "conditional_miscorrection_rate": 0,
+                 "total_bits": 320,
++                "successful_decoded_bits": 256,
++                "success_count": 8,
+                 "message_count": 10,
+             }
+         )
+diff --git a/webapp/frontend/Dockerfile b/webapp/frontend/Dockerfile
+index 2a75c81..f28cb51 100644
+--- a/webapp/frontend/Dockerfile
++++ b/webapp/frontend/Dockerfile
+@@ -1,7 +1,7 @@
+ FROM node:22-alpine AS build
+ WORKDIR /app
+ COPY webapp/frontend/package*.json ./
+-RUN npm ci
++RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+ COPY webapp/frontend/ ./
+ RUN npm run build
+ 
+diff --git a/webapp/frontend/src/CodeConfigEditor.tsx b/webapp/frontend/src/CodeConfigEditor.tsx
+new file mode 100644
+index 0000000..8e73930
+--- /dev/null
++++ b/webapp/frontend/src/CodeConfigEditor.tsx
+@@ -0,0 +1,227 @@
++import type { CodeConfig } from "./types";
++
++
++type Props = {
++  code: CodeConfig;
++  onChange: (patch: Partial<CodeConfig>) => void;
++};
++
++
++function optionalNumber(value: string): number | null {
++  if (value.trim() === "") return null;
++  const parsed = Number(value);
++  return Number.isFinite(parsed) ? parsed : null;
++}
++
++
++function binaryVectorToText(values?: number[] | null): string {
++  return values?.join(", ") ?? "";
++}
++
++
++function parseBinaryVector(text: string): number[] | null {
++  const normalized = text.trim();
++  if (!normalized) return null;
++
++  const values = normalized
++    .split(/[\s,;]+/)
++    .filter(Boolean)
++    .map(Number);
++
++  if (values.some(value => value !== 0 && value !== 1)) {
++    return null;
++  }
++  return values;
++}
++
++
++export function CodeConfigEditor({ code, onChange }: Props) {
++  const hText = binaryVectorToText(code.h);
++  const gText = binaryVectorToText(code.g);
++
++  return (
++    <div className="code-editor-grid">
++      <fieldset>
++        <legend>Общие параметры</legend>
++        <div className="three-col">
++          <label>
++            Ожидаемое / известное d_min
++            <input
++              type="number"
++              value={code.expected_min_distance ?? ""}
++              onChange={event => onChange({
++                expected_min_distance: optionalNumber(event.target.value),
++              })}
++              placeholder="не задано"
++            />
++          </label>
++          <label>
++            Syndrome t для этого кода
++            <input
++              type="number"
++              min={0}
++              value={code.syndrome_max_error_weight ?? ""}
++              onChange={event => onChange({
++                syndrome_max_error_weight: optionalNumber(event.target.value),
++              })}
++              placeholder="глобальное"
++            />
++          </label>
++          <label>
++            Chase inner t для этого кода
++            <input
++              type="number"
++              min={0}
++              value={code.chase_inner_decoder_max_error_weight ?? ""}
++              onChange={event => onChange({
++                chase_inner_decoder_max_error_weight: optionalNumber(event.target.value),
++              })}
++              placeholder="глобальное"
++            />
++          </label>
++          <label>
++            Chase p для этого кода
++            <input
++              type="number"
++              min={1}
++              value={code.chase_unreliable_positions_count ?? ""}
++              onChange={event => onChange({
++                chase_unreliable_positions_count: optionalNumber(event.target.value),
++              })}
++              placeholder="глобальное"
++            />
++          </label>
++        </div>
++      </fieldset>
++
++      {code.family === "wavelet" && (
++        <fieldset>
++          <legend>Wavelet</legend>
++          <label>
++            h
++            <textarea
++              value={hText}
++              onChange={event => {
++                const parsed = parseBinaryVector(event.target.value);
++                if (parsed !== null || event.target.value.trim() === "") {
++                  onChange({ h: parsed });
++                }
++              }}
++              placeholder="1, 0, 0, 1, ..."
++            />
++            <span className="field-hint">
++              длина: {code.h?.length ?? 0}, вес: {code.h?.reduce((sum, value) => sum + value, 0) ?? 0}
++            </span>
++          </label>
++          <label>
++            g
++            <textarea
++              value={gText}
++              onChange={event => {
++                const parsed = parseBinaryVector(event.target.value);
++                if (parsed !== null || event.target.value.trim() === "") {
++                  onChange({ g: parsed });
++                }
++              }}
++              placeholder="пусто = вычисляется/не используется согласно текущей реализации"
++            />
++            <span className="field-hint">
++              длина: {code.g?.length ?? 0}, вес: {code.g?.reduce((sum, value) => sum + value, 0) ?? 0}
++            </span>
++          </label>
++          <div className="three-col">
++            <label>
++              a
++              <input type="number" value={code.a ?? 1} onChange={event => onChange({ a: Number(event.target.value) })} />
++            </label>
++            <label>
++              b
++              <input type="number" value={code.b ?? 1} onChange={event => onChange({ b: Number(event.target.value) })} />
++            </label>
++            <label>
++              shift
++              <input type="number" value={code.shift ?? 1} onChange={event => onChange({ shift: Number(event.target.value) })} />
++            </label>
++          </div>
++        </fieldset>
++      )}
++
++      {(code.family === "bch" || code.family === "bch_derived") && (
++        <fieldset>
++          <legend>BCH</legend>
++          <div className="three-col">
++            <label>
++              m
++              <input
++                type="number"
++                min={1}
++                value={code.bch_m ?? ""}
++                onChange={event => onChange({ bch_m: optionalNumber(event.target.value) })}
++              />
++            </label>
++            <label>
++              Designed distance
++              <input
++                type="number"
++                min={2}
++                value={code.bch_designed_distance ?? ""}
++                onChange={event => onChange({
++                  bch_designed_distance: optionalNumber(event.target.value),
++                })}
++              />
++            </label>
++            <label>
++              First root
++              <input
++                type="number"
++                value={code.bch_first_root ?? 1}
++                onChange={event => onChange({ bch_first_root: Number(event.target.value) })}
++              />
++            </label>
++            <label>
++              Primitive polynomial (integer)
++              <input
++                type="number"
++                value={code.bch_primitive_polynomial ?? ""}
++                onChange={event => onChange({
++                  bch_primitive_polynomial: optionalNumber(event.target.value),
++                })}
++                placeholder="встроенный по m"
++              />
++            </label>
++          </div>
++        </fieldset>
++      )}
++
++      {code.family === "bch_derived" && (
++        <fieldset>
++          <legend>BCH-derived</legend>
++          <div className="two-col">
++            <label>
++              Shortening count
++              <input
++                type="number"
++                min={0}
++                value={code.bch_shortening_count ?? ""}
++                onChange={event => onChange({
++                  bch_shortening_count: optionalNumber(event.target.value),
++                })}
++              />
++            </label>
++            <label>
++              Puncture count
++              <input
++                type="number"
++                min={0}
++                value={code.bch_puncture_count ?? ""}
++                onChange={event => onChange({
++                  bch_puncture_count: optionalNumber(event.target.value),
++                })}
++              />
++            </label>
++          </div>
++        </fieldset>
++      )}
++    </div>
++  );
++}
+diff --git a/webapp/frontend/src/EbN0Editor.tsx b/webapp/frontend/src/EbN0Editor.tsx
+new file mode 100644
+index 0000000..64871e9
+--- /dev/null
++++ b/webapp/frontend/src/EbN0Editor.tsx
+@@ -0,0 +1,131 @@
++import { useEffect, useState } from "react";
++
++
++type Props = {
++  values: number[];
++  onChange: (values: number[]) => void;
++};
++
++
++type Mode = "explicit" | "range";
++
++
++function buildRange(start: number, stop: number, step: number): number[] {
++  if (!Number.isFinite(start) || !Number.isFinite(stop) || !Number.isFinite(step)) {
++    return [];
++  }
++  if (step <= 0 || stop < start) return [];
++
++  const values: number[] = [];
++  const epsilon = Math.abs(step) * 1e-9 + 1e-12;
++  for (let value = start; value <= stop + epsilon; value += step) {
++    values.push(Number(value.toFixed(12)));
++    if (values.length > 10000) break;
++  }
++  return values;
++}
++
++
++export function EbN0Editor({ values, onChange }: Props) {
++  const [mode, setMode] = useState<Mode>("explicit");
++  const [start, setStart] = useState(values[0] ?? 0);
++  const [stop, setStop] = useState(values.at(-1) ?? 5);
++  const [step, setStep] = useState(0.5);
++  const [explicit, setExplicit] = useState(values.join(", "));
++
++  useEffect(() => {
++    setExplicit(values.join(", "));
++  }, [values]);
++
++  const applyRange = (nextStart = start, nextStop = stop, nextStep = step) => {
++    const generated = buildRange(nextStart, nextStop, nextStep);
++    if (generated.length) onChange(generated);
++  };
++
++  return (
++    <div className="ebn0-editor">
++      <div className="mode-switch">
++        <button
++          type="button"
++          className={`button ${mode === "explicit" ? "selected" : ""}`}
++          onClick={() => setMode("explicit")}
++        >
++          Явный список
++        </button>
++        <button
++          type="button"
++          className={`button ${mode === "range" ? "selected" : ""}`}
++          onClick={() => setMode("range")}
++        >
++          Диапазон
++        </button>
++      </div>
++
++      {mode === "explicit" ? (
++        <label>
++          Eb/N0, dB
++          <input
++            value={explicit}
++            onChange={event => setExplicit(event.target.value)}
++            onBlur={() => {
++              const parsed = explicit
++                .split(/[\s,;]+/)
++                .filter(Boolean)
++                .map(Number)
++                .filter(Number.isFinite);
++              if (parsed.length) onChange(parsed);
++            }}
++            placeholder="0, 0.5, 1, 1.5, ..."
++          />
++        </label>
++      ) : (
++        <div className="three-col">
++          <label>
++            От
++            <input
++              type="number"
++              step="any"
++              value={start}
++              onChange={event => {
++                const value = Number(event.target.value);
++                setStart(value);
++                applyRange(value, stop, step);
++              }}
++            />
++          </label>
++          <label>
++            До
++            <input
++              type="number"
++              step="any"
++              value={stop}
++              onChange={event => {
++                const value = Number(event.target.value);
++                setStop(value);
++                applyRange(start, value, step);
++              }}
++            />
++          </label>
++          <label>
++            Шаг
++            <input
++              type="number"
++              min="0.000001"
++              step="any"
++              value={step}
++              onChange={event => {
++                const value = Number(event.target.value);
++                setStep(value);
++                applyRange(start, stop, value);
++              }}
++            />
++          </label>
++        </div>
++      )}
++
++      <div className="field-hint">
++        Итоговые точки ({values.length}): {values.join(", ")}
++      </div>
++    </div>
++  );
++}
+diff --git a/webapp/frontend/src/pages/NewExperimentPage.tsx b/webapp/frontend/src/pages/NewExperimentPage.tsx
+index f9b1f00..110872a 100644
+--- a/webapp/frontend/src/pages/NewExperimentPage.tsx
++++ b/webapp/frontend/src/pages/NewExperimentPage.tsx
+@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
+ import { useNavigate } from "react-router-dom";
+ 
+ import { api } from "../api";
++import { CodeConfigEditor } from "../CodeConfigEditor";
++import { EbN0Editor } from "../EbN0Editor";
+ import type { CodeConfig, Experiment, ResearchConfig } from "../types";
+ 
+ 
+@@ -176,18 +178,12 @@ export function NewExperimentPage() {
+                   Seed шума
+                   <input type="number" value={config.noise_seed} onChange={event => update({ noise_seed: Number(event.target.value) })} />
+                 </label>
+-                <label>
+-                  Eb/N0, точки
+-                  <input
+-                    value={config.ebn0_db_values.join(", ")}
+-                    onChange={event => update({
+-                      ebn0_db_values: event.target.value
+-                        .split(",")
+-                        .map(Number)
+-                        .filter(Number.isFinite),
+-                    })}
++                <div className="span-two">
++                  <EbN0Editor
++                    values={config.ebn0_db_values}
++                    onChange={ebn0_db_values => update({ ebn0_db_values })}
+                   />
+-                </label>
++                </div>
+               </div>
+             </>
+           )}
+@@ -262,6 +258,10 @@ export function NewExperimentPage() {
+                       </div>
+                     </label>
+                   </div>
++                  <CodeConfigEditor
++                    code={code}
++                    onChange={patch => editCode(index, patch)}
++                  />
+                 </div>
+               ))}
+             </>
+@@ -295,6 +295,20 @@ export function NewExperimentPage() {
+                   Chase p
+                   <input type="number" value={config.decoders.chase_unreliable_positions_count} onChange={event => update({ decoders: { ...config.decoders, chase_unreliable_positions_count: Number(event.target.value) } })} />
+                 </label>
++                <label>
++                  Max k для MLD
++                  <input
++                    type="number"
++                    min={1}
++                    value={config.decoders.max_k_for_mld}
++                    onChange={event => update({
++                      decoders: {
++                        ...config.decoders,
++                        max_k_for_mld: Number(event.target.value),
++                      },
++                    })}
++                  />
++                </label>
+               </div>
+               <div className="cost-note">
+                 Chase p={config.decoders.chase_unreliable_positions_count}: {2 ** config.decoders.chase_unreliable_positions_count} шаблонов.
+diff --git a/webapp/frontend/src/styles.css b/webapp/frontend/src/styles.css
+index 88e51e0..2cdf302 100644
+--- a/webapp/frontend/src/styles.css
++++ b/webapp/frontend/src/styles.css
+@@ -27,4 +27,11 @@ label { display: grid; gap: 7px; color: #526159; font-size: 13px; margin-bottom:
+ .plotly-host { width: 100%; min-height: 560px; }
+ @media (max-width: 1100px) { .plot-main-controls { grid-template-columns: 1fr 1fr; }.plot-main-controls .show-plot { width: auto; }.series-filters { grid-template-columns: 1fr; gap: 12px; } }
+ @media (max-width: 900px) { .app-shell { grid-template-columns: minmax(0, 1fr); }.sidebar { min-width: 0; padding: 18px 20px; display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 12px 18px; }.brand { margin: 0; }.sidebar nav { display: flex; flex-wrap: wrap; margin: 0; gap: 3px; }.sidebar nav a { padding: 8px; }.sidebar-note { display: none; }.content { padding: 30px 20px 50px; overflow: hidden; }.content > section { min-width: 0; }.form-grid, .detail-grid, .plot-workspace { grid-template-columns: minmax(0, 1fr); }.plot-config { position: static; }.page-header { flex-direction: column; }.two-col, .three-col { grid-template-columns: 1fr; }.compute-strip { grid-template-columns: 1fr 1fr; }.add-code { flex-direction: column; }.add-code select { min-width: 0; }.run-modal { padding: 17px; }.modal-actions .button { flex: 1; }.chart-export { flex-direction: column; } }
+-@media (max-width: 620px) { .plot-main-controls { grid-template-columns: 1fr; }.plot-main-controls .show-plot { width: 100%; }.chart-export > div:last-child { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%; }.chart-export .button { margin: 0; } }
+\ No newline at end of file
++@media (max-width: 620px) { .plot-main-controls { grid-template-columns: 1fr; }.plot-main-controls .show-plot { width: 100%; }.chart-export > div:last-child { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%; }.chart-export .button { margin: 0; } }.code-editor-grid { display: grid; gap: 12px; margin-top: 14px; }
++.code-editor-grid fieldset { border: 1px solid #d7dfd8; padding: 13px; margin: 0; background: #fff; }
++.code-editor-grid legend { color: #748178; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; padding: 0 6px; }
++.field-hint { color: #7b887f; font-size: 11px; line-height: 1.45; }
++.span-two { grid-column: 1 / -1; }
++.ebn0-editor { display: grid; gap: 10px; }
++.mode-switch { display: flex; gap: 7px; }
++.mode-switch .button.selected { background: #245448; color: #fff; border-color: #245448; }
+diff --git a/webapp/frontend/src/types.ts b/webapp/frontend/src/types.ts
+index cc2bfba..9779b90 100644
+--- a/webapp/frontend/src/types.ts
++++ b/webapp/frontend/src/types.ts
+@@ -4,7 +4,7 @@ export type ExperimentStatus =
+ 
+ export interface CodeConfig {
+   name: string;
+-  family: "wavelet" | "bch" | "bch_derived" | "bch_extended";
++  family: "wavelet" | "bch" | "bch_derived";
+   n: number;
+   k: number;
+   h?: number[] | null;

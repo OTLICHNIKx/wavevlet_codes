@@ -1,3 +1,4 @@
+from collections.abc import Mapping
 from dataclasses import dataclass
 from time import perf_counter
 from typing import Optional
@@ -70,6 +71,7 @@ def syndrome_decode_batch(
     parity_check_matrix: np.ndarray,
     generator_matrix: np.ndarray,
     max_error_weight: int,
+    syndrome_table: Optional[Mapping[tuple[int, ...], np.ndarray]] = None,
 ) -> DecoderBatchResult:
     """
     Пакетный запуск синдромного декодера.
@@ -94,10 +96,11 @@ def syndrome_decode_batch(
     success_flags = np.zeros(message_count, dtype=bool)
     ambiguous_flags = np.zeros(message_count, dtype=bool)
 
-    syndrome_table = build_syndrome_table(
-        parity_check_matrix=parity_check_matrix,
-        max_error_weight=max_error_weight,
-    )
+    if syndrome_table is None:
+        syndrome_table = build_syndrome_table(
+            parity_check_matrix=parity_check_matrix,
+            max_error_weight=max_error_weight,
+        )
 
     start_time = perf_counter()
 
@@ -268,6 +271,7 @@ def chase_decode_batch(
     generator_matrix: np.ndarray,
     unreliable_positions_count: int,
     inner_decoder_max_error_weight: int,
+    syndrome_table: Optional[Mapping[tuple[int, ...], np.ndarray]] = None,
 ) -> DecoderBatchResult:
     """
     Пакетный запуск алгоритма Чейза.
@@ -300,10 +304,11 @@ def chase_decode_batch(
     success_flags = np.zeros(message_count, dtype=bool)
     ambiguous_flags = np.zeros(message_count, dtype=bool)
 
-    syndrome_table = build_syndrome_table(
-        parity_check_matrix=parity_check_matrix,
-        max_error_weight=inner_decoder_max_error_weight,
-    )
+    if syndrome_table is None:
+        syndrome_table = build_syndrome_table(
+            parity_check_matrix=parity_check_matrix,
+            max_error_weight=inner_decoder_max_error_weight,
+        )
 
     start_time = perf_counter()
 

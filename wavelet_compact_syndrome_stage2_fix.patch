@@ -1,0 +1,410 @@
+diff --git a/decode/syndrome_decoding/compact_table.py b/decode/syndrome_decoding/compact_table.py
+new file mode 100644
+index 0000000..baae09e
+--- /dev/null
++++ b/decode/syndrome_decoding/compact_table.py
+@@ -0,0 +1,233 @@
++from collections.abc import Iterator, Mapping
++from itertools import combinations
++import sys
++
++import numpy as np
++
++from .gf2 import to_binary_matrix
++
++
++class CompactSyndromeTable(
++    Mapping[tuple[int, ...], np.ndarray]
++):
++    """
++    Компактная таблица синдромов.
++
++    Снаружи таблица совместима с обычным отображением:
++
++        tuple(syndrome_bits) -> error_vector
++
++    Внутри данные хранятся компактнее:
++
++        syndrome_int -> error_mask_int
++
++    Это особенно важно для длинных кодов и t >= 4, где число
++    шаблонов ошибок исчисляется сотнями тысяч.
++    """
++
++    def __init__(
++        self,
++        entries: dict[int, int],
++        *,
++        codeword_length: int,
++        syndrome_bits: int,
++        max_error_weight: int,
++        pattern_count: int,
++        collision_count: int,
++        approx_memory_bytes: int,
++    ) -> None:
++        self._entries = entries
++        self.codeword_length = codeword_length
++        self.syndrome_bits = syndrome_bits
++        self.max_error_weight = max_error_weight
++        self.pattern_count = pattern_count
++        self.collision_count = collision_count
++        self.approx_memory_bytes = approx_memory_bytes
++
++    @property
++    def entry_count(self) -> int:
++        return len(self._entries)
++
++    def _syndrome_tuple_to_int(
++        self,
++        syndrome: tuple[int, ...],
++    ) -> int:
++        if len(syndrome) != self.syndrome_bits:
++            raise KeyError(syndrome)
++
++        packed = 0
++
++        for index, bit in enumerate(syndrome):
++            if bit not in (0, 1):
++                raise KeyError(syndrome)
++
++            if bit:
++                packed |= 1 << index
++
++        return packed
++
++    def _syndrome_int_to_tuple(
++        self,
++        syndrome: int,
++    ) -> tuple[int, ...]:
++        return tuple(
++            (syndrome >> index) & 1
++            for index in range(self.syndrome_bits)
++        )
++
++    def _error_mask_to_vector(
++        self,
++        error_mask: int,
++    ) -> np.ndarray:
++        vector = np.zeros(
++            self.codeword_length,
++            dtype=np.uint8,
++        )
++
++        remaining = error_mask
++
++        while remaining:
++            least_significant_bit = (
++                remaining & -remaining
++            )
++            position = (
++                least_significant_bit.bit_length() - 1
++            )
++            vector[position] = 1
++            remaining ^= least_significant_bit
++
++        return vector
++
++    def __getitem__(
++        self,
++        syndrome: tuple[int, ...],
++    ) -> np.ndarray:
++        packed_syndrome = self._syndrome_tuple_to_int(
++            syndrome
++        )
++
++        try:
++            error_mask = self._entries[packed_syndrome]
++        except KeyError:
++            raise KeyError(syndrome) from None
++
++        return self._error_mask_to_vector(error_mask)
++
++    def __iter__(self) -> Iterator[tuple[int, ...]]:
++        for syndrome in self._entries:
++            yield self._syndrome_int_to_tuple(syndrome)
++
++    def __len__(self) -> int:
++        return len(self._entries)
++
++
++def _pack_parity_check_columns(
++    parity_check_matrix: np.ndarray,
++) -> tuple[int, ...]:
++    row_count, column_count = parity_check_matrix.shape
++    packed_columns: list[int] = []
++
++    for column in range(column_count):
++        packed = 0
++
++        for row in range(row_count):
++            if parity_check_matrix[row, column]:
++                packed |= 1 << row
++
++        packed_columns.append(packed)
++
++    return tuple(packed_columns)
++
++
++def _estimate_entries_memory_bytes(
++    entries: dict[int, int],
++) -> int:
++    """
++    Приблизительная память Python-объектов таблицы.
++
++    Не является точным RSS процесса, но подходит для сравнения
++    различных способов хранения таблиц.
++    """
++    return (
++        sys.getsizeof(entries)
++        + sum(
++            sys.getsizeof(syndrome)
++            + sys.getsizeof(error_mask)
++            for syndrome, error_mask in entries.items()
++        )
++    )
++
++
++def build_compact_syndrome_table(
++    parity_check_matrix: np.ndarray,
++    max_error_weight: int = 1,
++) -> CompactSyndromeTable:
++    """
++    Строит компактную таблицу синдромов для ошибок веса 0...t.
++
++    Ошибки перебираются по возрастанию веса. Поэтому при
++    коллизии сохраняется первый найденный шаблон, то есть шаблон
++    минимального веса среди уже рассмотренных ошибок — такое же
++    правило использует legacy build_syndrome_table().
++    """
++    matrix = to_binary_matrix(
++        parity_check_matrix,
++        name="parity_check_matrix",
++    )
++
++    if not isinstance(max_error_weight, int):
++        raise TypeError(
++            "max_error_weight должен быть целым числом"
++        )
++
++    if max_error_weight < 0:
++        raise ValueError(
++            "max_error_weight должен быть неотрицательным"
++        )
++
++    syndrome_bits, codeword_length = matrix.shape
++
++    if max_error_weight > codeword_length:
++        raise ValueError(
++            "max_error_weight не может быть больше длины слова"
++        )
++
++    packed_columns = _pack_parity_check_columns(matrix)
++
++    entries: dict[int, int] = {}
++    pattern_count = 0
++    collision_count = 0
++
++    for weight in range(max_error_weight + 1):
++        for positions in combinations(
++            range(codeword_length),
++            weight,
++        ):
++            pattern_count += 1
++
++            syndrome = 0
++            error_mask = 0
++
++            for position in positions:
++                syndrome ^= packed_columns[position]
++                error_mask |= 1 << position
++
++            if syndrome in entries:
++                collision_count += 1
++                continue
++
++            entries[syndrome] = error_mask
++
++    approx_memory_bytes = _estimate_entries_memory_bytes(
++        entries
++    )
++
++    return CompactSyndromeTable(
++        entries=entries,
++        codeword_length=codeword_length,
++        syndrome_bits=syndrome_bits,
++        max_error_weight=max_error_weight,
++        pattern_count=pattern_count,
++        collision_count=collision_count,
++        approx_memory_bytes=approx_memory_bytes,
++    )
+diff --git a/research/check_compact_syndrome_table_64_32.py b/research/check_compact_syndrome_table_64_32.py
+new file mode 100644
+index 0000000..b972aef
+--- /dev/null
++++ b/research/check_compact_syndrome_table_64_32.py
+@@ -0,0 +1,51 @@
++from time import perf_counter
++
++from decode.syndrome_decoding import (
++    build_compact_syndrome_table,
++)
++from research.code_factory import build_code_from_config
++from research.config import (
++    BCH_DERIVED_64_32_CONFIG,
++    WAVELET_64_32_CONFIG,
++)
++
++
++def check_code(label: str, code_config, t: int) -> None:
++    code = build_code_from_config(code_config)
++
++    start = perf_counter()
++    table = build_compact_syndrome_table(
++        parity_check_matrix=code.parity_check_matrix,
++        max_error_weight=t,
++    )
++    elapsed = perf_counter() - start
++
++    print(label)
++    print(f"  n={code.n}, k={code.k}, t={t}")
++    print(f"  patterns={table.pattern_count}")
++    print(f"  entries={table.entry_count}")
++    print(f"  collisions={table.collision_count}")
++    print(
++        "  approx_memory_mib="
++        f"{table.approx_memory_bytes / (1024 ** 2):.2f}"
++    )
++    print(f"  build_time_sec={elapsed:.3f}")
++    print()
++
++
++def main() -> None:
++    check_code(
++        "Wavelet [64,32]",
++        WAVELET_64_32_CONFIG,
++        t=3,
++    )
++
++    check_code(
++        "BCH-derived [64,32]",
++        BCH_DERIVED_64_32_CONFIG,
++        t=4,
++    )
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tests/test_compact_syndrome_table.py b/tests/test_compact_syndrome_table.py
+new file mode 100644
+index 0000000..d8198d6
+--- /dev/null
++++ b/tests/test_compact_syndrome_table.py
+@@ -0,0 +1,108 @@
++import numpy as np
++
++from decode.syndrome_decoding import (
++    build_compact_syndrome_table,
++    build_syndrome_table,
++    syndrome_decode,
++)
++
++
++def test_compact_table_matches_legacy_table() -> None:
++    parity_check_matrix = np.array(
++        [
++            [1, 1, 0],
++            [0, 1, 1],
++        ],
++        dtype=np.uint8,
++    )
++
++    legacy = build_syndrome_table(
++        parity_check_matrix=parity_check_matrix,
++        max_error_weight=1,
++    )
++
++    compact = build_compact_syndrome_table(
++        parity_check_matrix=parity_check_matrix,
++        max_error_weight=1,
++    )
++
++    assert compact.pattern_count == 4
++    assert compact.entry_count == len(legacy)
++    assert compact.collision_count == 0
++
++    for syndrome, error_vector in legacy.items():
++        assert np.array_equal(
++            compact[syndrome],
++            error_vector,
++        )
++
++
++def test_compact_table_counts_collisions() -> None:
++    parity_check_matrix = np.array(
++        [[1, 1]],
++        dtype=np.uint8,
++    )
++
++    compact = build_compact_syndrome_table(
++        parity_check_matrix=parity_check_matrix,
++        max_error_weight=1,
++    )
++
++    assert compact.pattern_count == 3
++    assert compact.entry_count == 2
++    assert compact.collision_count == 1
++
++    assert np.array_equal(
++        compact[(1,)],
++        np.array([1, 0], dtype=np.uint8),
++    )
++
++
++def test_syndrome_decode_accepts_compact_table() -> None:
++    parity_check_matrix = np.array(
++        [
++            [1, 1, 0],
++            [0, 1, 1],
++        ],
++        dtype=np.uint8,
++    )
++
++    received_word = np.array(
++        [1, 0, 0],
++        dtype=np.uint8,
++    )
++
++    legacy = build_syndrome_table(
++        parity_check_matrix=parity_check_matrix,
++        max_error_weight=1,
++    )
++
++    compact = build_compact_syndrome_table(
++        parity_check_matrix=parity_check_matrix,
++        max_error_weight=1,
++    )
++
++    legacy_result = syndrome_decode(
++        received_word=received_word,
++        parity_check_matrix=parity_check_matrix,
++        syndrome_table=legacy,
++        max_error_weight=1,
++    )
++
++    compact_result = syndrome_decode(
++        received_word=received_word,
++        parity_check_matrix=parity_check_matrix,
++        syndrome_table=compact,
++        max_error_weight=1,
++    )
++
++    assert compact_result.success
++    assert legacy_result.success
++    assert np.array_equal(
++        compact_result.corrected_word,
++        legacy_result.corrected_word,
++    )
++    assert np.array_equal(
++        compact_result.error_vector,
++        legacy_result.error_vector,
++    )

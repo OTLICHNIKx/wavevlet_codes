@@ -1,9 +1,14 @@
 import csv
 import os
+from time import perf_counter
 from typing import Any, Callable
 
 import numpy as np
 
+from decode.syndrome_decoding import (
+    CompactSyndromeTable,
+    build_compact_syndrome_table,
+)
 from modulation.demodulator import (
     bpsk_llr,
     hard_decision_from_llr,
@@ -147,6 +152,54 @@ def get_chase_p_for_code(
     return decoder_config.chase_unreliable_positions_count
 
 
+SyndromeTable = CompactSyndromeTable
+
+
+def build_syndrome_table_cache(
+    parity_check_matrix: np.ndarray,
+    code_config: CodeResearchConfig,
+    decoder_config: DecoderResearchConfig,
+) -> tuple[dict[int, SyndromeTable], dict[int, float]]:
+    """
+    Один раз строит таблицы синдромов, необходимые для кода.
+
+    Таблица зависит только от H и максимального веса t, поэтому
+    её не нужно перестраивать для каждой точки Eb/N0. Если syndrome
+    и Chase используют одинаковый t, они совместно используют одну
+    и ту же таблицу.
+    """
+    required_weights: set[int] = set()
+
+    if decoder_config.run_syndrome:
+        required_weights.add(
+            get_syndrome_t_for_code(
+                code_config=code_config,
+                decoder_config=decoder_config,
+            )
+        )
+
+    if decoder_config.run_chase:
+        required_weights.add(
+            get_chase_inner_t_for_code(
+                code_config=code_config,
+                decoder_config=decoder_config,
+            )
+        )
+
+    tables: dict[int, SyndromeTable] = {}
+    build_times: dict[int, float] = {}
+
+    for max_error_weight in sorted(required_weights):
+        start_time = perf_counter()
+        tables[max_error_weight] = build_compact_syndrome_table(
+            parity_check_matrix=parity_check_matrix,
+            max_error_weight=max_error_weight,
+        )
+        build_times[max_error_weight] = perf_counter() - start_time
+
+    return tables, build_times
+
+
 def run_decoders_for_channel_output(
     received_words: np.ndarray,
     received_symbols: np.ndarray,
@@ -155,6 +208,7 @@ def run_decoders_for_channel_output(
     generator_matrix: np.ndarray,
     code_config: CodeResearchConfig,
     decoder_config: DecoderResearchConfig,
+    syndrome_tables: dict[int, SyndromeTable] | None = None,
 ) -> list[DecoderBatchResult]:
     """
     Запускает все включённые декодеры для одного кода и одного Eb/N0.
@@ -186,6 +240,11 @@ def run_decoders_for_channel_output(
                 parity_check_matrix=parity_check_matrix,
                 generator_matrix=generator_matrix,
                 max_error_weight=syndrome_t,
+                syndrome_table=(
+                    None
+                    if syndrome_tables is None
+                    else syndrome_tables.get(syndrome_t)
+                ),
             )
         )
 
@@ -243,6 +302,11 @@ def run_decoders_for_channel_output(
                 generator_matrix=generator_matrix,
                 unreliable_positions_count=chase_p,
                 inner_decoder_max_error_weight=chase_inner_t,
+                syndrome_table=(
+                    None
+                    if syndrome_tables is None
+                    else syndrome_tables.get(chase_inner_t)
+                ),
             )
         )
 
@@ -256,6 +320,8 @@ def decoder_result_to_summary_row(
     decoder_result: DecoderBatchResult,
     metrics: BatchMetrics | None,
     message_count: int,
+    syndrome_table_build_time_sec: float = 0.0,
+    syndrome_table: SyndromeTable | None = None,
 ) -> dict[str, Any]:
     """
     Преобразует результат декодера и метрики в строку summary.csv.
@@ -300,7 +366,7 @@ def decoder_result_to_summary_row(
 
         "bch_first_root": (
             ""
-            if code_config.family != "bch"
+            if code_config.family not in ("bch", "bch_derived")
             else code_config.bch_first_root
         ),
 
@@ -361,6 +427,19 @@ def decoder_result_to_summary_row(
         "decoder": decoder_result.decoder_name,
         "skipped": decoder_result.skipped,
         "skip_reason": decoder_result.skip_reason or "",
+        "syndrome_table_build_time_sec": syndrome_table_build_time_sec,
+        "syndrome_table_pattern_count": (
+            "" if syndrome_table is None else syndrome_table.pattern_count
+        ),
+        "syndrome_table_entry_count": (
+            "" if syndrome_table is None else syndrome_table.entry_count
+        ),
+        "syndrome_table_collision_count": (
+            "" if syndrome_table is None else syndrome_table.collision_count
+        ),
+        "syndrome_table_memory_bytes": (
+            "" if syndrome_table is None else syndrome_table.approx_memory_bytes
+        ),
     }
 
     if metrics is None:
@@ -371,6 +450,9 @@ def decoder_result_to_summary_row(
                 "ber": "",
                 "pessimistic_ber": "",
                 "ber_on_success": "",
+                "success_count": "",
+                "successful_decoded_bits": "",
+                "bit_errors_on_success": "",
                 "frame_errors": "",
                 "frame_error_rate": "",
                 "codeword_errors": "",
@@ -395,7 +477,12 @@ def decoder_result_to_summary_row(
             "total_bits": metrics.total_bits,
             "ber": metrics.ber,
             "pessimistic_ber": metrics.pessimistic_ber,
-            "ber_on_success": metrics.ber_on_success,
+            "ber_on_success": (
+                "" if metrics.ber_on_success is None else metrics.ber_on_success
+            ),
+            "success_count": metrics.success_count,
+            "successful_decoded_bits": metrics.successful_decoded_bits,
+            "bit_errors_on_success": metrics.bit_errors_on_success,
             "frame_errors": metrics.frame_errors,
             "frame_error_rate": metrics.frame_error_rate,
             "codeword_errors": (
@@ -411,7 +498,9 @@ def decoder_result_to_summary_row(
             "miscorrection_count": metrics.miscorrection_count,
             "miscorrection_rate": metrics.miscorrection_rate,
             "conditional_miscorrection_rate": (
-                metrics.conditional_miscorrection_rate
+                ""
+                if metrics.conditional_miscorrection_rate is None
+                else metrics.conditional_miscorrection_rate
             ),
             "ambiguous_count": metrics.ambiguous_count,
             "ambiguous_rate": metrics.ambiguous_rate,
@@ -493,6 +582,24 @@ def run_code_research(
     parity_check_matrix = code.parity_check_matrix
     generator_matrix = code.generator_matrix
 
+    syndrome_tables, syndrome_table_build_times = build_syndrome_table_cache(
+        parity_check_matrix=parity_check_matrix,
+        code_config=code_config,
+        decoder_config=decoder_config,
+    )
+
+    for table_t, build_time in syndrome_table_build_times.items():
+        table = syndrome_tables[table_t]
+        memory_mib = table.approx_memory_bytes / (1024 ** 2)
+        print(
+            f"  Компактная таблица синдромов t={table_t}: "
+            f"{table.entry_count} синдромов / "
+            f"{table.pattern_count} шаблонов, "
+            f"коллизий {table.collision_count}, "
+            f"~{memory_mib:.2f} MiB, "
+            f"построение {build_time:.3f}s"
+        )
+
     rows: list[dict[str, Any]] = []
 
     for ebn0_db in ebn0_db_values:
@@ -526,11 +633,30 @@ def run_code_research(
             generator_matrix=generator_matrix,
             code_config=code_config,
             decoder_config=decoder_config,
+            syndrome_tables=syndrome_tables,
         )
 
         decoders_finished = 0
 
+        syndrome_t = get_syndrome_t_for_code(
+            code_config=code_config,
+            decoder_config=decoder_config,
+        )
+        chase_inner_t = get_chase_inner_t_for_code(
+            code_config=code_config,
+            decoder_config=decoder_config,
+        )
+
         for decoder_result in decoder_results:
+            table_build_time = 0.0
+            decoder_syndrome_table: SyndromeTable | None = None
+
+            if decoder_result.decoder_name == "syndrome":
+                table_build_time = syndrome_table_build_times.get(syndrome_t, 0.0)
+                decoder_syndrome_table = syndrome_tables.get(syndrome_t)
+            elif decoder_result.decoder_name == "chase":
+                table_build_time = syndrome_table_build_times.get(chase_inner_t, 0.0)
+                decoder_syndrome_table = syndrome_tables.get(chase_inner_t)
             if decoder_result.skipped:
                 row = decoder_result_to_summary_row(
                     code_config=code_config,
@@ -539,6 +665,8 @@ def run_code_research(
                     decoder_result=decoder_result,
                     metrics=None,
                     message_count=len(messages),
+                    syndrome_table_build_time_sec=table_build_time,
+                    syndrome_table=decoder_syndrome_table,
                 )
                 rows.append(row)
                 print(f"    {decoder_result.decoder_name}: skipped")
@@ -575,6 +703,8 @@ def run_code_research(
                 decoder_result=decoder_result,
                 metrics=metrics,
                 message_count=len(messages),
+                syndrome_table_build_time_sec=table_build_time,
+                syndrome_table=decoder_syndrome_table,
             )
 
             rows.append(row)

@@ -46,7 +46,11 @@ class BatchMetrics:
     total_bits: int
     ber: float
     pessimistic_ber: float
-    ber_on_success: float
+    ber_on_success: float | None
+
+    success_count: int
+    successful_decoded_bits: int
+    bit_errors_on_success: int
 
     frame_errors: int
     frame_error_rate: float
@@ -59,7 +63,7 @@ class BatchMetrics:
 
     miscorrection_count: int
     miscorrection_rate: float
-    conditional_miscorrection_rate: float
+    conditional_miscorrection_rate: float | None
 
     ambiguous_count: int
     ambiguous_rate: float
@@ -287,14 +291,18 @@ def calculate_batch_metrics(
     total_bits = int(message_count * message_length)
     ber = float(bit_errors / total_bits)
 
-    successful_bit_errors = np.sum(
-        original_messages[success_flags] != decoded_messages[success_flags]
+    success_count = int(np.sum(success_flags))
+    bit_errors_on_success = int(
+        np.sum(
+            original_messages[success_flags]
+            != decoded_messages[success_flags]
+        )
     )
-    successful_bits = int(np.sum(success_flags) * message_length)
+    successful_decoded_bits = int(success_count * message_length)
     ber_on_success = (
-        float(successful_bit_errors / successful_bits)
-        if successful_bits > 0
-        else 0.0
+        float(bit_errors_on_success / successful_decoded_bits)
+        if successful_decoded_bits > 0
+        else None
     )
 
     message_errors = np.any(original_messages != decoded_messages, axis=1)
@@ -332,11 +340,10 @@ def calculate_batch_metrics(
     miscorrection_flags = np.logical_and(success_flags, message_errors)
     miscorrection_count = int(np.sum(miscorrection_flags))
     miscorrection = float(miscorrection_count / message_count)
-    success_count = int(np.sum(success_flags))
     conditional_miscorrection = (
         float(miscorrection_count / success_count)
         if success_count > 0
-        else 0.0
+        else None
     )
 
     ambiguous_count = int(np.sum(ambiguous_flags))
@@ -352,6 +359,10 @@ def calculate_batch_metrics(
         ber=ber,
         pessimistic_ber=ber,
         ber_on_success=ber_on_success,
+
+        success_count=success_count,
+        successful_decoded_bits=successful_decoded_bits,
+        bit_errors_on_success=bit_errors_on_success,
 
         frame_errors=frame_errors,
         frame_error_rate=fer,

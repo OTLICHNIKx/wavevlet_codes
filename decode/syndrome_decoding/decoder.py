@@ -1,3 +1,4 @@
+from collections.abc import Mapping
 from dataclasses import dataclass
 from itertools import combinations
 from typing import Optional
@@ -129,7 +130,7 @@ def syndrome_decode(
     received_word: np.ndarray,
     parity_check_matrix: np.ndarray,
     generator_matrix: Optional[np.ndarray] = None,
-    syndrome_table: Optional[dict[tuple[int, ...], np.ndarray]] = None,
+    syndrome_table: Optional[Mapping[tuple[int, ...], np.ndarray]] = None,
     max_error_weight: int = 1,
 ) -> SyndromeDecodingResult:
     """
@@ -161,7 +162,9 @@ def syndrome_decode(
 
     syndrome_key = tuple(int(value) for value in syndrome)
 
-    if syndrome_key not in syndrome_table:
+    error_vector = syndrome_table.get(syndrome_key)
+
+    if error_vector is None:
         return SyndromeDecodingResult(
             received_word=received_word,
             syndrome=syndrome,
@@ -174,8 +177,6 @@ def syndrome_decode(
                 "Ошибка не исправлена при заданном max_error_weight."
             ),
         )
-
-    error_vector = syndrome_table[syndrome_key]
     corrected_word = (received_word + error_vector) % 2
 
     check_syndrome = calculate_syndrome(

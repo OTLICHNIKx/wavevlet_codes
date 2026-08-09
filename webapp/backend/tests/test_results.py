@@ -9,7 +9,22 @@ def test_summary_and_zero_floor(tmp_path: Path) -> None:
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(
             handle,
-            fieldnames=["code_name", "decoder", "ebn0_db", "ber", "total_bits", "message_count"],
+            fieldnames=[
+                "code_name",
+                "decoder",
+                "ebn0_db",
+                "ber",
+                "pessimistic_ber",
+                "ber_on_success",
+                "frame_error_rate",
+                "failure_rate",
+                "miscorrection_rate",
+                "conditional_miscorrection_rate",
+                "total_bits",
+                "successful_decoded_bits",
+                "success_count",
+                "message_count",
+            ],
         )
         writer.writeheader()
         writer.writerow(
@@ -18,7 +33,15 @@ def test_summary_and_zero_floor(tmp_path: Path) -> None:
                 "decoder": "chase",
                 "ebn0_db": 2.0,
                 "ber": 0,
+                "pessimistic_ber": 0,
+                "ber_on_success": 0,
+                "frame_error_rate": 0,
+                "failure_rate": 0,
+                "miscorrection_rate": 0,
+                "conditional_miscorrection_rate": 0,
                 "total_bits": 320,
+                "successful_decoded_bits": 256,
+                "success_count": 8,
                 "message_count": 10,
             }
         )

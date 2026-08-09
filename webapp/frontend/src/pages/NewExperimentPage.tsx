@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../api";
+import { CodeConfigEditor } from "../CodeConfigEditor";
+import { EbN0Editor } from "../EbN0Editor";
 import type { CodeConfig, Experiment, ResearchConfig } from "../types";
 
 
@@ -176,18 +178,12 @@ export function NewExperimentPage() {
                   Seed шума
                   <input type="number" value={config.noise_seed} onChange={event => update({ noise_seed: Number(event.target.value) })} />
                 </label>
-                <label>
-                  Eb/N0, точки
-                  <input
-                    value={config.ebn0_db_values.join(", ")}
-                    onChange={event => update({
-                      ebn0_db_values: event.target.value
-                        .split(",")
-                        .map(Number)
-                        .filter(Number.isFinite),
-                    })}
+                <div className="span-two">
+                  <EbN0Editor
+                    values={config.ebn0_db_values}
+                    onChange={ebn0_db_values => update({ ebn0_db_values })}
                   />
-                </label>
+                </div>
               </div>
             </>
           )}
@@ -262,6 +258,10 @@ export function NewExperimentPage() {
                       </div>
                     </label>
                   </div>
+                  <CodeConfigEditor
+                    code={code}
+                    onChange={patch => editCode(index, patch)}
+                  />
                 </div>
               ))}
             </>
@@ -294,6 +294,20 @@ export function NewExperimentPage() {
                 <label>
                   Chase p
                   <input type="number" value={config.decoders.chase_unreliable_positions_count} onChange={event => update({ decoders: { ...config.decoders, chase_unreliable_positions_count: Number(event.target.value) } })} />
+                </label>
+                <label>
+                  Max k для MLD
+                  <input
+                    type="number"
+                    min={1}
+                    value={config.decoders.max_k_for_mld}
+                    onChange={event => update({
+                      decoders: {
+                        ...config.decoders,
+                        max_k_for_mld: Number(event.target.value),
+                      },
+                    })}
+                  />
                 </label>
               </div>
               <div className="cost-note">

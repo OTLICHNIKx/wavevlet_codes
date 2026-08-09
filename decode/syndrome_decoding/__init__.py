@@ -1,3 +1,8 @@
+from .compact_table import (
+    CompactSyndromeTable,
+    build_compact_syndrome_table,
+)
+
 from .decoder import (
     SyndromeDecodingResult,
     build_syndrome_table,

@@ -28,3 +28,50 @@ label { display: grid; gap: 7px; color: #526159; font-size: 13px; margin-bottom:
 @media (max-width: 1100px) { .plot-main-controls { grid-template-columns: 1fr 1fr; }.plot-main-controls .show-plot { width: auto; }.series-filters { grid-template-columns: 1fr; gap: 12px; } }
 @media (max-width: 900px) { .app-shell { grid-template-columns: minmax(0, 1fr); }.sidebar { min-width: 0; padding: 18px 20px; display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 12px 18px; }.brand { margin: 0; }.sidebar nav { display: flex; flex-wrap: wrap; margin: 0; gap: 3px; }.sidebar nav a { padding: 8px; }.sidebar-note { display: none; }.content { padding: 30px 20px 50px; overflow: hidden; }.content > section { min-width: 0; }.form-grid, .detail-grid, .plot-workspace { grid-template-columns: minmax(0, 1fr); }.plot-config { position: static; }.page-header { flex-direction: column; }.two-col, .three-col { grid-template-columns: 1fr; }.compute-strip { grid-template-columns: 1fr 1fr; }.add-code { flex-direction: column; }.add-code select { min-width: 0; }.run-modal { padding: 17px; }.modal-actions .button { flex: 1; }.chart-export { flex-direction: column; } }
 @media (max-width: 620px) { .plot-main-controls { grid-template-columns: 1fr; }.plot-main-controls .show-plot { width: 100%; }.chart-export > div:last-child { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%; }.chart-export .button { margin: 0; } }
+
+.code-editor-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.code-editor-grid fieldset {
+  border: 1px solid #d7dfd8;
+  padding: 13px;
+  margin: 0;
+  background: #fff;
+}
+
+.code-editor-grid legend {
+  color: #748178;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 0 6px;
+}
+
+.field-hint {
+  color: #7b887f;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.span-two {
+  grid-column: 1 / -1;
+}
+
+.ebn0-editor {
+  display: grid;
+  gap: 10px;
+}
+
+.mode-switch {
+  display: flex;
+  gap: 7px;
+}
+
+.mode-switch .button.selected {
+  background: #245448;
+  color: #fff;
+  border-color: #245448;
+}

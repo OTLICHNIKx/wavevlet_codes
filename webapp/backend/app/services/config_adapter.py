@@ -5,6 +5,7 @@ from typing import Any
 
 import numpy as np
 
+from decode.syndrome_decoding import recover_message_from_codeword
 from app.models.config import ResearchConfigSchema, ValidationResponse
 from research.code_factory import build_code_from_config
 from research.config import (
@@ -107,9 +108,20 @@ def validate_schema(schema: ResearchConfigSchema) -> ValidationResponse:
                 raise ValueError("проверочная матрица не имеет полного ранга")
 
             message = np.zeros((1, code_config.k), dtype=np.uint8)
+            message[0, 0] = 1
+            if code_config.k > 1:
+                message[0, -1] = 1
+
             encoded = (message @ generator) % 2
             if not np.all((encoded @ parity_check.T) % 2 == 0):
                 raise ValueError("encode sanity check не пройден")
+
+            restored = recover_message_from_codeword(
+                corrected_word=encoded[0],
+                generator_matrix=generator,
+            )
+            if not np.array_equal(restored, message[0]):
+                raise ValueError("encode/extract round-trip не пройден")
         except (TypeError, ValueError) as exc:
             errors.append(f"{code_config.name}: {exc}")
 
@@ -118,6 +130,29 @@ def validate_schema(schema: ResearchConfigSchema) -> ValidationResponse:
             if code_config.chase_unreliable_positions_count is not None
             else config.decoders.chase_unreliable_positions_count
         )
+        syndrome_t = (
+            code_config.syndrome_max_error_weight
+            if code_config.syndrome_max_error_weight is not None
+            else config.decoders.syndrome_max_error_weight
+        )
+        chase_t = (
+            code_config.chase_inner_decoder_max_error_weight
+            if code_config.chase_inner_decoder_max_error_weight is not None
+            else config.decoders.chase_inner_decoder_max_error_weight
+        )
+
+        if chase_p > code_config.n:
+            errors.append(
+                f"{code_config.name}: Chase p={chase_p} больше длины n={code_config.n}"
+            )
+        if syndrome_t > code_config.n:
+            errors.append(
+                f"{code_config.name}: syndrome t={syndrome_t} больше длины n={code_config.n}"
+            )
+        if chase_t > code_config.n:
+            errors.append(
+                f"{code_config.name}: Chase t={chase_t} больше длины n={code_config.n}"
+            )
         if config.decoders.run_chase and chase_p >= 12:
             warnings.append(
                 f"{code_config.name}: Chase p={chase_p} требует {2 ** chase_p:,} шаблонов"
