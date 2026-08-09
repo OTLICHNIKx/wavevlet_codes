@@ -9,7 +9,7 @@ services:
       WAVELET_WEBAPP_DATA: /app/webapp_data
       PYTHONPATH: /app:/app/webapp/backend
     ports:
-      - "${BACKEND_PORT:-8000}:8000"
+      - "${BACKEND_PORT:-8001}:8000"
     volumes:
       - ./research_results:/app/research_results
       - ./webapp_data:/app/webapp_data
@@ -27,4 +27,4 @@ services:
       backend:
         condition: service_healthy
     ports:
-      - "${FRONTEND_PORT:-3000}:3000"
+      - "${FRONTEND_PORT:-3001}:3000"

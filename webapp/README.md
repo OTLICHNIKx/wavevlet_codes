@@ -17,17 +17,17 @@
 docker compose up --build
 ```
 
-Интерфейс: http://localhost:3000
+Интерфейс: http://localhost:3001
 
-API: http://localhost:8000
+API: http://localhost:8001
 
-Если порты заняты, их можно переопределить:
+(Порты `8001`/`3001` установлены по умолчанию, чтобы избежать конфликтов с другими проектами. Если нужны другие значения, их можно переопределить через переменные окружения:)
 
 ```bash
-BACKEND_PORT=8001 FRONTEND_PORT=3001 docker compose up --build
+BACKEND_PORT=8000 FRONTEND_PORT=3000 docker compose up --build
 ```
 
-Проверка: `GET http://localhost:8000/api/health`
+Проверка: `GET http://localhost:8001/api/health`
 
 Результаты сохраняются в `research_results/`, SQLite и пользовательские данные в `webapp_data/`.
 
