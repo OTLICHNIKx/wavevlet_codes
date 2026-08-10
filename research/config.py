@@ -40,7 +40,15 @@ class CodeResearchConfig:
     bch_shortening_count: int | None = None
     bch_puncture_count: int | None = None
 
+    # Устаревшее поле для обратной совместимости.
     expected_min_distance: int | None = None
+
+    # Актуальные метаданные по расстоянию.
+    minimum_distance_exact: int | None = None
+    minimum_distance_lower_bound: int | None = None
+    minimum_distance_upper_bound: int | None = None
+    distance_evidence: str = ""
+    verified_error_correction_radius: int | None = None
 
     syndrome_max_error_weight: int | None = None
     chase_inner_decoder_max_error_weight: int | None = None
@@ -48,7 +56,48 @@ class CodeResearchConfig:
 
     def to_json_dict(self) -> dict[str, Any]:
         """Сериализует конфиг в JSON-совместимый словарь."""
-        return asdict(self)
+        return {
+            "name": self.name,
+            "n": self.n,
+            "k": self.k,
+
+            "family": self.family,
+
+            # Параметры wavelet.
+            "h": None if self.h is None else list(self.h),
+            "g": None if self.g is None else list(self.g),
+            "a": self.a,
+            "b": self.b,
+            "shift": self.shift,
+
+            # Параметры BCH.
+            "bch_m": self.bch_m,
+            "bch_designed_distance": self.bch_designed_distance,
+            "bch_primitive_polynomial": self.bch_primitive_polynomial,
+            "bch_first_root": self.bch_first_root,
+
+            "bch_shortening_count": self.bch_shortening_count,
+            "bch_puncture_count": self.bch_puncture_count,
+
+            # Устаревшее поле.
+            "expected_min_distance": self.expected_min_distance,
+
+            # Новые метаданные по расстоянию.
+            "minimum_distance_exact": self.minimum_distance_exact,
+            "minimum_distance_lower_bound": self.minimum_distance_lower_bound,
+            "minimum_distance_upper_bound": self.minimum_distance_upper_bound,
+            "distance_evidence": self.distance_evidence,
+            "verified_error_correction_radius": self.verified_error_correction_radius,
+
+            # Декодер overrides.
+            "syndrome_max_error_weight": self.syndrome_max_error_weight,
+            "chase_inner_decoder_max_error_weight": (
+                self.chase_inner_decoder_max_error_weight
+            ),
+            "chase_unreliable_positions_count": (
+                self.chase_unreliable_positions_count
+            ),
+        }
 
     @classmethod
     def from_json_dict(cls, data: dict[str, Any]) -> "CodeResearchConfig":
@@ -73,6 +122,71 @@ class CodeResearchConfig:
 
         if self.k >= self.n:
             raise ValueError("k должно быть меньше n")
+
+        # Проверка согласованности метаданных расстояния.
+        bounds = [
+            v
+            for v in (
+                self.minimum_distance_exact,
+                self.minimum_distance_lower_bound,
+                self.minimum_distance_upper_bound,
+                self.verified_error_correction_radius,
+            )
+            if v is not None
+        ]
+
+        if any(v < 0 for v in bounds):
+            raise ValueError(
+                "Значения расстояний и радиуса должны быть "
+                "неотрицательными"
+            )
+
+        if self.minimum_distance_exact is not None:
+            if (
+                self.minimum_distance_lower_bound is not None
+                and self.minimum_distance_exact
+                < self.minimum_distance_lower_bound
+            ):
+                raise ValueError(
+                    "minimum_distance_exact не может быть меньше "
+                    "lower_bound"
+                )
+            if (
+                self.minimum_distance_upper_bound is not None
+                and self.minimum_distance_exact
+                > self.minimum_distance_upper_bound
+            ):
+                raise ValueError(
+                    "minimum_distance_exact не может быть больше "
+                    "upper_bound"
+                )
+
+        if (
+            self.minimum_distance_lower_bound is not None
+            and self.minimum_distance_upper_bound is not None
+            and self.minimum_distance_lower_bound
+            > self.minimum_distance_upper_bound
+        ):
+            raise ValueError(
+                "minimum_distance_lower_bound не может быть больше "
+                "upper_bound"
+            )
+
+        if (
+            self.verified_error_correction_radius is not None
+            and self.minimum_distance_lower_bound is not None
+        ):
+            # t <= floor((d_min - 1) / 2)
+            max_radius = (
+                self.minimum_distance_lower_bound - 1
+            ) // 2
+            if self.verified_error_correction_radius > max_radius:
+                raise ValueError(
+                    "verified_error_correction_radius "
+                    f"превышает допустимый радиус "
+                    f"(d_min >= {self.minimum_distance_lower_bound} "
+                    f"→ t <= {max_radius})"
+                )
 
         if self.family == "wavelet":
             if self.h is None or len(self.h) == 0:
@@ -367,9 +481,15 @@ BCH_63_45_CONFIG = CodeResearchConfig(
     bch_designed_distance=7,
     bch_first_root=1,
 
-    # Для BCH это гарантированная нижняя граница:
-    # d_min >= designed_distance.
-    expected_min_distance=7,
+    # Для BCH родительского кода гарантированная нижняя граница
+    # задаётся как designed_distance. Для derived код применяем
+    # выравнивание по puncture/shortening через специальные поля.
+    expected_min_distance=None,
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=7,
+    minimum_distance_upper_bound=None,
+    distance_evidence="designed distance (lower bound) via BCH",
+    verified_error_correction_radius=3,
 
     syndrome_max_error_weight=3,
     chase_inner_decoder_max_error_weight=3,
@@ -398,6 +518,15 @@ BCH_DERIVED_64_32_CONFIG = CodeResearchConfig(
     # Точное d_min пока не установлено.
     # Проверено только d_min >= 9.
     expected_min_distance=None,
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=9,
+    minimum_distance_upper_bound=None,
+    distance_evidence=(
+        "BCH-derived [127,92,d>=11] -> shorten 60 -> [67,32] "
+        "-> puncture 3 -> [64,32]; d_min >= 8 via construction, "
+        "verified >= 9 via syndrome table (no collisions weight <= 4)"
+    ),
+    verified_error_correction_radius=4,
 
     # Для основного честного сравнения используем
     # одинаковый радиус t=3.
@@ -484,6 +613,36 @@ WAVELET_64_32_PRELIMINARY_CONFIG = replace(
     # Для одинаковых условий Chase используем p=6
     # и для Wavelet, и для BCH.
     chase_unreliable_positions_count=6,
+)
+
+
+BCH_DERIVED_16_8_CONFIG = CodeResearchConfig(
+    name="bch_derived_16_8",
+    family="bch_derived",
+
+    n=16,
+    k=8,
+
+    bch_m=5,
+    bch_designed_distance=5,
+    bch_first_root=1,
+
+    # [31,21,5] -> shorten 13 -> [18,8] -> puncture 2 -> [16,8]
+    bch_shortening_count=13,
+    bch_puncture_count=2,
+
+    # Explicit puncture coordinates (found optimal).
+    # See research/find_best_bch_16_8.py
+    expected_min_distance=None,
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=4,
+    minimum_distance_upper_bound=None,
+    distance_evidence="exhaustive search over C(18,2) puncturing pairs",
+    verified_error_correction_radius=1,  # t = floor((4-1)/2) = 1
+
+    syndrome_max_error_weight=1,
+    chase_inner_decoder_max_error_weight=1,
+    chase_unreliable_positions_count=3,
 )
 
 
@@ -603,4 +762,108 @@ COMPARE_64_32_EQUAL_T3_SMOKE_CONFIG = ResearchConfig(
         "compare_wavelet_bch_derived_64_32/"
         "equal_t3_smoke"
     ),
+)
+
+
+BCH_DERIVED_32_16_CONFIG = CodeResearchConfig(
+    name="bch_derived_32_16",
+    family="bch_derived",
+
+    n=32,
+    k=16,
+
+    bch_m=6,
+    bch_designed_distance=7,
+    bch_first_root=1,
+
+    # [63,45] -> [34,16] -> [32,16]
+    bch_shortening_count=29,
+    bch_puncture_count=2,
+
+    expected_min_distance=None,
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=5,
+    minimum_distance_upper_bound=None,
+    distance_evidence="BCH(63,45,d>=7) shorten 29 puncture 2",
+    verified_error_correction_radius=2,
+
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=5,
+)
+
+
+COMPARE_16_8_SMOKE_CONFIG = ResearchConfig(
+    message_count=500,
+    message_seed=12345,
+    noise_seed=54321,
+    ebn0_db_values=(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0),
+    codes=(
+        WAVELET_16_8_CONFIG,
+        BCH_DERIVED_16_8_CONFIG,
+    ),
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+        syndrome_max_error_weight=2,
+        chase_inner_decoder_max_error_weight=2,
+        chase_unreliable_positions_count=4,
+        max_k_for_mld=16,
+    ),
+    results_dir="research_results/compare_16_8/smoke",
+)
+
+
+COMPARE_32_16_SMOKE_CONFIG = ResearchConfig(
+    message_count=500,
+    message_seed=12345,
+    noise_seed=54321,
+    ebn0_db_values=(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0),
+    codes=(
+        WAVELET_32_16_CONFIG,
+        BCH_DERIVED_32_16_CONFIG,
+    ),
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+        syndrome_max_error_weight=2,
+        chase_inner_decoder_max_error_weight=2,
+        chase_unreliable_positions_count=5,
+        max_k_for_mld=16,
+    ),
+    results_dir="research_results/compare_32_16/smoke",
+)
+
+
+FINAL_20K_PRESET = ResearchConfig(
+    message_count=20_000,
+    message_seed=12345,
+    noise_seed=54321,
+    ebn0_db_values=(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0),
+    codes=(
+        # Wavelet
+        WAVELET_64_32_CONFIG,
+        WAVELET_16_8_CONFIG,
+        WAVELET_32_16_CONFIG,
+        # BCH
+        BCH_63_45_CONFIG,
+        BCH_DERIVED_64_32_CONFIG,
+        BCH_DERIVED_16_8_CONFIG,
+        BCH_DERIVED_32_16_CONFIG,
+    ),
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+        syndrome_max_error_weight=2,
+        chase_inner_decoder_max_error_weight=2,
+        chase_unreliable_positions_count=5,
+        max_k_for_mld=16,
+    ),
+    results_dir="research_results/final_20000",
 )

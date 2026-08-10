@@ -393,6 +393,48 @@ def build_systematic_parity_check_matrix(
     return parity_check_matrix
 
 
+def puncture_systematic_generator_matrix_at(
+    generator_matrix: object,
+    puncture_coordinates: tuple[int, ...],
+) -> np.ndarray:
+    """
+    Выкалывает указанные координаты из систематической матрицы.
+
+    Parameters
+    ----------
+    puncture_coordinates:
+        Индексы векторов длины n, которые следует удалить.
+        Могут включать как информационные, так и проверочные позиции.
+        После выкалывания матрица остаётся систематической,
+        если ни одна из первых k позиций не удалена.
+    """
+    matrix = validate_systematic_generator_matrix(
+        generator_matrix
+    )
+    k, n = matrix.shape
+
+    coords = tuple(sorted(puncture_coordinates))
+    for c in coords:
+        if not (0 <= c < n):
+            raise ValueError(
+                f"puncture coordinate {c} вне диапазона [0, {n})"
+            )
+
+    if any(c < k for c in coords):
+        raise ValueError(
+            "Выкалывание информационных координат не поддерживается"
+        )
+
+    kept_columns = [
+        c for c in range(n) if c not in coords
+    ]
+
+    punctured = matrix[:, kept_columns].copy()
+    validate_systematic_generator_matrix(punctured)
+
+    return punctured
+
+
 @dataclass
 class BCHDerivedCode:
     """
@@ -512,9 +554,20 @@ class BCHDerivedCode:
         primitive_polynomial: int | None = None,
         first_root: int = 1,
         name: str | None = None,
+        shortening_coordinates: tuple[int, ...] | None = None,
+        puncture_coordinates: tuple[int, ...] | None = None,
     ) -> "BCHDerivedCode":
         """
         Строит BCH-производный код из примитивного BCH-кода.
+
+        Если shortening_coordinates не заданы, выполняется
+        стандартное укорочение первых информационных битов.
+        Если заданы, берутся указанные координаты родительского
+        кода (в систематической нумерации) как нулевые.
+
+        Если puncture_coordinates не заданы, выкалываются
+        последние puncture_count позиций. Если заданы, выкалываются
+        указанные позиции (после укорочения).
         """
         parent_code = BCHCode.primitive(
             m=m,
@@ -535,21 +588,64 @@ class BCHDerivedCode:
             )
         )
 
-        shortened_generator = (
-            shorten_systematic_generator_matrix(
-                generator_matrix=(
-                    systematic_result.generator_matrix
-                ),
-                shortening_count=shortening_count,
+        parent_systematic = systematic_result.generator_matrix
+        parent_k, parent_n = parent_systematic.shape
+
+        # Определяем укорачиваемые координаты в систематическом виде.
+        if shortening_coordinates is None:
+            # Стандартное поведение: первые shortening_count бит.
+            system_shortening = tuple(range(shortening_count))
+        else:
+            if len(shortening_coordinates) != shortening_count:
+                raise ValueError(
+                    "shortening_coordinates должен иметь длину "
+                    "shortening_count"
+                )
+            # shortening_coordinates заданы в терминах родительского кода.
+            # Маппируем их на систематические позиции через inverse perm.
+            parent_to_system = {
+                coord: pos
+                for pos, coord in enumerate(
+                    systematic_result.column_permutation
+                )
+            }
+            system_shortening = tuple(
+                sorted(
+                    parent_to_system[c] for c in shortening_coordinates
+                )
             )
+
+        # Выполняем укорочение.
+        shortened_generator = shorten_systematic_generator_matrix(
+            generator_matrix=parent_systematic,
+            shortening_count=shortening_count,
         )
 
         shortened_n = shortened_generator.shape[1]
 
+        # Определяем выкалываемые координаты (после укорочения).
+        if puncture_coordinates is None:
+            system_puncturing = tuple(
+                range(shortened_n - puncture_count, shortened_n)
+            )
+        else:
+            if len(puncture_coordinates) != puncture_count:
+                raise ValueError(
+                    "puncture_coordinates должен иметь длину "
+                    "puncture_count"
+                )
+            system_puncturing = tuple(sorted(puncture_coordinates))
+            if not all(0 <= p < shortened_n for p in system_puncturing):
+                raise ValueError(
+                    "puncture_coordinates выходят за пределы "
+                    "укороченного кода"
+                )
+
+        # Выполняем выкалывание по выбранным позициям.
         punctured_generator = (
-            puncture_systematic_generator_matrix(
+            puncture_systematic_generator_matrix_at(
                 generator_matrix=shortened_generator,
-                puncture_count=puncture_count,
+                puncture_coordinates=system_puncturing,
             )
         )
 
@@ -559,42 +655,39 @@ class BCHDerivedCode:
             )
         )
 
+        # Пересчитываем родительские координаты.
         systematic_parent_coordinates = (
             systematic_result.column_permutation
         )
 
-        shortened_parent_coordinates = (
-            systematic_parent_coordinates[
-                :shortening_count
-            ]
+        shortened_parent_coordinates = tuple(
+            systematic_parent_coordinates[i]
+            for i in system_shortening
         )
 
-        parent_coordinates_after_shortening = (
+        parent_coordinates_after_shortening = tuple(
             systematic_parent_coordinates[
-                shortening_count:
+                i
             ]
+            for i in range(parent_n)
+            if i not in system_shortening
         )
 
         if puncture_count == 0:
-            punctured_parent_coordinates: tuple[
-                int,
-                ...,
-            ] = ()
-
+            punctured_parent_coordinates: tuple[int, ...] = ()
             remaining_parent_coordinates = (
                 parent_coordinates_after_shortening
             )
         else:
-            punctured_parent_coordinates = (
-                parent_coordinates_after_shortening[
-                    shortened_n - puncture_count:
-                ]
+            # system_puncturing — это позиции в укороченном векторе.
+            punctured_parent_coordinates = tuple(
+                parent_coordinates_after_shortening[p]
+                for p in system_puncturing
             )
-
-            remaining_parent_coordinates = (
-                parent_coordinates_after_shortening[
-                    :shortened_n - puncture_count
-                ]
+            remaining_parent_coordinates = tuple(
+                parent_coordinates_after_shortening[i]
+                for i in range(shortened_n)
+                if i not in system_puncturing
             )
 
         # Укорочение не уменьшает минимальное расстояние.
