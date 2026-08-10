@@ -39,6 +39,7 @@ class CodeResearchConfig:
 
     bch_shortening_count: int | None = None
     bch_puncture_count: int | None = None
+    bch_puncture_coordinates: tuple[int, ...] | None = None
 
     # Устаревшее поле для обратной совместимости.
     expected_min_distance: int | None = None
@@ -78,6 +79,11 @@ class CodeResearchConfig:
 
             "bch_shortening_count": self.bch_shortening_count,
             "bch_puncture_count": self.bch_puncture_count,
+            "bch_puncture_coordinates": (
+                None
+                if self.bch_puncture_coordinates is None
+                else list(self.bch_puncture_coordinates)
+            ),
 
             # Устаревшее поле.
             "expected_min_distance": self.expected_min_distance,
@@ -107,6 +113,12 @@ class CodeResearchConfig:
         for key in ("h", "g"):
             if converted.get(key) is not None:
                 converted[key] = tuple(int(v) for v in converted[key])
+
+        if converted.get("bch_puncture_coordinates") is not None:
+            converted["bch_puncture_coordinates"] = tuple(
+                int(v)
+                for v in converted["bch_puncture_coordinates"]
+            )
 
         if "family" in converted:
             converted["family"] = str(converted["family"])
@@ -623,26 +635,55 @@ BCH_DERIVED_16_8_CONFIG = CodeResearchConfig(
     n=16,
     k=8,
 
+    # Родительский примитивный BCH:
+    # [31,11,d>=11]
     bch_m=5,
-    bch_designed_distance=5,
+    bch_designed_distance=11,
     bch_first_root=1,
 
-    # [31,21,5] -> shorten 13 -> [18,8] -> puncture 2 -> [16,8]
-    bch_shortening_count=13,
-    bch_puncture_count=2,
+    # [31,11] -> shorten 3 -> [28,8]
+    # -> puncture 12 -> [16,8]
+    bch_shortening_count=3,
+    bch_puncture_count=12,
 
-    # Explicit puncture coordinates (found optimal).
-    # See research/find_best_bch_16_8.py
-    expected_min_distance=None,
-    minimum_distance_exact=None,
-    minimum_distance_lower_bound=4,
-    minimum_distance_upper_bound=None,
-    distance_evidence="exhaustive search over C(18,2) puncturing pairs",
-    verified_error_correction_radius=1,  # t = floor((4-1)/2) = 1
+    # Координаты относятся к систематическому
+    # укороченному [28,8] коду.
+    # Первые 8 координат — информационные,
+    # поэтому puncturing только в 8..27.
+    bch_puncture_coordinates=(
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        18,
+        21,
+        25,
+        26,
+        27,
+    ),
 
-    syndrome_max_error_weight=1,
-    chase_inner_decoder_max_error_weight=1,
-    chase_unreliable_positions_count=3,
+    # d_min установлен точно полным перебором 2^8 слов.
+    expected_min_distance=5,
+
+    minimum_distance_exact=5,
+    minimum_distance_lower_bound=5,
+    minimum_distance_upper_bound=5,
+
+    distance_evidence=(
+        "BCH(31,11,d>=11) -> shorten 3 -> [28,8] -> "
+        "optimized puncture 12 -> [16,8]; "
+        "exhaustive search over 125970 parity selections; "
+        "exact enumeration of all 2^8 codewords gives d_min=5"
+    ),
+
+    verified_error_correction_radius=2,
+
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=4,
 )
 
 
@@ -792,6 +833,183 @@ BCH_DERIVED_32_16_CONFIG = CodeResearchConfig(
     chase_unreliable_positions_count=5,
 )
 
+# ============================================================
+# Equal-decoder configs
+#
+# Цель:
+# сравнивать Wavelet и BCH-derived при одинаковой мощности
+# декодера внутри каждой пары (n, k).
+# ============================================================
+
+
+# ------------------------------------------------------------
+# [16, 8]
+# ------------------------------------------------------------
+
+WAVELET_16_8_EQUAL_CONFIG = replace(
+    WAVELET_16_8_CONFIG,
+    name="wavelet_16_8_equal",
+
+    syndrome_max_error_weight=1,
+    chase_inner_decoder_max_error_weight=1,
+    chase_unreliable_positions_count=4,
+)
+
+BCH_DERIVED_16_8_EQUAL_CONFIG = replace(
+    BCH_DERIVED_16_8_CONFIG,
+    name="bch_derived_16_8_equal",
+
+    syndrome_max_error_weight=1,
+    chase_inner_decoder_max_error_weight=1,
+    chase_unreliable_positions_count=4,
+)
+
+
+# ------------------------------------------------------------
+# [32, 16]
+# ------------------------------------------------------------
+
+WAVELET_32_16_EQUAL_CONFIG = replace(
+    WAVELET_32_16_CONFIG,
+    name="wavelet_32_16_equal",
+
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=6,
+)
+
+
+BCH_DERIVED_32_16_EQUAL_CONFIG = replace(
+    BCH_DERIVED_32_16_CONFIG,
+    name="bch_derived_32_16_equal",
+
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=6,
+)
+
+
+# ------------------------------------------------------------
+# [64, 32]
+# ------------------------------------------------------------
+
+WAVELET_64_32_EQUAL_CONFIG = replace(
+    WAVELET_64_32_CONFIG,
+    name="wavelet_64_32_equal",
+
+    syndrome_max_error_weight=3,
+    chase_inner_decoder_max_error_weight=3,
+    chase_unreliable_positions_count=8,
+)
+
+
+BCH_DERIVED_64_32_EQUAL_CONFIG = replace(
+    BCH_DERIVED_64_32_CONFIG,
+    name="bch_derived_64_32_equal",
+
+    syndrome_max_error_weight=3,
+    chase_inner_decoder_max_error_weight=3,
+    chase_unreliable_positions_count=8,
+)
+
+EQUAL_DECODER_SMOKE_CONFIG = ResearchConfig(
+    message_count=500,
+
+    message_seed=12345,
+    noise_seed=54321,
+
+    ebn0_db_values=(
+        0.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+    ),
+
+    codes=(
+        WAVELET_16_8_EQUAL_CONFIG,
+        BCH_DERIVED_16_8_EQUAL_CONFIG,
+
+        WAVELET_32_16_EQUAL_CONFIG,
+        BCH_DERIVED_32_16_EQUAL_CONFIG,
+
+        WAVELET_64_32_EQUAL_CONFIG,
+        BCH_DERIVED_64_32_EQUAL_CONFIG,
+    ),
+
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+
+        # Эти значения являются fallback.
+        # Реальные t/p выше заданы непосредственно для каждого кода.
+        syndrome_max_error_weight=1,
+        chase_inner_decoder_max_error_weight=1,
+        chase_unreliable_positions_count=4,
+
+        max_k_for_mld=16,
+    ),
+
+    results_dir=(
+        "research_results/"
+        "equal_decoder_comparison/"
+        "smoke"
+    ),
+)
+
+EQUAL_DECODER_20K_CONFIG = ResearchConfig(
+    message_count=20_000,
+
+    message_seed=12345,
+    noise_seed=54321,
+
+    ebn0_db_values=(
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+    ),
+
+    codes=(
+        WAVELET_16_8_EQUAL_CONFIG,
+        BCH_DERIVED_16_8_EQUAL_CONFIG,
+
+        WAVELET_32_16_EQUAL_CONFIG,
+        BCH_DERIVED_32_16_EQUAL_CONFIG,
+
+        WAVELET_64_32_EQUAL_CONFIG,
+        BCH_DERIVED_64_32_EQUAL_CONFIG,
+    ),
+
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+
+        syndrome_max_error_weight=1,
+        chase_inner_decoder_max_error_weight=1,
+        chase_unreliable_positions_count=4,
+
+        max_k_for_mld=16,
+    ),
+
+    results_dir=(
+        "research_results/"
+        "equal_decoder_comparison/"
+        "full_20k"
+    ),
+)
+
 
 COMPARE_16_8_SMOKE_CONFIG = ResearchConfig(
     message_count=500,
@@ -867,3 +1085,5 @@ FINAL_20K_PRESET = ResearchConfig(
     ),
     results_dir="research_results/final_20000",
 )
+
+

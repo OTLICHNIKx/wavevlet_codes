@@ -33,6 +33,7 @@ class CodeConfigSchema(BaseModel):
     # BCH-derived
     bch_shortening_count: int | None = None
     bch_puncture_count: int | None = None
+    bch_puncture_coordinates: list[int] | None = None
 
     expected_min_distance: int | None = None
 

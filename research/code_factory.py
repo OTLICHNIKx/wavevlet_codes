@@ -162,6 +162,9 @@ def build_code_from_config(
             puncture_count=(
                 code_config.bch_puncture_count
             ),
+            puncture_coordinates=(
+                code_config.bch_puncture_coordinates
+            ),
             name=code_config.name,
         )
 

@@ -18,6 +18,7 @@ export interface CodeConfig {
   bch_first_root?: number;
   bch_shortening_count?: number | null;
   bch_puncture_count?: number | null;
+  bch_puncture_coordinates?: number[] | null;
   expected_min_distance?: number | null;
   syndrome_max_error_weight?: number | null;
   chase_inner_decoder_max_error_weight?: number | null;
