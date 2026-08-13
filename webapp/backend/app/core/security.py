@@ -16,16 +16,23 @@ def make_slug(text: str, fallback: str = "experiment") -> str:
     return slug or fallback
 
 
-def make_results_dir(experiment_id: uuid.UUID, name: str) -> str:
+def make_results_dir(
+    experiment_id: uuid.UUID,
+    name: str,
+    subdir: str = WEB_RESULTS_SUBDIR,
+) -> str:
     """
     Строит безопасный каталог для результатов:
 
-        <RESULTS_ROOT>/web/<uuid>_<slug>/
+        <RESULTS_ROOT>/<subdir>/<uuid>_<slug>/
+
+    По умолчанию subdir = "web" (локальные рассчёты), для импорта
+    используется IMPORTED_RESULTS_SUBDIR.
 
     Пользовательский ввод не может выйти за пределы RESULTS_ROOT.
     """
     slug = make_slug(name)
-    rel = f"{WEB_RESULTS_SUBDIR}/{experiment_id.hex[:12]}_{slug}"
+    rel = f"{subdir}/{experiment_id.hex[:12]}_{slug}"
     abs_path = (RESULTS_ROOT / rel).resolve()
 
     # Защита от path traversal: каталог обязан быть внутри RESULTS_ROOT.

@@ -3,7 +3,7 @@
 from contextlib import contextmanager
 from typing import Iterator
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import DB_PATH, PRESETS_DIR, WEBAPP_DATA_ROOT
@@ -29,8 +29,43 @@ SessionLocal = sessionmaker(
 )
 
 
+def _migrate_experiments_table() -> None:
+    """
+    Лёгкая ручная миграция для уже существующих баз данных:
+    ``create_all`` не добавляет колонки в уже существующие таблицы,
+    поэтому новые поля добавляются вручную после создания таблиц.
+    """
+    inspector = inspect(engine)
+    if "experiments" not in inspector.get_table_names():
+        return
+
+    existing_columns = {
+        column["name"] for column in inspector.get_columns("experiments")
+    }
+
+    statements = []
+    if "source" not in existing_columns:
+        statements.append(
+            "ALTER TABLE experiments "
+            "ADD COLUMN source VARCHAR(32) NOT NULL DEFAULT 'local'"
+        )
+    if "original_filename" not in existing_columns:
+        statements.append(
+            "ALTER TABLE experiments "
+            "ADD COLUMN original_filename VARCHAR(255) NOT NULL DEFAULT ''"
+        )
+
+    if not statements:
+        return
+
+    with engine.begin() as connection:
+        for statement in statements:
+            connection.execute(text(statement))
+
+
 def init_db() -> None:
     Base.metadata.create_all(bind=engine)
+    _migrate_experiments_table()
 
 
 @contextmanager

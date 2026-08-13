@@ -49,11 +49,14 @@ export interface ResearchConfig {
   results_dir: string;
 }
 
+export type ExperimentSource = "local" | "imported_csv" | "imported_package";
+
 export interface Experiment {
   id: string;
   name: string;
   description: string;
   status: ExperimentStatus;
+  source: ExperimentSource;
   created_at: string;
   started_at: string | null;
   finished_at: string | null;
@@ -64,4 +67,5 @@ export interface Experiment {
   progress: Record<string, unknown>;
   error_message: string;
   config: ResearchConfig;
+  runtime_config_available: boolean;
 }

@@ -56,7 +56,13 @@ PREFERRED_METRICS = [
 ]
 
 
-def _convert(value: str) -> Any:
+def convert_csv_value(value: str) -> Any:
+    """Преобразует строковое значение CSV в bool/int/float/str/None.
+
+    Используется как для чтения уже рассчитанных summary.csv, так и
+    для валидации импортируемых CSV, чтобы семантика значений
+    совпадала в обоих случаях.
+    """
     stripped = value.strip()
     if stripped == "":
         return None
@@ -77,7 +83,10 @@ def read_summary(results_dir: str) -> tuple[list[str], list[dict[str, Any]]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
         columns = list(reader.fieldnames or [])
-        rows = [{key: _convert(value) for key, value in row.items()} for row in reader]
+        rows = [
+            {key: convert_csv_value(value) for key, value in row.items()}
+            for row in reader
+        ]
     return columns, rows
 
 

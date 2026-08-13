@@ -26,6 +26,12 @@ const metricLabel = (name: string) => (
   || name.replaceAll("_", " ").replace(/^./, letter => letter.toUpperCase())
 );
 
+const SOURCE_LABELS: Record<string, string> = {
+  local: "Локальный расчёт",
+  imported_csv: "Импортирован (CSV)",
+  imported_package: "Импортирован (package)",
+};
+
 const decoderLabel = (name: string) => ({
   syndrome: "Syndrome",
   chase: "Chase",
@@ -69,7 +75,12 @@ export function ExperimentPage() {
   const [rows, setRows] = useState<Record<string, unknown>[]>([]);
 
   useEffect(() => {
-    api.experiment(id).then(setExperiment);
+    api.experiment(id).then(experimentData => {
+      setExperiment(experimentData);
+      if (experimentData.source !== "local") {
+        setTab("plots");
+      }
+    });
     api.logs(id).then(data => setLogs(data.lines));
   }, [id]);
 
@@ -179,6 +190,8 @@ export function ExperimentPage() {
     };
   });
 
+  const isImported = experiment.source !== "local";
+
   return (
     <section>
       <div className="crumb">
@@ -190,35 +203,49 @@ export function ExperimentPage() {
           <h1>{experiment.name}</h1>
           <p>{experiment.description || "Без описания"}</p>
         </div>
-        <span className={`status ${experiment.status}`}>{experiment.status}</span>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          {isImported && (
+            <span className="badge">{SOURCE_LABELS[experiment.source] || experiment.source}</span>
+          )}
+          <span className={`status ${experiment.status}`}>{experiment.status}</span>
+        </div>
       </header>
 
-      <div className="progress-card panel">
-        <div className="progress-label">
-          <strong>{progress}%</strong>
-          <span>
-            {experiment.progress_completed} / {experiment.progress_total} серий
-          </span>
+      {!isImported ? (
+        <div className="progress-card panel">
+          <div className="progress-label">
+            <strong>{progress}%</strong>
+            <span>
+              {experiment.progress_completed} / {experiment.progress_total} серий
+            </span>
+          </div>
+          <div className="progress-track">
+            <div style={{ width: `${progress}%` }} />
+          </div>
+          <div className="current">
+            {String(experiment.progress.code || "Ожидание запуска")}
+            {experiment.progress.decoder
+              ? ` / ${String(experiment.progress.decoder)}`
+              : ""}
+          </div>
+          <div className="compute-strip">
+            <div><span>Код</span><strong>{String(experiment.progress.code || "-")}</strong></div>
+            <div><span>Декодер</span><strong>{String(experiment.progress.decoder || "-")}</strong></div>
+            <div><span>Eb/N0</span><strong>{experiment.progress.ebn0_db !== undefined ? `${String(experiment.progress.ebn0_db)} dB` : "-"}</strong></div>
+            <div><span>Этап</span><strong>{String(experiment.progress.stage || experiment.status)}</strong></div>
+          </div>
+          {!["completed", "failed", "cancelled", "interrupted"].includes(experiment.status) && (
+            <button className="button danger" onClick={() => api.cancel(id)}>Отменить вычисление</button>
+          )}
         </div>
-        <div className="progress-track">
-          <div style={{ width: `${progress}%` }} />
+      ) : (
+        <div className="alert" style={{ background: "#eef2ea", color: "#3d5346" }}>
+          Импортированный результат: вычисления не выполнялись на этой машине.
+          {!experiment.runtime_config_available && (
+            <> Runtime configuration: unavailable. Logs: unavailable.</>
+          )}
         </div>
-        <div className="current">
-          {String(experiment.progress.code || "Ожидание запуска")}
-          {experiment.progress.decoder
-            ? ` / ${String(experiment.progress.decoder)}`
-            : ""}
-        </div>
-        <div className="compute-strip">
-          <div><span>Код</span><strong>{String(experiment.progress.code || "-")}</strong></div>
-          <div><span>Декодер</span><strong>{String(experiment.progress.decoder || "-")}</strong></div>
-          <div><span>Eb/N0</span><strong>{experiment.progress.ebn0_db !== undefined ? `${String(experiment.progress.ebn0_db)} dB` : "-"}</strong></div>
-          <div><span>Этап</span><strong>{String(experiment.progress.stage || experiment.status)}</strong></div>
-        </div>
-        {!["completed", "failed", "cancelled", "interrupted"].includes(experiment.status) && (
-          <button className="button danger" onClick={() => api.cancel(id)}>Отменить вычисление</button>
-        )}
-      </div>
+      )}
 
       {experiment.error_message && (
         <div className="alert error">{experiment.error_message}</div>
@@ -228,6 +255,7 @@ export function ExperimentPage() {
         <button
           className={tab === "process" ? "active" : ""}
           onClick={() => setTab("process")}
+          disabled={isImported}
         >
           Вычисления и лог
         </button>
@@ -246,7 +274,7 @@ export function ExperimentPage() {
         </button>
       </div>
 
-      {tab === "process" && (
+      {tab === "process" && !isImported && (
         <div className="panel process-panel">
           <div className="panel-heading">
             <div><h2>Ход вычислений</h2><p className="muted">stdout процесса обновляется автоматически</p></div>

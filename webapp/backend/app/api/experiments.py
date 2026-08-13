@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 
@@ -12,7 +12,8 @@ from app.core.config import RESULTS_ROOT
 from app.core.security import resolve_results_dir
 from app.db.database import SessionLocal
 from app.models.api import ExperimentCreate, ExperimentResponse, ResultDataResponse
-from app.models.experiment import Experiment, ExperimentStatus
+from app.models.experiment import Experiment, ExperimentSource, ExperimentStatus
+from app.services.csv_import import CsvValidationError
 from app.services.experiment_manager import manager
 from app.services.results_reader import read_summary, result_schema
 
@@ -26,6 +27,9 @@ def _response(experiment: Experiment) -> ExperimentResponse:
         name=experiment.name,
         description=experiment.description,
         status=experiment.status,
+        source=experiment.source.value
+        if hasattr(experiment.source, "value")
+        else str(experiment.source),
         created_at=experiment.created_at,
         started_at=experiment.started_at,
         finished_at=experiment.finished_at,
@@ -36,6 +40,7 @@ def _response(experiment: Experiment) -> ExperimentResponse:
         progress=json.loads(experiment.progress_payload or "{}"),
         error_message=experiment.error_message,
         config=json.loads(experiment.config_json),
+        runtime_config_available=experiment.source != ExperimentSource.imported_csv,
     )
 
 
@@ -63,6 +68,40 @@ def create_experiment(payload: ExperimentCreate) -> ExperimentResponse:
         experiment = manager.create(payload.name, payload.description, payload.config)
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return _response(experiment)
+
+
+@router.post("/import/csv", response_model=ExperimentResponse, status_code=201)
+async def import_csv_experiment(
+    file: UploadFile = File(...),
+    name: str = Form(...),
+    description: str = Form(default=""),
+) -> ExperimentResponse:
+    """
+    Импортирует уже рассчитанный summary.csv как Imported Experiment.
+
+    Никакие Monte-Carlo вычисления не выполняются. Файл строго
+    валидируется (schema + semantics) до создания эксперимента.
+    """
+    if not name.strip():
+        raise HTTPException(
+            status_code=422, detail={"errors": ["Имя эксперимента не может быть пустым"]}
+        )
+
+    raw_bytes = await file.read()
+
+    try:
+        experiment = manager.import_csv(
+            name=name,
+            description=description,
+            # Имя файла сохраняется только для отображения и никогда
+            # не используется как filesystem path.
+            filename=file.filename or "summary.csv",
+            raw_bytes=raw_bytes,
+        )
+    except CsvValidationError as exc:
+        raise HTTPException(status_code=422, detail={"errors": exc.errors}) from exc
+
     return _response(experiment)
 
 

@@ -20,6 +20,7 @@ class ExperimentResponse(BaseModel):
     name: str
     description: str
     status: ExperimentStatus
+    source: str
     created_at: datetime
     started_at: datetime | None
     finished_at: datetime | None
@@ -30,6 +31,7 @@ class ExperimentResponse(BaseModel):
     progress: dict[str, Any]
     error_message: str
     config: dict[str, Any]
+    runtime_config_available: bool = True
 
 
 class ResultDataResponse(BaseModel):
@@ -56,3 +58,7 @@ class PlotExportRequest(PlotPreviewRequest):
 class UserPresetRequest(BaseModel):
     name: str = Field(min_length=1, max_length=120)
     config: ResearchConfigSchema
+
+
+class CsvImportErrorResponse(BaseModel):
+    errors: list[str]

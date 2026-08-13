@@ -31,6 +31,7 @@ WEBAPP_DATA_ROOT: Path = Path(
 ).resolve()
 
 WEB_RESULTS_SUBDIR = "web"
+IMPORTED_RESULTS_SUBDIR = "imported"
 
 DB_PATH: Path = WEBAPP_DATA_ROOT / "experiments.db"
 PRESETS_DIR: Path = WEBAPP_DATA_ROOT / "presets"

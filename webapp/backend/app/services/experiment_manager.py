@@ -12,11 +12,12 @@ from typing import Any
 
 from sqlalchemy import select
 
-from app.core.config import PROJECT_ROOT
+from app.core.config import IMPORTED_RESULTS_SUBDIR, PROJECT_ROOT
 from app.core.security import make_results_dir, resolve_results_dir
 from app.db.database import SessionLocal
-from app.models.experiment import Experiment, ExperimentStatus
+from app.models.experiment import Experiment, ExperimentSource, ExperimentStatus
 from app.services.config_adapter import schema_to_research, validate_schema
+from app.services.csv_import import build_synthetic_config, parse_and_validate_csv
 from app.services.results_reader import read_summary
 from research.config import ResearchConfig
 
@@ -83,6 +84,59 @@ class ExperimentManager:
             session.refresh(experiment)
 
         self.start(experiment.id)
+        return experiment
+
+    def import_csv(
+        self,
+        name: str,
+        description: str,
+        filename: str,
+        raw_bytes: bytes,
+    ) -> Experiment:
+        """
+        Валидирует загруженный summary.csv и создаёт Imported Experiment.
+
+        Никаких Monte-Carlo вычислений не запускается: файл копируется
+        как есть, а конфигурация для отображения в UI строится только
+        из данных, уже присутствующих в CSV.
+        """
+        result = parse_and_validate_csv(raw_bytes)
+
+        experiment_id = uuid.uuid4()
+        results_dir = make_results_dir(
+            experiment_id, name, subdir=IMPORTED_RESULTS_SUBDIR
+        )
+        Path(results_dir).mkdir(parents=True, exist_ok=True)
+        (Path(results_dir) / "summary.csv").write_bytes(raw_bytes)
+
+        config_json = json.dumps(
+            build_synthetic_config(result.rows, results_dir),
+            ensure_ascii=False,
+        )
+
+        now = _utcnow()
+        experiment = Experiment(
+            id=str(experiment_id),
+            name=name,
+            description=description,
+            status=ExperimentStatus.completed,
+            source=ExperimentSource.imported_csv,
+            original_filename=filename,
+            created_at=now,
+            started_at=now,
+            finished_at=now,
+            config_json=config_json,
+            results_dir=results_dir,
+            log_path="",
+            exit_code=0,
+            progress_completed=len(result.rows),
+            progress_total=len(result.rows),
+        )
+        with SessionLocal() as session:
+            session.add(experiment)
+            session.commit()
+            session.refresh(experiment)
+
         return experiment
 
     def start(self, experiment_id: str) -> None:

@@ -22,6 +22,14 @@ class ExperimentStatus(str, enum.Enum):
     interrupted = "interrupted"
 
 
+class ExperimentSource(str, enum.Enum):
+    """Откуда взялся результат эксперимента."""
+
+    local = "local"
+    imported_csv = "imported_csv"
+    imported_package = "imported_package"
+
+
 class Base(DeclarativeBase):
     pass
 
@@ -59,3 +67,14 @@ class Experiment(Base):
     error_message: Mapped[str] = mapped_column(Text, default="")
 
     log_path: Mapped[str] = mapped_column(String(512), nullable=False, default="")
+
+    # Откуда взялся результат: локальный расчёт или импорт.
+    source: Mapped[ExperimentSource] = mapped_column(
+        Enum(ExperimentSource),
+        nullable=False,
+        default=ExperimentSource.local,
+    )
+
+    # Исходное имя загруженного файла/пакета (только для отображения,
+    # никогда не используется как filesystem path).
+    original_filename: Mapped[str] = mapped_column(String(255), nullable=False, default="")
