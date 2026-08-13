@@ -222,6 +222,60 @@ export function CodeConfigEditor({ code, onChange }: Props) {
           </div>
         </fieldset>
       )}
+
+      {code.family === "goppa_derived" && (
+        <fieldset>
+          <legend>Goppa-derived</legend>
+          <div className="three-col">
+            <label>
+              m
+              <input
+                type="number"
+                min={1}
+                value={code.goppa_m ?? ""}
+                onChange={event => onChange({ goppa_m: optionalNumber(event.target.value) })}
+              />
+            </label>
+            <label>
+              Degree
+              <input
+                type="number"
+                min={1}
+                value={code.goppa_degree ?? ""}
+                onChange={event => onChange({ goppa_degree: optionalNumber(event.target.value) })}
+              />
+            </label>
+            <label>
+              Support size
+              <input
+                type="number"
+                min={1}
+                value={code.goppa_support_size ?? ""}
+                onChange={event => onChange({ goppa_support_size: optionalNumber(event.target.value) })}
+              />
+            </label>
+            <label>
+              Seed
+              <input
+                type="number"
+                value={code.goppa_seed ?? 42}
+                onChange={event => onChange({ goppa_seed: Number(event.target.value) })}
+              />
+            </label>
+            <label>
+              Primitive polynomial (integer)
+              <input
+                type="number"
+                value={code.goppa_primitive_polynomial ?? ""}
+                onChange={event => onChange({
+                  goppa_primitive_polynomial: optionalNumber(event.target.value),
+                })}
+                placeholder="встроенный по m"
+              />
+            </label>
+          </div>
+        </fieldset>
+      )}
     </div>
   );
 }

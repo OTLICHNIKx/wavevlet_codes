@@ -1,6 +1,12 @@
 import numpy as np
 
 from bch import BCHCode, BCHDerivedCode
+from goppa import GoppaDerivedCode
+from goppa.presets import (
+    GOPPA_16_8_CODE,
+    GOPPA_32_16_CODE,
+    GOPPA_64_32_CODE,
+)
 from wavelet import WaveletCode
 
 from research.config import CodeResearchConfig
@@ -10,6 +16,7 @@ ResearchCode = (
     WaveletCode
     | BCHCode
     | BCHDerivedCode
+    | GoppaDerivedCode
 )
 
 
@@ -167,6 +174,62 @@ def build_code_from_config(
             ),
             name=code_config.name,
         )
+
+    elif code_config.family == "goppa_derived":
+        if code_config.goppa_m is None:
+            raise ValueError(
+                "Для Goppa-кода отсутствует goppa_m"
+            )
+
+        if code_config.goppa_degree is None:
+            raise ValueError(
+                "Для Goppa-кода отсутствует goppa_degree"
+            )
+
+        # Используем пресеты для воспроизводимости
+        if code_config.n == 16 and code_config.k == 8:
+            code = GOPPA_16_8_CODE
+        elif code_config.n == 32 and code_config.k == 16:
+            code = GOPPA_32_16_CODE
+        elif code_config.n == 64 and code_config.k == 32:
+            code = GOPPA_64_32_CODE
+        else:
+            raise ValueError(
+                f"Для Goppa-derived нет пресета для ({code_config.n}, {code_config.k}). "
+                "Используйте пресеты или добавьте новый."
+            )
+
+        # Пресет фиксирован по (n, k), но goppa_m/goppa_degree/goppa_seed
+        # в конфиге должны совпадать с параметрами этого пресета, иначе
+        # реально построенный код будет отличаться от того, что описан
+        # в конфигурации (и, соответственно, в summary.csv).
+        construction = code.parent_code.construction
+        mismatches: list[str] = []
+
+        if construction.m != code_config.goppa_m:
+            mismatches.append(
+                f"goppa_m: конфиг={code_config.goppa_m}, "
+                f"пресет={construction.m}"
+            )
+
+        if construction.degree != code_config.goppa_degree:
+            mismatches.append(
+                f"goppa_degree: конфиг={code_config.goppa_degree}, "
+                f"пресет={construction.degree}"
+            )
+
+        if construction.seed != code_config.goppa_seed:
+            mismatches.append(
+                f"goppa_seed: конфиг={code_config.goppa_seed}, "
+                f"пресет={construction.seed}"
+            )
+
+        if mismatches:
+            raise ValueError(
+                "Параметры goppa_derived в конфиге не совпадают с "
+                f"зафиксированным пресетом ({code_config.n}, {code_config.k}): "
+                + "; ".join(mismatches)
+            )
 
     else:
         raise ValueError(

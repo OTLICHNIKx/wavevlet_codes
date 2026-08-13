@@ -15,7 +15,8 @@ def smoke_schema() -> ResearchConfigSchema:
 def test_json_schema_to_research_config() -> None:
     config = schema_to_research(smoke_schema(), results_dir="research_results/test")
     assert config.message_count == 2
-    assert len(config.codes) == 2
+    # EQUAL_DECODER_SMOKE_CONFIG содержит 6 кодов (3 группы × 2 семейства: Wavelet/BCH)
+    assert len(config.codes) == 6
     assert config.results_dir == "research_results/test"
     assert config.to_json_dict()["codes"][0]["family"] == "wavelet"
 
@@ -24,7 +25,30 @@ def test_wavelet_and_bch_derived_validate() -> None:
     result = validate_schema(smoke_schema())
     assert result.valid is True
     assert result.errors == []
-    assert result.report["total_series"] == 4
+    # EQUAL_DECODER_SMOKE_CONFIG содержит 6 кодов × 4 декодера × 1 точка Eb/N0 = 24
+    assert result.report["total_series"] == 24
+
+
+def test_goppa_presets_are_available_in_web_ui() -> None:
+    presets = builtin_presets()
+    code_ids = {preset["id"] for preset in presets["codes"]}
+    experiment_ids = {preset["id"] for preset in presets["experiments"]}
+
+    assert {
+        "GOPPA_16_8_CONFIG",
+        "GOPPA_32_16_CONFIG",
+        "GOPPA_64_32_CONFIG",
+    } <= code_ids
+    assert "EQUAL_DECODER_20K_THREE_FAMILIES" in experiment_ids
+
+    experiment = next(
+        preset
+        for preset in presets["experiments"]
+        if preset["id"] == "EQUAL_DECODER_20K_THREE_FAMILIES"
+    )
+    codes = experiment["config"]["codes"]
+    assert len(codes) == 9
+    assert sum(code["family"] == "goppa_derived" for code in codes) == 3
 
 
 def test_invalid_binary_vector() -> None:

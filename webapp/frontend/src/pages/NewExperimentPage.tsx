@@ -248,6 +248,7 @@ export function NewExperimentPage() {
                         <option value="wavelet">wavelet</option>
                         <option value="bch">bch</option>
                         <option value="bch_derived">bch_derived</option>
+                        <option value="goppa_derived">goppa_derived</option>
                       </select>
                     </label>
                     <label>

@@ -383,10 +383,34 @@ def decoder_result_to_summary_row(
             code_config.bch_puncture_count
         ),
 
+        "goppa_m": (
+            ""
+            if code_config.goppa_m is None
+            else code_config.goppa_m
+        ),
+
+        "goppa_degree": (
+            ""
+            if code_config.goppa_degree is None
+            else code_config.goppa_degree
+        ),
+
         "expected_min_distance": (
             ""
             if code_config.expected_min_distance is None
             else code_config.expected_min_distance
+        ),
+
+        "minimum_distance_exact": (
+            ""
+            if code_config.minimum_distance_exact is None
+            else code_config.minimum_distance_exact
+        ),
+
+        "minimum_distance_lower_bound": (
+            ""
+            if code_config.minimum_distance_lower_bound is None
+            else code_config.minimum_distance_lower_bound
         ),
 
         "syndrome_t": (

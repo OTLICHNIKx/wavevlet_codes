@@ -8,6 +8,7 @@ CodeFamily = Literal[
     "wavelet",
     "bch",
     "bch_derived",
+    "goppa_derived",
 ]
 
 
@@ -40,6 +41,13 @@ class CodeResearchConfig:
     bch_shortening_count: int | None = None
     bch_puncture_count: int | None = None
     bch_puncture_coordinates: tuple[int, ...] | None = None
+
+    # Настройки Goppa-derived кода.
+    goppa_m: int | None = None
+    goppa_degree: int | None = None
+    goppa_support_size: int | None = None
+    goppa_seed: int = 42
+    goppa_primitive_polynomial: int | None = None
 
     # Устаревшее поле для обратной совместимости.
     expected_min_distance: int | None = None
@@ -84,6 +92,13 @@ class CodeResearchConfig:
                 if self.bch_puncture_coordinates is None
                 else list(self.bch_puncture_coordinates)
             ),
+
+            # Параметры Goppa.
+            "goppa_m": self.goppa_m,
+            "goppa_degree": self.goppa_degree,
+            "goppa_support_size": self.goppa_support_size,
+            "goppa_seed": self.goppa_seed,
+            "goppa_primitive_polynomial": self.goppa_primitive_polynomial,
 
             # Устаревшее поле.
             "expected_min_distance": self.expected_min_distance,
@@ -285,6 +300,16 @@ class CodeResearchConfig:
                     f"ожидалось n={expected_length}, "
                     f"указано n={self.n}"
                 )
+
+        elif self.family == "goppa_derived":
+            if self.goppa_m is None:
+                raise ValueError("Для goppa_derived необходимо задать goppa_m")
+            if self.goppa_degree is None:
+                raise ValueError("Для goppa_derived необходимо задать goppa_degree")
+            if self.goppa_m <= 0 or self.goppa_degree <= 0:
+                raise ValueError("goppa_m и goppa_degree должны быть положительными")
+            if self.k > self.n:
+                raise ValueError("k не может быть больше n")
 
         else:
             raise ValueError(
@@ -511,14 +536,85 @@ BCH_63_45_CONFIG = CodeResearchConfig(
     chase_unreliable_positions_count=6,
 )
 
+GOPPA_16_8_CONFIG = CodeResearchConfig(
+    name="goppa_derived_16_8",
+    family="goppa_derived",
+    n=16,
+    k=8,
+
+    # Goppa: m=4, deg=2, support=GF(16)
+    goppa_m=4,
+    goppa_degree=2,
+    goppa_support_size=16,
+    goppa_seed=42,
+
+    # Расстояние
+    minimum_distance_exact=5,
+    minimum_distance_lower_bound=5,
+    minimum_distance_upper_bound=5,
+    distance_evidence="exact enumeration of all 2^8 codewords",
+
+    # Equal decoder parameters
+    syndrome_max_error_weight=1,
+    chase_inner_decoder_max_error_weight=1,
+    chase_unreliable_positions_count=4,
+)
+
+GOPPA_32_16_CONFIG = CodeResearchConfig(
+    name="goppa_derived_32_16",
+    family="goppa_derived",
+    n=32,
+    k=16,
+
+    # Goppa: m=5, deg=3, support_size=32
+    goppa_m=5,
+    goppa_degree=3,
+    goppa_support_size=32,
+    goppa_seed=42,
+
+    # Расстояние
+    minimum_distance_exact=7,
+    minimum_distance_lower_bound=7,
+    minimum_distance_upper_bound=7,
+    distance_evidence="exact enumeration of all 2^16 codewords",
+
+    # Equal decoder parameters
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=6,
+)
+
+GOPPA_64_32_CONFIG = CodeResearchConfig(
+    name="goppa_derived_64_32",
+    family="goppa_derived",
+    n=64,
+    k=32,
+
+        # Goppa: m=6, deg=4, support_size=64
+    goppa_m=6,
+    goppa_degree=4,
+    goppa_support_size=64,
+    goppa_seed=42,
+
+    # Расстояние
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=9,  # d_min >= 9 для этой конструкции
+    minimum_distance_upper_bound=None,
+    distance_evidence="Goppa-derived from GF(2^6) with deg(g)=4",
+
+    # Equal decoder parameters
+    syndrome_max_error_weight=3,
+    chase_inner_decoder_max_error_weight=3,
+    chase_unreliable_positions_count=8,
+)
+
+
 BCH_DERIVED_64_32_CONFIG = CodeResearchConfig(
     name="bch_derived_64_32",
     family="bch_derived",
 
     n=64,
     k=32,
-
-    # Родительский примитивный BCH [127,92,d>=11].
     bch_m=7,
     bch_designed_distance=11,
     bch_first_root=1,
@@ -526,6 +622,7 @@ BCH_DERIVED_64_32_CONFIG = CodeResearchConfig(
     # [127,92] -> [67,32] -> [64,32].
     bch_shortening_count=60,
     bch_puncture_count=3,
+    bch_puncture_coordinates=None,
 
     # Точное d_min пока не установлено.
     # Проверено только d_min >= 9.
@@ -540,8 +637,7 @@ BCH_DERIVED_64_32_CONFIG = CodeResearchConfig(
     ),
     verified_error_correction_radius=4,
 
-    # Для основного честного сравнения используем
-    # одинаковый радиус t=3.
+    # Декодер parameters
     syndrome_max_error_weight=3,
     chase_inner_decoder_max_error_weight=3,
     chase_unreliable_positions_count=6,
@@ -806,6 +902,69 @@ COMPARE_64_32_EQUAL_T3_SMOKE_CONFIG = ResearchConfig(
 )
 
 
+# ------------------------------------------------------------
+# [64, 32] equal-decoder: equal params all three families
+# ------------------------------------------------------------
+
+WAVELET_64_32_EQUAL_CONFIG = replace(
+    WAVELET_64_32_CONFIG,
+    name="wavelet_64_32_equal",
+
+    syndrome_max_error_weight=3,
+    chase_inner_decoder_max_error_weight=3,
+    chase_unreliable_positions_count=8,
+)
+
+
+BCH_DERIVED_64_32_EQUAL_CONFIG = replace(
+    BCH_DERIVED_64_32_CONFIG,
+    name="bch_derived_64_32_equal",
+
+    syndrome_max_error_weight=3,
+    chase_inner_decoder_max_error_weight=3,
+    chase_unreliable_positions_count=8,
+)
+
+# Goppa-derived presets для equal-decoder сравнения
+GOPPA_16_8_EQUAL_CONFIG = replace(
+    GOPPA_16_8_CONFIG,
+    name="goppa_derived_16_8_equal",
+)
+
+GOPPA_32_16_EQUAL_CONFIG = replace(
+    GOPPA_32_16_CONFIG,
+    name="goppa_derived_32_16_equal",
+)
+
+GOPPA_64_32_EQUAL_CONFIG = replace(
+    GOPPA_64_32_CONFIG,
+    name="goppa_derived_64_32_equal",
+)
+
+COMPARE_64_32_SMOKE_CONFIG = ResearchConfig(
+    message_count=500,
+    message_seed=12345,
+    noise_seed=54321,
+    ebn0_db_values=(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0),
+    codes=(
+        WAVELET_64_32_EQUAL_CONFIG,
+        BCH_DERIVED_64_32_EQUAL_CONFIG,
+        GOPPA_64_32_EQUAL_CONFIG,
+    ),
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+        syndrome_max_error_weight=3,
+        chase_inner_decoder_max_error_weight=3,
+        chase_unreliable_positions_count=8,
+        max_k_for_mld=16,
+    ),
+    results_dir="research_results/compare_64_32/smoke",
+)
+
+
 BCH_DERIVED_32_16_CONFIG = CodeResearchConfig(
     name="bch_derived_32_16",
     family="bch_derived",
@@ -912,6 +1071,28 @@ BCH_DERIVED_64_32_EQUAL_CONFIG = replace(
     chase_unreliable_positions_count=8,
 )
 
+# Goppa-derived presets для equal-decoder сравнения
+GOPPA_16_8_EQUAL_CONFIG = replace(
+    GOPPA_16_8_CONFIG,
+    name="goppa_derived_16_8_equal",
+)
+
+GOPPA_32_16_EQUAL_CONFIG = replace(
+    GOPPA_32_16_CONFIG,
+    name="goppa_derived_32_16_equal",
+)
+
+GOPPA_64_32_EQUAL_CONFIG = replace(
+    GOPPA_64_32_CONFIG,
+    name="goppa_derived_64_32_equal",
+)
+
+# ------------------------------------------------------------
+# Оригинальный двухсемейный (Wavelet vs BCH) equal-decoder
+# эксперимент. Состав кодов должен оставаться неизменным по ТЗ:
+# 3 Wavelet + 3 BCH-derived (16/32/64), без Goppa.
+# ------------------------------------------------------------
+
 EQUAL_DECODER_SMOKE_CONFIG = ResearchConfig(
     message_count=500,
 
@@ -1011,6 +1192,118 @@ EQUAL_DECODER_20K_CONFIG = ResearchConfig(
 )
 
 
+# ------------------------------------------------------------
+# Отдельный трёхсемейный (Wavelet vs BCH vs Goppa) эксперимент.
+# Это самостоятельные конфиги с 9 кодами (не производные от
+# двухсемейных EQUAL_DECODER_* выше), чтобы не нарушать
+# backward compatibility исходного эксперимента.
+# ------------------------------------------------------------
+
+EQUAL_DECODER_SMOKE_THREE_FAMILIES = ResearchConfig(
+    message_count=500,
+
+    message_seed=12345,
+    noise_seed=54321,
+
+    ebn0_db_values=(
+        0.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+    ),
+
+    codes=(
+        WAVELET_16_8_EQUAL_CONFIG,
+        BCH_DERIVED_16_8_EQUAL_CONFIG,
+        GOPPA_16_8_EQUAL_CONFIG,
+
+        WAVELET_32_16_EQUAL_CONFIG,
+        BCH_DERIVED_32_16_EQUAL_CONFIG,
+        GOPPA_32_16_EQUAL_CONFIG,
+
+        WAVELET_64_32_EQUAL_CONFIG,
+        BCH_DERIVED_64_32_EQUAL_CONFIG,
+        GOPPA_64_32_EQUAL_CONFIG,
+    ),
+
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+
+        # Эти значения являются fallback.
+        # Реальные t/p выше заданы непосредственно для каждого кода.
+        syndrome_max_error_weight=1,
+        chase_inner_decoder_max_error_weight=1,
+        chase_unreliable_positions_count=4,
+
+        max_k_for_mld=16,
+    ),
+
+    results_dir=(
+        "research_results/"
+        "equal_decoder_three_families/"
+        "smoke"
+    ),
+)
+
+EQUAL_DECODER_20K_THREE_FAMILIES = ResearchConfig(
+    message_count=20_000,
+
+    message_seed=12345,
+    noise_seed=54321,
+
+    ebn0_db_values=(
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+    ),
+
+    codes=(
+        WAVELET_16_8_EQUAL_CONFIG,
+        BCH_DERIVED_16_8_EQUAL_CONFIG,
+        GOPPA_16_8_EQUAL_CONFIG,
+
+        WAVELET_32_16_EQUAL_CONFIG,
+        BCH_DERIVED_32_16_EQUAL_CONFIG,
+        GOPPA_32_16_EQUAL_CONFIG,
+
+        WAVELET_64_32_EQUAL_CONFIG,
+        BCH_DERIVED_64_32_EQUAL_CONFIG,
+        GOPPA_64_32_EQUAL_CONFIG,
+    ),
+
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+
+        syndrome_max_error_weight=1,
+        chase_inner_decoder_max_error_weight=1,
+        chase_unreliable_positions_count=4,
+
+        max_k_for_mld=16,
+    ),
+
+    results_dir=(
+        "research_results/"
+        "equal_decoder_three_families/"
+        "full_20k"
+    ),
+)
+
+
 COMPARE_16_8_SMOKE_CONFIG = ResearchConfig(
     message_count=500,
     message_seed=12345,
@@ -1019,6 +1312,7 @@ COMPARE_16_8_SMOKE_CONFIG = ResearchConfig(
     codes=(
         WAVELET_16_8_CONFIG,
         BCH_DERIVED_16_8_CONFIG,
+        GOPPA_16_8_EQUAL_CONFIG,
     ),
     decoders=DecoderResearchConfig(
         run_syndrome=True,
@@ -1042,6 +1336,7 @@ COMPARE_32_16_SMOKE_CONFIG = ResearchConfig(
     codes=(
         WAVELET_32_16_CONFIG,
         BCH_DERIVED_32_16_CONFIG,
+        GOPPA_32_16_EQUAL_CONFIG,
     ),
     decoders=DecoderResearchConfig(
         run_syndrome=True,
@@ -1072,6 +1367,10 @@ FINAL_20K_PRESET = ResearchConfig(
         BCH_DERIVED_64_32_CONFIG,
         BCH_DERIVED_16_8_CONFIG,
         BCH_DERIVED_32_16_CONFIG,
+        # Goppa
+        GOPPA_64_32_CONFIG,
+        GOPPA_16_8_CONFIG,
+        GOPPA_32_16_CONFIG,
     ),
     decoders=DecoderResearchConfig(
         run_syndrome=True,

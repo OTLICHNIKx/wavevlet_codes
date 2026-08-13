@@ -4,7 +4,7 @@ export type ExperimentStatus =
 
 export interface CodeConfig {
   name: string;
-  family: "wavelet" | "bch" | "bch_derived";
+  family: "wavelet" | "bch" | "bch_derived" | "goppa_derived";
   n: number;
   k: number;
   h?: number[] | null;
@@ -19,6 +19,11 @@ export interface CodeConfig {
   bch_shortening_count?: number | null;
   bch_puncture_count?: number | null;
   bch_puncture_coordinates?: number[] | null;
+  goppa_m?: number | null;
+  goppa_degree?: number | null;
+  goppa_support_size?: number | null;
+  goppa_seed?: number;
+  goppa_primitive_polynomial?: number | null;
   expected_min_distance?: number | null;
   syndrome_max_error_weight?: number | null;
   chase_inner_decoder_max_error_weight?: number | null;

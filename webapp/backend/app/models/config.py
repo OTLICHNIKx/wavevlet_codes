@@ -6,7 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator
 
 
-CodeFamily = Literal["wavelet", "bch", "bch_derived"]
+CodeFamily = Literal["wavelet", "bch", "bch_derived", "goppa_derived"]
 
 
 class CodeConfigSchema(BaseModel):
@@ -34,6 +34,13 @@ class CodeConfigSchema(BaseModel):
     bch_shortening_count: int | None = None
     bch_puncture_count: int | None = None
     bch_puncture_coordinates: list[int] | None = None
+
+    # Goppa-derived
+    goppa_m: int | None = None
+    goppa_degree: int | None = None
+    goppa_support_size: int | None = None
+    goppa_seed: int = 42
+    goppa_primitive_polynomial: int | None = None
 
     expected_min_distance: int | None = None
 
