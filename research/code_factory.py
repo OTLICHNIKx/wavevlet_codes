@@ -2,6 +2,7 @@ import numpy as np
 
 from bch import BCHCode, BCHDerivedCode
 from goppa import GoppaDerivedCode
+from reed_solomon import ReedSolomonBinaryCode
 from goppa.presets import (
     GOPPA_16_8_CODE,
     GOPPA_32_16_CODE,
@@ -17,6 +18,7 @@ ResearchCode = (
     | BCHCode
     | BCHDerivedCode
     | GoppaDerivedCode
+    | ReedSolomonBinaryCode
 )
 
 
@@ -175,6 +177,40 @@ def build_code_from_config(
             name=code_config.name,
         )
 
+    elif code_config.family == "reed_solomon_binary":
+        required_values = {
+            "reed_solomon_m": code_config.reed_solomon_m,
+            "reed_solomon_symbol_n": (
+                code_config.reed_solomon_symbol_n
+            ),
+            "reed_solomon_symbol_k": (
+                code_config.reed_solomon_symbol_k
+            ),
+        }
+        missing_fields = [
+            name for name, value in required_values.items()
+            if value is None
+        ]
+        if missing_fields:
+            raise ValueError(
+                "Для reed_solomon_binary отсутствуют параметры: "
+                + ", ".join(missing_fields)
+            )
+        code = ReedSolomonBinaryCode.from_parameters(
+            m=code_config.reed_solomon_m,
+            symbol_n=code_config.reed_solomon_symbol_n,
+            symbol_k=code_config.reed_solomon_symbol_k,
+            primitive_polynomial=(
+                code_config.reed_solomon_primitive_polynomial
+            ),
+            evaluation_points=(
+                code_config.reed_solomon_evaluation_points
+            ),
+            column_multipliers=(
+                code_config.reed_solomon_column_multipliers
+            ),
+            name=code_config.name,
+        )
     elif code_config.family == "goppa_derived":
         if code_config.goppa_m is None:
             raise ValueError(

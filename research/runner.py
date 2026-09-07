@@ -395,6 +395,26 @@ def decoder_result_to_summary_row(
             else code_config.goppa_degree
         ),
 
+        "reed_solomon_m": (
+            "" if code_config.reed_solomon_m is None
+            else code_config.reed_solomon_m
+        ),
+        "reed_solomon_symbol_n": (
+            "" if code_config.reed_solomon_symbol_n is None
+            else code_config.reed_solomon_symbol_n
+        ),
+        "reed_solomon_symbol_k": (
+            "" if code_config.reed_solomon_symbol_k is None
+            else code_config.reed_solomon_symbol_k
+        ),
+        "reed_solomon_evaluation_points": (
+            "" if code_config.reed_solomon_evaluation_points is None
+            else " ".join(str(value) for value in code_config.reed_solomon_evaluation_points)
+        ),
+        "reed_solomon_column_multipliers": (
+            "" if code_config.reed_solomon_column_multipliers is None
+            else " ".join(str(value) for value in code_config.reed_solomon_column_multipliers)
+        ),
         "expected_min_distance": (
             ""
             if code_config.expected_min_distance is None
@@ -413,6 +433,12 @@ def decoder_result_to_summary_row(
             else code_config.minimum_distance_lower_bound
         ),
 
+        "minimum_distance_upper_bound": (
+            ""
+            if code_config.minimum_distance_upper_bound is None
+            else code_config.minimum_distance_upper_bound
+        ),
+        "distance_evidence": code_config.distance_evidence or "",
         "syndrome_t": (
             ""
             if code_config.syndrome_max_error_weight is None

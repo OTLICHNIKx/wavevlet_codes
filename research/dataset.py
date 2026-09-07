@@ -34,7 +34,7 @@ def make_code_seed(
     salt: int = 0,
 ) -> int:
     """
-    Строит воспроизводимый seed для конкретного кода.
+    Строит воспроизводимый seed для группы кодов с одинаковыми (n, k).
 
     Не используем hash(), потому что в Python он может быть разным
     между запусками. Здесь формула полностью детерминированная.
@@ -109,11 +109,11 @@ def build_dataset_for_code(
     """
     Создаёт полный фиксированный набор данных для одного кода.
 
-    Для каждого кода seed получается из общего seed и параметров кода.
-    Поэтому данные:
-        1. воспроизводимы;
-        2. различаются между кодами;
-        3. одинаковы для всех декодеров внутри одного кода.
+    Seed зависит только от общего seed и бинарных (n, k), а не от family/name.
+    Поэтому коды одной размерности получают идентичные messages и base_noise:
+        1. данные воспроизводимы;
+        2. four-family comparison использует common random numbers;
+        3. все декодеры внутри кода также используют один channel dataset.
     """
     code_message_seed = make_code_seed(
         base_seed=message_seed,
@@ -207,19 +207,26 @@ def build_all_datasets(
     message_seed: int,
     noise_seed: int,
 ) -> dict[str, CodeResearchDataset]:
-    """
-    Создаёт наборы данных для всех исследуемых кодов.
-    """
+    """Строит common-random-number datasets, сгруппированные по (n, k)."""
     datasets: dict[str, CodeResearchDataset] = {}
-
+    shared_by_shape: dict[tuple[int, int], tuple[np.ndarray, np.ndarray, int, int]] = {}
     for code_config in codes:
-        dataset = build_dataset_for_code(
-            message_count=message_count,
+        shape = (code_config.n, code_config.k)
+        if shape not in shared_by_shape:
+            code_message_seed = make_code_seed(message_seed, code_config, salt=0)
+            code_noise_seed = make_code_seed(noise_seed, code_config, salt=1_000_000)
+            shared_by_shape[shape] = (
+                generate_messages_for_code(message_count, code_config, code_message_seed),
+                generate_noise_for_code(message_count, code_config, code_noise_seed),
+                code_message_seed,
+                code_noise_seed,
+            )
+        messages, base_noise, code_message_seed, code_noise_seed = shared_by_shape[shape]
+        datasets[code_config.name] = CodeResearchDataset(
             code_config=code_config,
-            message_seed=message_seed,
-            noise_seed=noise_seed,
+            messages=messages,
+            base_noise=base_noise,
+            message_seed=code_message_seed,
+            noise_seed=code_noise_seed,
         )
-
-        datasets[code_config.name] = dataset
-
     return datasets

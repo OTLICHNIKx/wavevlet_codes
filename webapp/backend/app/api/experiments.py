@@ -5,16 +5,18 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, File, Form, HTTPException, Query, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi.responses import Response, StreamingResponse
 from sqlalchemy import select
 
 from app.core.config import RESULTS_ROOT
-from app.core.security import resolve_results_dir
+from app.core.security import make_slug, resolve_results_dir
 from app.db.database import SessionLocal
 from app.models.api import ExperimentCreate, ExperimentResponse, ResultDataResponse
-from app.models.experiment import Experiment, ExperimentSource, ExperimentStatus
+from app.models.experiment import Experiment, ExperimentStatus
 from app.services.csv_import import CsvValidationError
 from app.services.experiment_manager import manager
+from app.services.package_io import PackageValidationError
+from app.services.custom_presets import create_custom_preset, preset_response
 from app.services.results_reader import read_summary, result_schema
 
 
@@ -40,7 +42,8 @@ def _response(experiment: Experiment) -> ExperimentResponse:
         progress=json.loads(experiment.progress_payload or "{}"),
         error_message=experiment.error_message,
         config=json.loads(experiment.config_json),
-        runtime_config_available=experiment.source != ExperimentSource.imported_csv,
+        runtime_config_available=manager.has_runtime_config(experiment),
+        log_available=manager.has_experiment_log(experiment),
     )
 
 
@@ -105,9 +108,63 @@ async def import_csv_experiment(
     return _response(experiment)
 
 
+@router.post("/import/package", response_model=ExperimentResponse, status_code=201)
+async def import_package_experiment(
+    file: UploadFile = File(...),
+    name: str = Form(default=""),
+    description: str = Form(default=""),
+) -> ExperimentResponse:
+    """
+    Импортирует полный portable experiment package (.zip/.waveexp)
+    как Imported Experiment.
+
+    Никакие Monte-Carlo вычисления не выполняются. Архив
+    безопасно разбирается (без extractall), строго валидируется
+    manifest и summary.csv до создания эксперимента.
+    """
+    raw_bytes = await file.read()
+
+    try:
+        experiment = manager.import_package(
+            name=name,
+            description=description,
+            # Имя файла сохраняется только для отображения и никогда
+            # не используется как filesystem path.
+            filename=file.filename or "experiment.zip",
+            raw_bytes=raw_bytes,
+        )
+    except PackageValidationError as exc:
+        raise HTTPException(status_code=422, detail={"errors": exc.errors}) from exc
+
+    return _response(experiment)
+
+
 @router.get("/{experiment_id}", response_model=ExperimentResponse)
 def get_experiment(experiment_id: str) -> ExperimentResponse:
     return _response(_get_or_404(experiment_id))
+
+
+@router.get("/{experiment_id}/export")
+def export_experiment(experiment_id: str) -> Response:
+    """
+    Собирает portable experiment package (manifest.json, summary.csv,
+    runtime_config.json, code_metadata.json, experiment.log если доступны)
+    для завершённого эксперимента.
+    """
+    experiment = _get_or_404(experiment_id)
+    try:
+        payload = manager.export_package(experiment)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    slug = make_slug(experiment.name)
+    return Response(
+        content=payload,
+        media_type="application/zip",
+        headers={"Content-Disposition": f'attachment; filename="{slug}.zip"'},
+    )
 
 
 @router.post("/{experiment_id}/cancel")
@@ -119,12 +176,51 @@ def cancel_experiment(experiment_id: str) -> dict[str, bool]:
 @router.post("/{experiment_id}/rerun", response_model=ExperimentResponse)
 def rerun_experiment(experiment_id: str) -> ExperimentResponse:
     source = _get_or_404(experiment_id)
+    if not manager.has_runtime_config(source):
+        raise HTTPException(
+            status_code=409,
+            detail="Runtime configuration unavailable",
+        )
     from app.models.config import ResearchConfigSchema
 
-    config = ResearchConfigSchema.model_validate(json.loads(source.config_json))
+    runtime_config_path = (
+        resolve_results_dir(source.results_dir) / "runtime_config.json"
+    )
+    config = ResearchConfigSchema.model_validate_json(
+        runtime_config_path.read_text(encoding="utf-8")
+    )
     config.results_dir = ""
     experiment = manager.create(f"{source.name} (повтор)", source.description, config)
     return _response(experiment)
+
+
+@router.post("/{experiment_id}/clone-preset", status_code=201)
+def clone_experiment_as_preset(experiment_id: str) -> dict:
+    source = _get_or_404(experiment_id)
+    if not manager.has_runtime_config(source):
+        raise HTTPException(
+            status_code=409,
+            detail="Runtime configuration unavailable",
+        )
+    from app.models.config import ResearchConfigSchema
+
+    runtime_config_path = (
+        resolve_results_dir(source.results_dir) / "runtime_config.json"
+    )
+    try:
+        config = ResearchConfigSchema.model_validate_json(
+            runtime_config_path.read_text(encoding="utf-8")
+        )
+        config.results_dir = ""
+        preset = create_custom_preset(
+            name=f"{source.name} (preset)",
+            description=source.description,
+            config=config,
+            session_factory=SessionLocal,
+        )
+    except (OSError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return preset_response(preset)
 
 
 @router.delete("/{experiment_id}")

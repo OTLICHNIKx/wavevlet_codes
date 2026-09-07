@@ -35,7 +35,22 @@ function parseBinaryVector(text: string): number[] | null {
 }
 
 
+
+function integerVectorToText(values?: number[] | null): string {
+  return values?.join(", ") ?? "";
+}
+function parseIntegerVector(text: string): number[] | null {
+  const normalized = text.trim();
+  if (!normalized) return null;
+  const values = normalized.split(/[\s,;]+/).filter(Boolean).map(Number);
+  return values.every(value => Number.isInteger(value) && value >= 0) ? values : null;
+}
 export function CodeConfigEditor({ code, onChange }: Props) {
+  const grsTargetHint = code.n === 64 && code.k === 32
+    ? "Target preset: GRS Binary [64,32,10], t = 3."
+    : code.n === 32 && code.k === 16
+      ? "Target preset: GRS Binary [32,16,6], t = 2."
+      : "Target preset: GRS Binary [16,8,5], t = 2.";
   const hText = binaryVectorToText(code.h);
   const gText = binaryVectorToText(code.g);
 
@@ -274,6 +289,21 @@ export function CodeConfigEditor({ code, onChange }: Props) {
               />
             </label>
           </div>
+        </fieldset>
+      )}
+
+      {code.family === "reed_solomon_binary" && (
+        <fieldset>
+          <legend>Generalized Reed–Solomon (binary)</legend>
+          <div className="three-col">
+            <label>Field degree m<input type="number" min={1} value={code.reed_solomon_m ?? ""} onChange={event => onChange({ reed_solomon_m: optionalNumber(event.target.value) })} /></label>
+            <label>Symbol N<input type="number" min={1} value={code.reed_solomon_symbol_n ?? ""} onChange={event => onChange({ reed_solomon_symbol_n: optionalNumber(event.target.value) })} /></label>
+            <label>Symbol K<input type="number" min={1} value={code.reed_solomon_symbol_k ?? ""} onChange={event => onChange({ reed_solomon_symbol_k: optionalNumber(event.target.value) })} /></label>
+            <label>Primitive polynomial<input type="number" min={1} value={code.reed_solomon_primitive_polynomial ?? ""} onChange={event => onChange({ reed_solomon_primitive_polynomial: optionalNumber(event.target.value) })} placeholder="19 (0b10011)" /></label>
+            <label>Evaluation points<input value={integerVectorToText(code.reed_solomon_evaluation_points)} onChange={event => onChange({ reed_solomon_evaluation_points: parseIntegerVector(event.target.value) })} placeholder="0, 1, 2, 3" /></label>
+            <label>Column multipliers<input value={integerVectorToText(code.reed_solomon_column_multipliers)} onChange={event => onChange({ reed_solomon_column_multipliers: parseIntegerVector(event.target.value) })} placeholder="1, 3, 1, 3" /></label>
+          </div>
+          <p className="field-hint">Binary preview: n = {(code.reed_solomon_m ?? 0) * (code.reed_solomon_symbol_n ?? 0)}, k = {(code.reed_solomon_m ?? 0) * (code.reed_solomon_symbol_k ?? 0)}, R = {code.n > 0 ? (code.k / code.n).toFixed(3) : "—"}. {grsTargetHint}</p>
         </fieldset>
       )}
     </div>

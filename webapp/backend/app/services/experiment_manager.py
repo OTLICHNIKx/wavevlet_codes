@@ -16,8 +16,15 @@ from app.core.config import IMPORTED_RESULTS_SUBDIR, PROJECT_ROOT
 from app.core.security import make_results_dir, resolve_results_dir
 from app.db.database import SessionLocal
 from app.models.experiment import Experiment, ExperimentSource, ExperimentStatus
+from app.services.code_metadata import build_code_metadata_list
 from app.services.config_adapter import schema_to_research, validate_schema
 from app.services.csv_import import build_synthetic_config, parse_and_validate_csv
+from app.services.package_io import (
+    ParsedPackage,
+    build_manifest,
+    build_zip,
+    parse_and_validate_package,
+)
 from app.services.results_reader import read_summary
 from research.config import ResearchConfig
 
@@ -131,6 +138,146 @@ class ExperimentManager:
             exit_code=0,
             progress_completed=len(result.rows),
             progress_total=len(result.rows),
+        )
+        with SessionLocal() as session:
+            session.add(experiment)
+            session.commit()
+            session.refresh(experiment)
+
+        return experiment
+
+    def has_runtime_config(self, experiment: Experiment) -> bool:
+        try:
+            path = resolve_results_dir(experiment.results_dir) / "runtime_config.json"
+        except ValueError:
+            return False
+        return path.is_file()
+
+    def has_experiment_log(self, experiment: Experiment) -> bool:
+        if not experiment.log_path:
+            return False
+        try:
+            results_path = resolve_results_dir(experiment.results_dir)
+            log_path = Path(experiment.log_path).resolve()
+        except ValueError:
+            return False
+        return log_path.is_relative_to(results_path) and log_path.is_file()
+
+    def export_package(self, experiment: Experiment) -> bytes:
+        if experiment.status != ExperimentStatus.completed:
+            raise ValueError("Экспорт доступен только для завершённых экспериментов")
+
+        results_path = resolve_results_dir(experiment.results_dir)
+        summary_path = results_path / "summary.csv"
+        if not summary_path.is_file():
+            raise FileNotFoundError("summary.csv не найден")
+        summary_bytes = summary_path.read_bytes()
+
+        runtime_config_path = results_path / "runtime_config.json"
+        runtime_config_bytes = (
+            runtime_config_path.read_bytes()
+            if runtime_config_path.is_file()
+            else None
+        )
+
+        code_metadata_path = results_path / "code_metadata.json"
+        if code_metadata_path.is_file():
+            code_metadata_bytes = code_metadata_path.read_bytes()
+        else:
+            codes = json.loads(experiment.config_json).get("codes", [])
+            code_metadata_bytes = json.dumps(
+                build_code_metadata_list(codes), ensure_ascii=False, indent=2
+            ).encode("utf-8")
+
+        log_path = results_path / "experiment.log"
+        experiment_log_bytes = (
+            log_path.read_bytes()
+            if log_path.is_file() and log_path.stat().st_size > 0
+            else None
+        )
+
+        manifest = build_manifest(
+            name=experiment.name,
+            created_at=experiment.created_at.isoformat(),
+            status=experiment.status.value,
+            experiment_id=experiment.id,
+        )
+
+        return build_zip(
+            manifest=manifest,
+            summary_csv_bytes=summary_bytes,
+            runtime_config_bytes=runtime_config_bytes,
+            code_metadata_bytes=code_metadata_bytes,
+            experiment_log_bytes=experiment_log_bytes,
+        )
+
+    def import_package(
+        self,
+        name: str,
+        description: str,
+        filename: str,
+        raw_bytes: bytes,
+    ) -> Experiment:
+        """
+        Валидирует experiment package и создаёт Imported Experiment.
+
+        Никаких Monte-Carlo вычислений не запускается. Файлы пакета
+        копируются как есть в собственное хранилище приложения.
+        """
+        parsed: ParsedPackage = parse_and_validate_package(raw_bytes)
+
+        experiment_id = uuid.uuid4()
+        display_name = name.strip() or str(
+            parsed.manifest.get("name") or "imported experiment"
+        )
+        results_dir = make_results_dir(
+            experiment_id, display_name, subdir=IMPORTED_RESULTS_SUBDIR
+        )
+        results_path = Path(results_dir)
+        results_path.mkdir(parents=True, exist_ok=True)
+
+        (results_path / "summary.csv").write_bytes(parsed.summary_csv_bytes)
+
+        if parsed.runtime_config is not None:
+            (results_path / "runtime_config.json").write_text(
+                json.dumps(parsed.runtime_config, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+            config_for_db = parsed.runtime_config
+        else:
+            config_for_db = build_synthetic_config(parsed.summary_rows, results_dir)
+
+        if parsed.code_metadata is not None:
+            (results_path / "code_metadata.json").write_text(
+                json.dumps(parsed.code_metadata, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+
+        log_path_value = ""
+        if parsed.experiment_log is not None:
+            log_file = results_path / "experiment.log"
+            log_file.write_text(parsed.experiment_log, encoding="utf-8")
+            log_path_value = str(log_file)
+
+        config_json = json.dumps(config_for_db, ensure_ascii=False)
+
+        now = _utcnow()
+        experiment = Experiment(
+            id=str(experiment_id),
+            name=display_name,
+            description=description,
+            status=ExperimentStatus.completed,
+            source=ExperimentSource.imported_package,
+            original_filename=filename,
+            created_at=now,
+            started_at=now,
+            finished_at=now,
+            config_json=config_json,
+            results_dir=results_dir,
+            log_path=log_path_value,
+            exit_code=0,
+            progress_completed=len(parsed.summary_rows),
+            progress_total=len(parsed.summary_rows),
         )
         with SessionLocal() as session:
             session.add(experiment)

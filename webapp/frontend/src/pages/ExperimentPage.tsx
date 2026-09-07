@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import type { Data } from "plotly.js";
+import type { Data, Layout } from "plotly.js";
 
 import { api } from "../api";
 import { normalizePlotly, PlotlyChart } from "../PlotlyChart";
 import type { Experiment } from "../types";
-
 
 const METRIC_LABELS: Record<string, string> = {
   frame_error_rate: "FER",
@@ -45,9 +44,9 @@ const codeLabel = (name: string) => {
   if (name.startsWith("wavelet")) return `Wavelet${size}`;
   if (name.startsWith("bch_derived")) return `BCH-derived${size}`;
   if (name.startsWith("bch")) return `BCH${size}`;
+  if (name.startsWith("reed_solomon_binary")) return `Generalized Reed–Solomon (binary)${size}`;
   return name;
 };
-
 
 export function ExperimentPage() {
   const { id = "" } = useParams();
@@ -73,6 +72,7 @@ export function ExperimentPage() {
   const [zeroMode, setZeroMode] = useState("floor");
   const [tab, setTab] = useState<"process" | "plots" | "data">("process");
   const [rows, setRows] = useState<Record<string, unknown>[]>([]);
+  const [actionMessage, setActionMessage] = useState("");
 
   useEffect(() => {
     api.experiment(id).then(experimentData => {
@@ -140,6 +140,54 @@ export function ExperimentPage() {
     );
   }, [experiment]);
 
+  const plotData = useMemo<Data[]>(() => series.map(item => {
+    const parts = item.name.split(" / ");
+    const code = parts.length >= 4 ? parts.at(-3) || item.name : item.name;
+    const decoder = parts.length >= 4 ? parts.at(-2) || "" : "";
+    return {
+      x: item.x,
+      y: item.y,
+      type: plotType === "bar" ? "bar" : "scatter",
+      mode: plotType === "line" ? "lines+markers" : "markers",
+      name: `${codeLabel(code)} · ${decoderLabel(decoder)}`,
+      hovertemplate: `%{x:.2f} dB<br>%{y:.4g}<extra>${codeLabel(code)} · ${decoderLabel(decoder)}</extra>`,
+    };
+  }), [series, plotType]);
+
+  const seriesSignature = useMemo(() => series.map(item => (
+    `${item.name}:${item.x.length}:${item.y.length}:${item.x[0]}:${item.x.at(-1)}:${item.y[0]}:${item.y.at(-1)}`
+  )).join("|"), [series]);
+
+  const plotRevision = useMemo(() => JSON.stringify({
+    metric,
+    plotType,
+    logScale,
+    zeroMode,
+    seriesSignature,
+  }), [logScale, metric, plotType, seriesSignature, zeroMode]);
+
+  const plotLayout = useMemo<Partial<Layout>>(() => ({
+    autosize: true,
+    height: 540,
+    margin: { l: 75, r: 25, t: 35, b: 115 },
+    xaxis: { title: { text: "Eb/N0, dB" }, gridcolor: "#e6ebe6" },
+    yaxis: {
+      title: { text: metricLabel(metric) },
+      type: logScale ? "log" : "linear",
+      gridcolor: "#e6ebe6",
+    },
+    legend: { orientation: "h", y: -0.22, x: 0, font: { size: 11 } },
+    paper_bgcolor: "#ffffff",
+    plot_bgcolor: "#ffffff",
+    barmode: "group",
+    // Unchanged uirevision preserves ranges selected by the user after Plotly.react.
+    uirevision: plotRevision,
+  }), [logScale, metric, plotRevision]);
+
+  const handlePlotReady = useCallback((element: HTMLElement) => {
+    plotRef.current = { el: element };
+  }, []);
+
   const exportDataset = (format: "csv" | "json") => {
     fetch("/api/plots/export", {
       method: "POST",
@@ -176,21 +224,8 @@ export function ExperimentPage() {
 
   if (!experiment) return <div className="loading">Загрузка...</div>;
 
-  const plotData: Data[] = series.map(item => {
-    const parts = item.name.split(" / ");
-    const code = parts.length >= 4 ? parts.at(-3) || item.name : item.name;
-    const decoder = parts.length >= 4 ? parts.at(-2) || "" : "";
-    return {
-    x: item.x,
-    y: item.y,
-    type: plotType === "bar" ? "bar" : "scatter",
-    mode: plotType === "line" ? "lines+markers" : "markers",
-      name: `${codeLabel(code)} · ${decoderLabel(decoder)}`,
-      hovertemplate: `%{x:.2f} dB<br>%{y:.4g}<extra>${codeLabel(code)} · ${decoderLabel(decoder)}</extra>`,
-    };
-  });
-
   const isImported = experiment.source !== "local";
+  const processAvailable = !isImported || experiment.log_available;
 
   return (
     <section>
@@ -208,8 +243,25 @@ export function ExperimentPage() {
             <span className="badge">{SOURCE_LABELS[experiment.source] || experiment.source}</span>
           )}
           <span className={`status ${experiment.status}`}>{experiment.status}</span>
+          {experiment.status === "completed" && (
+            <button className="button" onClick={() => api.exportExperiment(id, experiment.name)}>
+              Export
+            </button>
+          )}
+          <button
+            className="button"
+            disabled={!experiment.runtime_config_available}
+            title={experiment.runtime_config_available ? "" : "Runtime configuration unavailable"}
+            onClick={() => api.cloneExperimentPreset(id).then(preset => {
+              setActionMessage(`Custom preset «${preset.name}» создан. Эксперимент не запущен.`);
+            }).catch((error: Error) => setActionMessage(error.message))}
+          >
+            Clone as preset
+          </button>
         </div>
       </header>
+
+      {actionMessage && <div className="alert">{actionMessage}</div>}
 
       {!isImported ? (
         <div className="progress-card panel">
@@ -241,9 +293,11 @@ export function ExperimentPage() {
       ) : (
         <div className="alert" style={{ background: "#eef2ea", color: "#3d5346" }}>
           Импортированный результат: вычисления не выполнялись на этой машине.
-          {!experiment.runtime_config_available && (
-            <> Runtime configuration: unavailable. Logs: unavailable.</>
-          )}
+          <> Result data: available.</>
+          {experiment.runtime_config_available
+            ? <> Runtime configuration: available.</>
+            : <> Runtime configuration: unavailable.</>}
+          {experiment.log_available ? <> Logs: available.</> : <> Logs: unavailable.</>}
         </div>
       )}
 
@@ -255,7 +309,7 @@ export function ExperimentPage() {
         <button
           className={tab === "process" ? "active" : ""}
           onClick={() => setTab("process")}
-          disabled={isImported}
+          disabled={!processAvailable}
         >
           Вычисления и лог
         </button>
@@ -274,7 +328,7 @@ export function ExperimentPage() {
         </button>
       </div>
 
-      {tab === "process" && !isImported && (
+      {tab === "process" && processAvailable && (
         <div className="panel process-panel">
           <div className="panel-heading">
             <div><h2>Ход вычислений</h2><p className="muted">stdout процесса обновляется автоматически</p></div>
@@ -370,8 +424,8 @@ export function ExperimentPage() {
             {graphShown ? (
               <PlotlyChart
                 data={plotData}
-                layout={{ autosize: true, height: 540, margin: { l: 75, r: 25, t: 35, b: 115 }, xaxis: { title: { text: "Eb/N0, dB" }, gridcolor: "#e6ebe6" }, yaxis: { title: { text: metricLabel(metric) }, type: logScale ? "log" : "linear", gridcolor: "#e6ebe6" }, legend: { orientation: "h", y: -0.22, x: 0, font: { size: 11 } }, paper_bgcolor: "#ffffff", plot_bgcolor: "#ffffff", barmode: "group" }}
-                onReady={element => { plotRef.current = { el: element }; }}
+                layout={plotLayout}
+                onReady={handlePlotReady}
               />
             ) : <div className="plot-placeholder">График появится здесь</div>}
           </div>

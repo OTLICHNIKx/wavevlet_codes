@@ -9,6 +9,7 @@ CodeFamily = Literal[
     "bch",
     "bch_derived",
     "goppa_derived",
+    "reed_solomon_binary",
 ]
 
 
@@ -48,6 +49,13 @@ class CodeResearchConfig:
     goppa_support_size: int | None = None
     goppa_seed: int = 42
     goppa_primitive_polynomial: int | None = None
+    # Параметры binary-image Reed-Solomon.
+    reed_solomon_m: int | None = None
+    reed_solomon_symbol_n: int | None = None
+    reed_solomon_symbol_k: int | None = None
+    reed_solomon_primitive_polynomial: int | None = None
+    reed_solomon_evaluation_points: tuple[int, ...] | None = None
+    reed_solomon_column_multipliers: tuple[int, ...] | None = None
 
     # Устаревшее поле для обратной совместимости.
     expected_min_distance: int | None = None
@@ -99,6 +107,21 @@ class CodeResearchConfig:
             "goppa_support_size": self.goppa_support_size,
             "goppa_seed": self.goppa_seed,
             "goppa_primitive_polynomial": self.goppa_primitive_polynomial,
+            # Параметры Reed-Solomon.
+            "reed_solomon_m": self.reed_solomon_m,
+            "reed_solomon_symbol_n": self.reed_solomon_symbol_n,
+            "reed_solomon_symbol_k": self.reed_solomon_symbol_k,
+            "reed_solomon_primitive_polynomial": (
+                self.reed_solomon_primitive_polynomial
+            ),
+            "reed_solomon_evaluation_points": (
+                None if self.reed_solomon_evaluation_points is None
+                else list(self.reed_solomon_evaluation_points)
+            ),
+            "reed_solomon_column_multipliers": (
+                None if self.reed_solomon_column_multipliers is None
+                else list(self.reed_solomon_column_multipliers)
+            ),
 
             # Устаревшее поле.
             "expected_min_distance": self.expected_min_distance,
@@ -129,6 +152,12 @@ class CodeResearchConfig:
             if converted.get(key) is not None:
                 converted[key] = tuple(int(v) for v in converted[key])
 
+        for key in (
+            "reed_solomon_evaluation_points",
+            "reed_solomon_column_multipliers",
+        ):
+            if converted.get(key) is not None:
+                converted[key] = tuple(int(v) for v in converted[key])
         if converted.get("bch_puncture_coordinates") is not None:
             converted["bch_puncture_coordinates"] = tuple(
                 int(v)
@@ -311,6 +340,49 @@ class CodeResearchConfig:
             if self.k > self.n:
                 raise ValueError("k не может быть больше n")
 
+        elif self.family == "reed_solomon_binary":
+            required_values = {
+                "reed_solomon_m": self.reed_solomon_m,
+                "reed_solomon_symbol_n": self.reed_solomon_symbol_n,
+                "reed_solomon_symbol_k": self.reed_solomon_symbol_k,
+            }
+            missing_fields = [
+                name for name, value in required_values.items()
+                if value is None
+            ]
+            if missing_fields:
+                raise ValueError(
+                    "Для reed_solomon_binary не заданы параметры: "
+                    + ", ".join(missing_fields)
+                )
+            assert self.reed_solomon_m is not None
+            assert self.reed_solomon_symbol_n is not None
+            assert self.reed_solomon_symbol_k is not None
+            if self.reed_solomon_m <= 0:
+                raise ValueError("reed_solomon_m должно быть положительным")
+            if not (0 < self.reed_solomon_symbol_k < self.reed_solomon_symbol_n):
+                raise ValueError("Для RS требуется 0 < symbol_k < symbol_n")
+            if self.reed_solomon_symbol_n > (1 << self.reed_solomon_m):
+                raise ValueError("symbol_n не может превышать размер GF(2^m)")
+            if self.n != self.reed_solomon_m * self.reed_solomon_symbol_n:
+                raise ValueError("n не согласовано с RS symbol_n и m")
+            if self.k != self.reed_solomon_m * self.reed_solomon_symbol_k:
+                raise ValueError("k не согласовано с RS symbol_k и m")
+            field_size = 1 << self.reed_solomon_m
+            points = self.reed_solomon_evaluation_points
+            if points is not None:
+                if len(points) != self.reed_solomon_symbol_n:
+                    raise ValueError("Число evaluation points должно совпадать с symbol_n")
+                if len(set(points)) != len(points):
+                    raise ValueError("Evaluation points GRS должны быть уникальны")
+                if any(point < 0 or point >= field_size for point in points):
+                    raise ValueError("Evaluation points должны принадлежать GF(2^m)")
+            multipliers = self.reed_solomon_column_multipliers
+            if multipliers is not None:
+                if len(multipliers) != self.reed_solomon_symbol_n:
+                    raise ValueError("Число column multipliers должно совпадать с symbol_n")
+                if any(value <= 0 or value >= field_size for value in multipliers):
+                    raise ValueError("Column multipliers должны быть ненулевыми элементами GF(2^m)")
         else:
             raise ValueError(
                 f"Неизвестное семейство кода: {self.family}"
@@ -1386,3 +1458,175 @@ FINAL_20K_PRESET = ResearchConfig(
 )
 
 
+
+
+
+# GRS binary presets.  The target [16,8] construction is exhaustive-verified.
+REED_SOLOMON_16_8_CONFIG = CodeResearchConfig(
+    name="reed_solomon_binary_16_8",
+    family="reed_solomon_binary",
+    n=16,
+    k=8,
+    reed_solomon_m=4,
+    reed_solomon_symbol_n=4,
+    reed_solomon_symbol_k=2,
+    reed_solomon_primitive_polynomial=0b10011,
+    reed_solomon_evaluation_points=(0, 1, 2, 3),
+    reed_solomon_column_multipliers=(1, 3, 1, 3),
+    minimum_distance_exact=5,
+    minimum_distance_lower_bound=5,
+    minimum_distance_upper_bound=5,
+    distance_evidence="Exhaustive enumeration of all 255 non-zero GRS binary codewords",
+    verified_error_correction_radius=2,
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=4,
+)
+
+REED_SOLOMON_32_16_CONFIG = CodeResearchConfig(
+    name="reed_solomon_binary_32_16",
+    family="reed_solomon_binary",
+    n=32,
+    k=16,
+    reed_solomon_m=4,
+    reed_solomon_symbol_n=8,
+    reed_solomon_symbol_k=4,
+    reed_solomon_primitive_polynomial=0b10011,
+    reed_solomon_evaluation_points=(0, 1, 2, 3, 4, 5, 6, 7),
+    reed_solomon_column_multipliers=(1, 1, 1, 1, 1, 1, 1, 1),
+    minimum_distance_exact=6,
+    minimum_distance_lower_bound=6,
+    minimum_distance_upper_bound=6,
+    distance_evidence="Exhaustive enumeration of all 65535 non-zero GRS binary codewords",
+    verified_error_correction_radius=2,
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=6,
+)
+
+REED_SOLOMON_64_32_CONFIG = CodeResearchConfig(
+    name="reed_solomon_binary_64_32",
+    family="reed_solomon_binary",
+    n=64,
+    k=32,
+    reed_solomon_m=4,
+    reed_solomon_symbol_n=16,
+    reed_solomon_symbol_k=8,
+    reed_solomon_primitive_polynomial=0b10011,
+    reed_solomon_evaluation_points=tuple(range(16)),
+    reed_solomon_column_multipliers=(1,) * 16,
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=9,
+    minimum_distance_upper_bound=None,
+    distance_evidence="GRS(16,8) has 9 non-zero GF(16) symbols per non-zero word; each contributes at least one binary bit",
+    verified_error_correction_radius=2,
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=8,
+)
+
+# Dedicated equal-decoder configs do not alter existing three-family presets.
+FOUR_FAMILY_WAVELET_16_8_CONFIG = replace(WAVELET_16_8_CONFIG, name="wavelet_16_8_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=4)
+FOUR_FAMILY_BCH_DERIVED_16_8_CONFIG = replace(BCH_DERIVED_16_8_CONFIG, name="bch_derived_16_8_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=4)
+FOUR_FAMILY_GOPPA_16_8_CONFIG = replace(GOPPA_16_8_CONFIG, name="goppa_derived_16_8_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=4)
+REED_SOLOMON_16_8_EQUAL_CONFIG = replace(REED_SOLOMON_16_8_CONFIG, name="reed_solomon_binary_16_8_four_family")
+
+FOUR_FAMILY_WAVELET_32_16_CONFIG = replace(WAVELET_32_16_CONFIG, name="wavelet_32_16_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=6)
+FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG = replace(BCH_DERIVED_32_16_CONFIG, name="bch_derived_32_16_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=6)
+FOUR_FAMILY_GOPPA_32_16_CONFIG = replace(GOPPA_32_16_CONFIG, name="goppa_derived_32_16_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=6)
+REED_SOLOMON_32_16_EQUAL_CONFIG = replace(REED_SOLOMON_32_16_CONFIG, name="reed_solomon_binary_32_16_four_family")
+
+FOUR_FAMILY_WAVELET_64_32_CONFIG = replace(WAVELET_64_32_CONFIG, name="wavelet_64_32_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=8)
+FOUR_FAMILY_BCH_DERIVED_64_32_CONFIG = replace(BCH_DERIVED_64_32_CONFIG, name="bch_derived_64_32_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=8)
+FOUR_FAMILY_GOPPA_64_32_CONFIG = replace(GOPPA_64_32_CONFIG, name="goppa_derived_64_32_four_family", syndrome_max_error_weight=2, chase_inner_decoder_max_error_weight=2, chase_unreliable_positions_count=8)
+REED_SOLOMON_64_32_EQUAL_CONFIG = replace(REED_SOLOMON_64_32_CONFIG, name="reed_solomon_binary_64_32_four_family")
+
+def _four_family_config(message_count: int, codes: tuple[CodeResearchConfig, ...], results_dir: str) -> ResearchConfig:
+    return ResearchConfig(
+        message_count=message_count,
+        message_seed=12345,
+        noise_seed=54321,
+        ebn0_db_values=(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0),
+        codes=codes,
+        decoders=DecoderResearchConfig(
+            run_syndrome=True,
+            run_hard_mld=False,
+            run_soft_mld=False,
+            run_chase=False,
+            syndrome_max_error_weight=2,
+            chase_inner_decoder_max_error_weight=2,
+            chase_unreliable_positions_count=4,
+            max_k_for_mld=16,
+        ),
+        results_dir=results_dir,
+    )
+
+FOUR_FAMILIES_SMOKE_CONFIG = _four_family_config(
+    64,
+    (FOUR_FAMILY_WAVELET_16_8_CONFIG, FOUR_FAMILY_BCH_DERIVED_16_8_CONFIG, FOUR_FAMILY_GOPPA_16_8_CONFIG, REED_SOLOMON_16_8_EQUAL_CONFIG),
+    "research_results/four_families/16_8_smoke",
+)
+EQUAL_DECODER_SMOKE_FOUR_FAMILIES = FOUR_FAMILIES_SMOKE_CONFIG
+
+EQUAL_DECODER_20K_FOUR_FAMILIES_16_8 = _four_family_config(
+    20_000,
+    (FOUR_FAMILY_WAVELET_16_8_CONFIG, FOUR_FAMILY_BCH_DERIVED_16_8_CONFIG, FOUR_FAMILY_GOPPA_16_8_CONFIG, REED_SOLOMON_16_8_EQUAL_CONFIG),
+    "research_results/four_families/16_8_20k",
+)
+EQUAL_DECODER_20K_FOUR_FAMILIES_32_16 = _four_family_config(
+    20_000,
+    (FOUR_FAMILY_WAVELET_32_16_CONFIG, FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG, FOUR_FAMILY_GOPPA_32_16_CONFIG, REED_SOLOMON_32_16_EQUAL_CONFIG),
+    "research_results/four_families/32_16_20k",
+)
+EQUAL_DECODER_20K_FOUR_FAMILIES_64_32 = _four_family_config(
+    20_000,
+    (FOUR_FAMILY_WAVELET_64_32_CONFIG, FOUR_FAMILY_BCH_DERIVED_64_32_CONFIG, FOUR_FAMILY_GOPPA_64_32_CONFIG, REED_SOLOMON_64_32_EQUAL_CONFIG),
+    "research_results/four_families/64_32_20k",
+)
+
+# Corrected distance metadata and comparison semantics.
+# [32,16] is an equal-(n,k,R), equal-decoder comparison, not equal-distance.
+FOUR_FAMILY_WAVELET_32_16_CONFIG = replace(FOUR_FAMILY_WAVELET_32_16_CONFIG, minimum_distance_exact=8, minimum_distance_lower_bound=8, minimum_distance_upper_bound=8, distance_evidence="Exact binary d_min=8 verified for the fixed Wavelet [32,16] construction")
+FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG = replace(FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG, minimum_distance_exact=5, minimum_distance_lower_bound=5, minimum_distance_upper_bound=5, distance_evidence="Exact binary d_min=5 verified for the fixed BCH-derived [32,16] construction")
+FOUR_FAMILY_GOPPA_32_16_CONFIG = replace(FOUR_FAMILY_GOPPA_32_16_CONFIG, minimum_distance_exact=7, minimum_distance_lower_bound=7, minimum_distance_upper_bound=7, distance_evidence="Exact binary d_min=7 verified for the fixed Goppa-derived [32,16] construction")
+REED_SOLOMON_32_16_EQUAL_CONFIG = replace(REED_SOLOMON_32_16_CONFIG, name="reed_solomon_binary_32_16_four_family", minimum_distance_exact=6, minimum_distance_lower_bound=6, minimum_distance_upper_bound=6, distance_evidence="Exact binary d_min=6 by exhaustive enumeration of 65,535 non-zero GRS binary codewords")
+
+# [64,32] uses common conservative t=3 without claiming equal distance.
+FOUR_FAMILY_WAVELET_64_32_CONFIG = replace(FOUR_FAMILY_WAVELET_64_32_CONFIG, minimum_distance_exact=8, minimum_distance_lower_bound=8, minimum_distance_upper_bound=8, distance_evidence="Exact binary d_min=8 verified for the fixed Wavelet [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
+FOUR_FAMILY_BCH_DERIVED_64_32_CONFIG = replace(FOUR_FAMILY_BCH_DERIVED_64_32_CONFIG, minimum_distance_exact=None, minimum_distance_lower_bound=9, minimum_distance_upper_bound=10, distance_evidence="Verified binary distance interval 9 <= d_min <= 10 for the fixed BCH-derived [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
+FOUR_FAMILY_GOPPA_64_32_CONFIG = replace(FOUR_FAMILY_GOPPA_64_32_CONFIG, minimum_distance_exact=9, minimum_distance_lower_bound=9, minimum_distance_upper_bound=9, distance_evidence="Exact binary d_min=9 verified for the fixed Goppa-derived [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
+REED_SOLOMON_64_32_EQUAL_CONFIG = replace(REED_SOLOMON_64_32_CONFIG, name="reed_solomon_binary_64_32_four_family", minimum_distance_exact=10, minimum_distance_lower_bound=10, minimum_distance_upper_bound=10, distance_evidence="Exact binary d_min=10 verified for the fixed GRS binary [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
+
+EQUAL_DECODER_20K_FOUR_FAMILIES_32_16 = replace(EQUAL_DECODER_20K_FOUR_FAMILIES_32_16, codes=(FOUR_FAMILY_WAVELET_32_16_CONFIG, FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG, FOUR_FAMILY_GOPPA_32_16_CONFIG, REED_SOLOMON_32_16_EQUAL_CONFIG), results_dir="research_results/four_families/equal_nkr_equal_decoder/32_16_20k")
+EQUAL_DECODER_20K_FOUR_FAMILIES_64_32 = replace(EQUAL_DECODER_20K_FOUR_FAMILIES_64_32, codes=(FOUR_FAMILY_WAVELET_64_32_CONFIG, FOUR_FAMILY_BCH_DERIVED_64_32_CONFIG, FOUR_FAMILY_GOPPA_64_32_CONFIG, REED_SOLOMON_64_32_EQUAL_CONFIG), decoders=replace(EQUAL_DECODER_20K_FOUR_FAMILIES_64_32.decoders, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3), results_dir="research_results/four_families/equal_nkr_equal_decoder/64_32_20k")
+EQUAL_NKR_EQUAL_DECODER_20K_FOUR_FAMILIES_32_16 = EQUAL_DECODER_20K_FOUR_FAMILIES_32_16
+EQUAL_NKR_EQUAL_DECODER_20K_FOUR_FAMILIES_64_32 = EQUAL_DECODER_20K_FOUR_FAMILIES_64_32
+
+# Full-decoder four-family 20K presets.  Exact MLD is allowed only through k=16;
+# the generic runner writes explicit skipped rows for larger k.
+def _four_family_full_decoder_config(base: ResearchConfig, results_dir: str) -> ResearchConfig:
+    return replace(
+        base,
+        decoders=replace(
+            base.decoders,
+            run_syndrome=True,
+            run_chase=True,
+            run_hard_mld=True,
+            run_soft_mld=True,
+            max_k_for_mld=16,
+        ),
+        results_dir=results_dir,
+    )
+
+FOUR_FAMILIES_20K_FULL_DECODERS_16_8 = _four_family_full_decoder_config(
+    EQUAL_DECODER_20K_FOUR_FAMILIES_16_8,
+    "research_results/four_families/full_decoders/16_8_20k",
+)
+FOUR_FAMILIES_20K_FULL_DECODERS_32_16 = _four_family_full_decoder_config(
+    EQUAL_DECODER_20K_FOUR_FAMILIES_32_16,
+    "research_results/four_families/full_decoders/32_16_20k",
+)
+FOUR_FAMILIES_20K_FULL_DECODERS_64_32 = _four_family_full_decoder_config(
+    EQUAL_DECODER_20K_FOUR_FAMILIES_64_32,
+    "research_results/four_families/full_decoders/64_32_20k",
+)

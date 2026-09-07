@@ -8,7 +8,7 @@ import numpy as np
 from decode.chase_decoding import chase_decode
 from decode.maximum_likelihood_decoding import build_codebook
 from decode.syndrome_decoding import build_syndrome_table, syndrome_decode
-from decode.syndrome_decoding.gf2 import to_binary_matrix
+from decode.syndrome_decoding.gf2 import solve_gf2, to_binary_matrix
 from modulation.modulator import bpsk_modulate
 
 
@@ -66,6 +66,20 @@ def _validate_reliability(reliability: np.ndarray) -> np.ndarray:
     return reliability
 
 
+def _build_message_recovery_matrix(generator_matrix: np.ndarray) -> np.ndarray:
+    """Precompute a GF(2) right inverse that maps codewords back to messages."""
+    generator_matrix = to_binary_matrix(generator_matrix, name="generator_matrix")
+    k, n = generator_matrix.shape
+    recovery = np.zeros((n, k), dtype=np.uint8)
+    for message_index in range(k):
+        target = np.zeros(k, dtype=np.uint8)
+        target[message_index] = 1
+        recovery[:, message_index] = solve_gf2(generator_matrix, target)
+    if not np.array_equal((generator_matrix @ recovery) % 2, np.eye(k, dtype=np.uint8)):
+        raise ValueError("generator_matrix не имеет корректного GF(2) recovery matrix")
+    return recovery
+
+
 def syndrome_decode_batch(
     received_words: np.ndarray,
     parity_check_matrix: np.ndarray,
@@ -73,29 +87,14 @@ def syndrome_decode_batch(
     max_error_weight: int,
     syndrome_table: Optional[Mapping[tuple[int, ...], np.ndarray]] = None,
 ) -> DecoderBatchResult:
-    """
-    Пакетный запуск синдромного декодера.
-    """
+    """Векторизованный batch syndrome decoder с одним предвычислением recovery."""
     received_words = _validate_received_words(received_words)
-
-    generator_matrix = to_binary_matrix(
-        generator_matrix,
-        name="generator_matrix",
-    )
-
-    parity_check_matrix = to_binary_matrix(
-        parity_check_matrix,
-        name="parity_check_matrix",
-    )
-
+    generator_matrix = to_binary_matrix(generator_matrix, name="generator_matrix")
+    parity_check_matrix = to_binary_matrix(parity_check_matrix, name="parity_check_matrix")
     message_count, n = received_words.shape
     k = generator_matrix.shape[0]
-
-    decoded_messages = _empty_decoded_messages(message_count, k)
-    decoded_codewords = _empty_decoded_codewords(message_count, n)
-    success_flags = np.zeros(message_count, dtype=bool)
-    ambiguous_flags = np.zeros(message_count, dtype=bool)
-
+    if generator_matrix.shape[1] != n or parity_check_matrix.shape[1] != n:
+        raise ValueError("Размерности received_words, G и H должны совпадать по n")
     if syndrome_table is None:
         syndrome_table = build_syndrome_table(
             parity_check_matrix=parity_check_matrix,
@@ -103,30 +102,31 @@ def syndrome_decode_batch(
         )
 
     start_time = perf_counter()
+    recovery_matrix = _build_message_recovery_matrix(generator_matrix)
+    syndromes = (received_words @ parity_check_matrix.T) % 2
+    error_vectors = np.zeros((message_count, n), dtype=np.uint8)
+    table_hits = np.zeros(message_count, dtype=bool)
+    for index, syndrome in enumerate(syndromes):
+        error_vector = syndrome_table.get(tuple(int(value) for value in syndrome))
+        if error_vector is not None:
+            error_vectors[index] = error_vector
+            table_hits[index] = True
 
-    for index, received_word in enumerate(received_words):
-        result = syndrome_decode(
-            received_word=received_word,
-            parity_check_matrix=parity_check_matrix,
-            generator_matrix=generator_matrix,
-            syndrome_table=syndrome_table,
-            max_error_weight=max_error_weight,
-        )
-
-        success_flags[index] = result.success
-        decoded_codewords[index] = result.corrected_word
-
-        if result.decoded_message is not None:
-            decoded_messages[index] = result.decoded_message
-
+    corrected_codewords = (received_words + error_vectors) % 2
+    corrected_syndromes = (corrected_codewords @ parity_check_matrix.T) % 2
+    success_flags = table_hits & np.all(corrected_syndromes == 0, axis=1)
+    decoded_messages = _empty_decoded_messages(message_count, k)
+    if np.any(success_flags):
+        decoded_messages[success_flags] = (
+            corrected_codewords[success_flags] @ recovery_matrix
+        ) % 2
     total_time_sec = perf_counter() - start_time
-
     return DecoderBatchResult(
         decoder_name="syndrome",
         decoded_messages=decoded_messages,
-        decoded_codewords=decoded_codewords,
+        decoded_codewords=corrected_codewords,
         success_flags=success_flags,
-        ambiguous_flags=ambiguous_flags,
+        ambiguous_flags=np.zeros(message_count, dtype=bool),
         total_time_sec=total_time_sec,
     )
 
@@ -273,37 +273,18 @@ def chase_decode_batch(
     inner_decoder_max_error_weight: int,
     syndrome_table: Optional[Mapping[tuple[int, ...], np.ndarray]] = None,
 ) -> DecoderBatchResult:
-    """
-    Пакетный запуск алгоритма Чейза.
-    """
+    """Векторизованный Chase: все test patterns декодируются одним syndrome batch."""
     received_words = _validate_received_words(received_words)
     received_symbols = _validate_received_symbols(received_symbols)
     reliability = _validate_reliability(reliability)
-
-    generator_matrix = to_binary_matrix(
-        generator_matrix,
-        name="generator_matrix",
-    )
-
-    parity_check_matrix = to_binary_matrix(
-        parity_check_matrix,
-        name="parity_check_matrix",
-    )
-
-    if received_words.shape != received_symbols.shape:
-        raise ValueError("received_words и received_symbols должны иметь одинаковую форму")
-
-    if received_words.shape != reliability.shape:
-        raise ValueError("received_words и reliability должны иметь одинаковую форму")
-
+    generator_matrix = to_binary_matrix(generator_matrix, name="generator_matrix")
+    parity_check_matrix = to_binary_matrix(parity_check_matrix, name="parity_check_matrix")
+    if received_words.shape != received_symbols.shape or received_words.shape != reliability.shape:
+        raise ValueError("received_words, received_symbols и reliability должны иметь одинаковую форму")
     message_count, n = received_words.shape
     k = generator_matrix.shape[0]
-
-    decoded_messages = _empty_decoded_messages(message_count, k)
-    decoded_codewords = _empty_decoded_codewords(message_count, n)
-    success_flags = np.zeros(message_count, dtype=bool)
-    ambiguous_flags = np.zeros(message_count, dtype=bool)
-
+    if unreliable_positions_count <= 0 or unreliable_positions_count > n:
+        raise ValueError("unreliable_positions_count должен лежать в диапазоне 1..n")
     if syndrome_table is None:
         syndrome_table = build_syndrome_table(
             parity_check_matrix=parity_check_matrix,
@@ -311,30 +292,52 @@ def chase_decode_batch(
         )
 
     start_time = perf_counter()
+    positions = np.argsort(reliability, axis=1, kind="stable")[:, :unreliable_positions_count]
+    patterns_count = 1 << unreliable_positions_count
+    local_patterns = ((
+        np.arange(patterns_count, dtype=np.uint32)[:, None]
+        >> np.arange(unreliable_positions_count, dtype=np.uint32)[None, :]
+    ) & 1).astype(np.uint8)
+    trial_words = np.broadcast_to(
+        received_words[:, None, :], (message_count, patterns_count, n)
+    ).copy()
+    rows = np.arange(message_count)[:, None]
+    pattern_indices = np.arange(patterns_count)[None, :]
+    for local_index in range(unreliable_positions_count):
+        trial_words[rows, pattern_indices, positions[:, local_index, None]] ^= local_patterns[None, :, local_index]
 
-    for index in range(message_count):
-        result = chase_decode(
-            received_word=received_words[index],
-            received_symbols=received_symbols[index],
-            reliability=reliability[index],
-            parity_check_matrix=parity_check_matrix,
-            generator_matrix=generator_matrix,
-            unreliable_positions_count=unreliable_positions_count,
-            inner_decoder_max_error_weight=inner_decoder_max_error_weight,
-            syndrome_table=syndrome_table,
-        )
+    syndrome_result = syndrome_decode_batch(
+        received_words=trial_words.reshape(-1, n),
+        parity_check_matrix=parity_check_matrix,
+        generator_matrix=generator_matrix,
+        max_error_weight=inner_decoder_max_error_weight,
+        syndrome_table=syndrome_table,
+    )
+    candidate_success = syndrome_result.success_flags.reshape(message_count, patterns_count)
+    candidate_codewords = syndrome_result.decoded_codewords.reshape(message_count, patterns_count, n)
+    candidate_messages = syndrome_result.decoded_messages.reshape(message_count, patterns_count, k)
+    modulated = 1.0 - 2.0 * candidate_codewords
+    metrics = np.sum((received_symbols[:, None, :] - modulated) ** 2, axis=2)
+    metrics[~candidate_success] = np.inf
+    best_indices = np.argmin(metrics, axis=1)
+    success_flags = np.isfinite(metrics[np.arange(message_count), best_indices])
+    decoded_codewords = _empty_decoded_codewords(message_count, n)
+    decoded_messages = _empty_decoded_messages(message_count, k)
+    decoded_codewords[success_flags] = candidate_codewords[
+        np.arange(message_count)[success_flags], best_indices[success_flags]
+    ]
+    decoded_messages[success_flags] = candidate_messages[
+        np.arange(message_count)[success_flags], best_indices[success_flags]
+    ]
 
-        success_flags[index] = result.success
-        ambiguous_flags[index] = result.ambiguous
-
-        if result.decoded_codeword is not None:
-            decoded_codewords[index] = result.decoded_codeword
-
-        if result.decoded_message is not None:
-            decoded_messages[index] = result.decoded_message
+    ambiguous_flags = np.zeros(message_count, dtype=bool)
+    for index in np.flatnonzero(success_flags):
+        best_metric = metrics[index, best_indices[index]]
+        tied = np.flatnonzero(np.isclose(metrics[index], best_metric))
+        unique_codewords = {candidate_codewords[index, candidate].tobytes() for candidate in tied}
+        ambiguous_flags[index] = len(unique_codewords) > 1
 
     total_time_sec = perf_counter() - start_time
-
     return DecoderBatchResult(
         decoder_name="chase",
         decoded_messages=decoded_messages,

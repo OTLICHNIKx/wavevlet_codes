@@ -32,6 +32,7 @@ class ExperimentResponse(BaseModel):
     error_message: str
     config: dict[str, Any]
     runtime_config_available: bool = True
+    log_available: bool = True
 
 
 class ResultDataResponse(BaseModel):
@@ -57,6 +58,7 @@ class PlotExportRequest(PlotPreviewRequest):
 
 class UserPresetRequest(BaseModel):
     name: str = Field(min_length=1, max_length=120)
+    description: str = Field(default="", max_length=4000)
     config: ResearchConfigSchema
 
 

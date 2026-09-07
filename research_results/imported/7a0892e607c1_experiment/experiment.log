@@ -1,0 +1,702 @@
+PROGRESS {"stage": "started", "codes": ["wavelet_16_8_equal", "bch_derived_16_8_equal", "wavelet_32_16_equal", "bch_derived_32_16_equal", "wavelet_64_32_equal", "bch_derived_64_32_equal"], "ebn0_db_values": [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0], "message_count": 20000, "code_count": 6, "decoder_count": 4, "ebn0_point_count": 11, "total_series": 264, "total_frames": 5280000, "chase_patterns_total": 672, "mld_codewords_total": 131584}
+Запуск исследования декодеров
+----------------------------------------------------------------------
+Количество сообщений: 20000
+Eb/N0 values: (0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0)
+Результаты: /app/research_results/web/ff586c9d7175_experiment
+PROGRESS {"stage": "validating", "codes": ["wavelet_16_8_equal", "bch_derived_16_8_equal", "wavelet_32_16_equal", "bch_derived_32_16_equal", "wavelet_64_32_equal", "bch_derived_64_32_equal"], "ebn0_db_values": [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0], "message_count": 20000, "completed": 0, "total": 264}
+
+Код wavelet_16_8_equal [wavelet]: n=16, k=8
+PROGRESS {"completed": 0, "total": 264, "stage": "code_started", "code": "wavelet_16_8_equal", "family": "wavelet", "n": 16, "k": 8, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=1: 17 синдромов / 17 шаблонов, коллизий 0, ~0.00 MiB, построение 0.000s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.738163, FER=0.747600, failure=0.731300, ambiguous=0.000000, time=1.164s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.7381625, "fer": 0.7476, "failure_rate": 0.7313, "completed_decoders": 1, "planned_decoders": 4, "completed": 1, "total": 264}
+    hard_mld: BER=0.200256, FER=0.426650, failure=0.000000, ambiguous=0.262100, time=0.155s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": false, "ber": 0.20025625, "fer": 0.42665, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 2, "total": 264}
+    soft_mld: BER=0.109662, FER=0.238150, failure=0.000000, ambiguous=0.000100, time=0.030s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": false, "ber": 0.1096625, "fer": 0.23815, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 3, "total": 264}
+    chase: BER=0.211556, FER=0.324550, failure=0.118400, ambiguous=0.000000, time=17.367s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.21155625, "fer": 0.32455, "failure_rate": 0.1184, "completed_decoders": 4, "planned_decoders": 4, "completed": 4, "total": 264}
+PROGRESS {"completed": 4, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.690806, FER=0.697550, failure=0.685950, ambiguous=0.000000, time=1.332s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.69080625, "fer": 0.69755, "failure_rate": 0.68595, "completed_decoders": 1, "planned_decoders": 4, "completed": 5, "total": 264}
+    hard_mld: BER=0.172506, FER=0.367400, failure=0.000000, ambiguous=0.227550, time=0.160s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": false, "ber": 0.17250625, "fer": 0.3674, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 6, "total": 264}
+    soft_mld: BER=0.082594, FER=0.181100, failure=0.000000, ambiguous=0.000000, time=0.020s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": false, "ber": 0.08259375, "fer": 0.1811, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 7, "total": 264}
+    chase: BER=0.171525, FER=0.261900, failure=0.097650, ambiguous=0.000000, time=16.626s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.171525, "fer": 0.2619, "failure_rate": 0.09765, "completed_decoders": 4, "planned_decoders": 4, "completed": 8, "total": 264}
+PROGRESS {"completed": 8, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.634625, FER=0.639950, failure=0.630750, ambiguous=0.000000, time=1.447s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.634625, "fer": 0.63995, "failure_rate": 0.63075, "completed_decoders": 1, "planned_decoders": 4, "completed": 9, "total": 264}
+    hard_mld: BER=0.143331, FER=0.306500, failure=0.000000, ambiguous=0.195500, time=0.152s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": false, "ber": 0.14333125, "fer": 0.3065, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 10, "total": 264}
+    soft_mld: BER=0.060600, FER=0.134000, failure=0.000000, ambiguous=0.000000, time=0.023s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0606, "fer": 0.134, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 11, "total": 264}
+    chase: BER=0.133387, FER=0.205300, failure=0.076350, ambiguous=0.000000, time=17.183s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.1333875, "fer": 0.2053, "failure_rate": 0.07635, "completed_decoders": 4, "planned_decoders": 4, "completed": 12, "total": 264}
+PROGRESS {"completed": 12, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.572919, FER=0.577650, failure=0.569800, ambiguous=0.000000, time=1.576s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.57291875, "fer": 0.57765, "failure_rate": 0.5698, "completed_decoders": 1, "planned_decoders": 4, "completed": 13, "total": 264}
+    hard_mld: BER=0.116825, FER=0.250400, failure=0.000000, ambiguous=0.163250, time=0.147s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": false, "ber": 0.116825, "fer": 0.2504, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 14, "total": 264}
+    soft_mld: BER=0.043219, FER=0.096550, failure=0.000000, ambiguous=0.000000, time=0.021s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": false, "ber": 0.04321875, "fer": 0.09655, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 15, "total": 264}
+    chase: BER=0.099631, FER=0.153650, failure=0.057000, ambiguous=0.000000, time=17.825s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.09963125, "fer": 0.15365, "failure_rate": 0.057, "completed_decoders": 4, "planned_decoders": 4, "completed": 16, "total": 264}
+PROGRESS {"completed": 16, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.506506, FER=0.509550, failure=0.504350, ambiguous=0.000000, time=1.760s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.50650625, "fer": 0.50955, "failure_rate": 0.50435, "completed_decoders": 1, "planned_decoders": 4, "completed": 17, "total": 264}
+    hard_mld: BER=0.092594, FER=0.198400, failure=0.000000, ambiguous=0.130650, time=0.140s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": false, "ber": 0.09259375, "fer": 0.1984, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 18, "total": 264}
+    soft_mld: BER=0.028088, FER=0.062750, failure=0.000000, ambiguous=0.000050, time=0.020s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0280875, "fer": 0.06275, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 19, "total": 264}
+    chase: BER=0.069038, FER=0.106100, failure=0.040000, ambiguous=0.000000, time=18.487s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.0690375, "fer": 0.1061, "failure_rate": 0.04, "completed_decoders": 4, "planned_decoders": 4, "completed": 20, "total": 264}
+PROGRESS {"completed": 20, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.434631, FER=0.436550, failure=0.433300, ambiguous=0.000000, time=1.899s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.43463125, "fer": 0.43655, "failure_rate": 0.4333, "completed_decoders": 1, "planned_decoders": 4, "completed": 21, "total": 264}
+    hard_mld: BER=0.069075, FER=0.149250, failure=0.000000, ambiguous=0.098950, time=0.136s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": false, "ber": 0.069075, "fer": 0.14925, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 22, "total": 264}
+    soft_mld: BER=0.016781, FER=0.038700, failure=0.000000, ambiguous=0.000000, time=0.021s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": false, "ber": 0.01678125, "fer": 0.0387, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 23, "total": 264}
+    chase: BER=0.045125, FER=0.070200, failure=0.025950, ambiguous=0.000000, time=19.209s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.045125, "fer": 0.0702, "failure_rate": 0.02595, "completed_decoders": 4, "planned_decoders": 4, "completed": 24, "total": 264}
+PROGRESS {"completed": 24, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.365412, FER=0.366700, failure=0.364650, ambiguous=0.000000, time=2.058s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.3654125, "fer": 0.3667, "failure_rate": 0.36465, "completed_decoders": 1, "planned_decoders": 4, "completed": 25, "total": 264}
+    hard_mld: BER=0.050219, FER=0.108700, failure=0.000000, ambiguous=0.072800, time=0.152s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": false, "ber": 0.05021875, "fer": 0.1087, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 26, "total": 264}
+    soft_mld: BER=0.009088, FER=0.020850, failure=0.000000, ambiguous=0.000000, time=0.024s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0090875, "fer": 0.02085, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 27, "total": 264}
+    chase: BER=0.026275, FER=0.041450, failure=0.014500, ambiguous=0.000000, time=19.938s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.026275, "fer": 0.04145, "failure_rate": 0.0145, "completed_decoders": 4, "planned_decoders": 4, "completed": 28, "total": 264}
+PROGRESS {"completed": 28, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.294531, FER=0.295250, failure=0.293950, ambiguous=0.000000, time=2.222s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.29453125, "fer": 0.29525, "failure_rate": 0.29395, "completed_decoders": 1, "planned_decoders": 4, "completed": 29, "total": 264}
+    hard_mld: BER=0.034875, FER=0.075500, failure=0.000000, ambiguous=0.051550, time=0.151s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": false, "ber": 0.034875, "fer": 0.0755, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 30, "total": 264}
+    soft_mld: BER=0.004750, FER=0.010750, failure=0.000000, ambiguous=0.000000, time=0.025s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": false, "ber": 0.00475, "fer": 0.01075, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 31, "total": 264}
+    chase: BER=0.014375, FER=0.022500, failure=0.007900, ambiguous=0.000000, time=20.508s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.014375, "fer": 0.0225, "failure_rate": 0.0079, "completed_decoders": 4, "planned_decoders": 4, "completed": 32, "total": 264}
+PROGRESS {"completed": 32, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.225575, FER=0.225950, failure=0.225200, ambiguous=0.000000, time=2.422s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.225575, "fer": 0.22595, "failure_rate": 0.2252, "completed_decoders": 1, "planned_decoders": 4, "completed": 33, "total": 264}
+    hard_mld: BER=0.021925, FER=0.047950, failure=0.000000, ambiguous=0.033550, time=0.137s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": false, "ber": 0.021925, "fer": 0.04795, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 34, "total": 264}
+    soft_mld: BER=0.002363, FER=0.005500, failure=0.000000, ambiguous=0.000000, time=0.021s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0023625, "fer": 0.0055, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 35, "total": 264}
+    chase: BER=0.007437, FER=0.011550, failure=0.004150, ambiguous=0.000000, time=21.025s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.0074375, "fer": 0.01155, "failure_rate": 0.00415, "completed_decoders": 4, "planned_decoders": 4, "completed": 36, "total": 264}
+PROGRESS {"completed": 36, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.165063, FER=0.165200, failure=0.164900, ambiguous=0.000000, time=2.549s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.1650625, "fer": 0.1652, "failure_rate": 0.1649, "completed_decoders": 1, "planned_decoders": 4, "completed": 37, "total": 264}
+    hard_mld: BER=0.012800, FER=0.027900, failure=0.000000, ambiguous=0.019650, time=0.142s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": false, "ber": 0.0128, "fer": 0.0279, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 38, "total": 264}
+    soft_mld: BER=0.001063, FER=0.002450, failure=0.000000, ambiguous=0.000000, time=0.023s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": false, "ber": 0.0010625, "fer": 0.00245, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 39, "total": 264}
+    chase: BER=0.003706, FER=0.005950, failure=0.001950, ambiguous=0.000000, time=21.540s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.00370625, "fer": 0.00595, "failure_rate": 0.00195, "completed_decoders": 4, "planned_decoders": 4, "completed": 40, "total": 264}
+PROGRESS {"completed": 40, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.115344, FER=0.115400, failure=0.115250, ambiguous=0.000000, time=2.666s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.11534375, "fer": 0.1154, "failure_rate": 0.11525, "completed_decoders": 1, "planned_decoders": 4, "completed": 41, "total": 264}
+    hard_mld: BER=0.007431, FER=0.016400, failure=0.000000, ambiguous=0.011250, time=0.152s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": false, "ber": 0.00743125, "fer": 0.0164, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 42, "total": 264}
+    soft_mld: BER=0.000588, FER=0.001350, failure=0.000000, ambiguous=0.000000, time=0.023s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0005875, "fer": 0.00135, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 43, "total": 264}
+    chase: BER=0.001863, FER=0.003000, failure=0.001000, ambiguous=0.000000, time=21.657s
+PROGRESS {"stage": "running", "code": "wavelet_16_8_equal", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.0018625, "fer": 0.003, "failure_rate": 0.001, "completed_decoders": 4, "planned_decoders": 4, "completed": 44, "total": 264}
+PROGRESS {"completed": 44, "total": 264, "stage": "ebn0_finished", "code": "wavelet_16_8_equal", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 44, "total": 264, "stage": "code_finished", "code": "wavelet_16_8_equal"}
+
+Код bch_derived_16_8_equal [bch_derived]: n=16, k=8
+PROGRESS {"completed": 44, "total": 264, "stage": "code_started", "code": "bch_derived_16_8_equal", "family": "bch_derived", "n": 16, "k": 8, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=1: 17 синдромов / 17 шаблонов, коллизий 0, ~0.00 MiB, построение 0.000s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.734175, FER=0.744600, failure=0.729100, ambiguous=0.000000, time=1.103s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.734175, "fer": 0.7446, "failure_rate": 0.7291, "completed_decoders": 1, "planned_decoders": 4, "completed": 45, "total": 264}
+    hard_mld: BER=0.155075, FER=0.427550, failure=0.000000, ambiguous=0.259600, time=0.150s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": false, "ber": 0.155075, "fer": 0.42755, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 46, "total": 264}
+    soft_mld: BER=0.084400, FER=0.235500, failure=0.000000, ambiguous=0.000050, time=0.025s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0844, "fer": 0.2355, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 47, "total": 264}
+    chase: BER=0.190312, FER=0.321900, failure=0.118400, ambiguous=0.000000, time=14.722s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.1903125, "fer": 0.3219, "failure_rate": 0.1184, "completed_decoders": 4, "planned_decoders": 4, "completed": 48, "total": 264}
+PROGRESS {"completed": 48, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.687175, FER=0.695200, failure=0.683250, ambiguous=0.000000, time=1.203s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.687175, "fer": 0.6952, "failure_rate": 0.68325, "completed_decoders": 1, "planned_decoders": 4, "completed": 49, "total": 264}
+    hard_mld: BER=0.133587, FER=0.369550, failure=0.000000, ambiguous=0.225150, time=0.138s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": false, "ber": 0.1335875, "fer": 0.36955, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 50, "total": 264}
+    soft_mld: BER=0.064744, FER=0.181850, failure=0.000000, ambiguous=0.000000, time=0.023s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": false, "ber": 0.06474375, "fer": 0.18185, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 51, "total": 264}
+    chase: BER=0.154731, FER=0.260350, failure=0.097750, ambiguous=0.000000, time=15.885s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.15473125, "fer": 0.26035, "failure_rate": 0.09775, "completed_decoders": 4, "planned_decoders": 4, "completed": 52, "total": 264}
+PROGRESS {"completed": 52, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.630244, FER=0.636500, failure=0.627050, ambiguous=0.000000, time=1.401s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.63024375, "fer": 0.6365, "failure_rate": 0.62705, "completed_decoders": 1, "planned_decoders": 4, "completed": 53, "total": 264}
+    hard_mld: BER=0.110812, FER=0.309400, failure=0.000000, ambiguous=0.194250, time=0.152s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": false, "ber": 0.1108125, "fer": 0.3094, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 54, "total": 264}
+    soft_mld: BER=0.046762, FER=0.132700, failure=0.000000, ambiguous=0.000050, time=0.024s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0467625, "fer": 0.1327, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 55, "total": 264}
+    chase: BER=0.120294, FER=0.201550, failure=0.077000, ambiguous=0.000000, time=16.665s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.12029375, "fer": 0.20155, "failure_rate": 0.077, "completed_decoders": 4, "planned_decoders": 4, "completed": 56, "total": 264}
+PROGRESS {"completed": 56, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.569588, FER=0.574000, failure=0.567400, ambiguous=0.000000, time=1.583s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.5695875, "fer": 0.574, "failure_rate": 0.5674, "completed_decoders": 1, "planned_decoders": 4, "completed": 57, "total": 264}
+    hard_mld: BER=0.089012, FER=0.251150, failure=0.000000, ambiguous=0.160500, time=0.143s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": false, "ber": 0.0890125, "fer": 0.25115, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 58, "total": 264}
+    soft_mld: BER=0.032313, FER=0.092900, failure=0.000000, ambiguous=0.000000, time=0.025s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": false, "ber": 0.0323125, "fer": 0.0929, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 59, "total": 264}
+    chase: BER=0.088938, FER=0.149150, failure=0.056900, ambiguous=0.000000, time=17.595s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.0889375, "fer": 0.14915, "failure_rate": 0.0569, "completed_decoders": 4, "planned_decoders": 4, "completed": 60, "total": 264}
+PROGRESS {"completed": 60, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.503537, FER=0.506750, failure=0.502000, ambiguous=0.000000, time=1.655s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.5035375, "fer": 0.50675, "failure_rate": 0.502, "completed_decoders": 1, "planned_decoders": 4, "completed": 61, "total": 264}
+    hard_mld: BER=0.069362, FER=0.196800, failure=0.000000, ambiguous=0.127850, time=0.146s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": false, "ber": 0.0693625, "fer": 0.1968, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 62, "total": 264}
+    soft_mld: BER=0.021163, FER=0.061000, failure=0.000000, ambiguous=0.000000, time=0.023s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0211625, "fer": 0.061, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 63, "total": 264}
+    chase: BER=0.060913, FER=0.102800, failure=0.038750, ambiguous=0.000000, time=17.723s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.0609125, "fer": 0.1028, "failure_rate": 0.03875, "completed_decoders": 4, "planned_decoders": 4, "completed": 64, "total": 264}
+PROGRESS {"completed": 64, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.433306, FER=0.435500, failure=0.432350, ambiguous=0.000000, time=1.782s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.43330625, "fer": 0.4355, "failure_rate": 0.43235, "completed_decoders": 1, "planned_decoders": 4, "completed": 65, "total": 264}
+    hard_mld: BER=0.051750, FER=0.148500, failure=0.000000, ambiguous=0.097050, time=0.134s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": false, "ber": 0.05175, "fer": 0.1485, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 66, "total": 264}
+    soft_mld: BER=0.013131, FER=0.038500, failure=0.000000, ambiguous=0.000050, time=0.021s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": false, "ber": 0.01313125, "fer": 0.0385, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 67, "total": 264}
+    chase: BER=0.040519, FER=0.068750, failure=0.026050, ambiguous=0.000000, time=18.220s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.04051875, "fer": 0.06875, "failure_rate": 0.02605, "completed_decoders": 4, "planned_decoders": 4, "completed": 68, "total": 264}
+PROGRESS {"completed": 68, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.364569, FER=0.365700, failure=0.364050, ambiguous=0.000000, time=1.973s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.36456875, "fer": 0.3657, "failure_rate": 0.36405, "completed_decoders": 1, "planned_decoders": 4, "completed": 69, "total": 264}
+    hard_mld: BER=0.037312, FER=0.106850, failure=0.000000, ambiguous=0.073050, time=0.149s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": false, "ber": 0.0373125, "fer": 0.10685, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 70, "total": 264}
+    soft_mld: BER=0.007681, FER=0.022500, failure=0.000000, ambiguous=0.000000, time=0.022s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": false, "ber": 0.00768125, "fer": 0.0225, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 71, "total": 264}
+    chase: BER=0.024875, FER=0.042700, failure=0.015650, ambiguous=0.000000, time=20.197s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.024875, "fer": 0.0427, "failure_rate": 0.01565, "completed_decoders": 4, "planned_decoders": 4, "completed": 72, "total": 264}
+PROGRESS {"completed": 72, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.292262, FER=0.293000, failure=0.291900, ambiguous=0.000000, time=2.140s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.2922625, "fer": 0.293, "failure_rate": 0.2919, "completed_decoders": 1, "planned_decoders": 4, "completed": 73, "total": 264}
+    hard_mld: BER=0.025975, FER=0.074950, failure=0.000000, ambiguous=0.052200, time=0.143s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": false, "ber": 0.025975, "fer": 0.07495, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 74, "total": 264}
+    soft_mld: BER=0.004194, FER=0.012650, failure=0.000000, ambiguous=0.000000, time=0.022s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": false, "ber": 0.00419375, "fer": 0.01265, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 75, "total": 264}
+    chase: BER=0.013531, FER=0.023800, failure=0.008250, ambiguous=0.000000, time=19.647s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.01353125, "fer": 0.0238, "failure_rate": 0.00825, "completed_decoders": 4, "planned_decoders": 4, "completed": 76, "total": 264}
+PROGRESS {"completed": 76, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.227075, FER=0.227400, failure=0.226900, ambiguous=0.000000, time=2.208s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.227075, "fer": 0.2274, "failure_rate": 0.2269, "completed_decoders": 1, "planned_decoders": 4, "completed": 77, "total": 264}
+    hard_mld: BER=0.016637, FER=0.047950, failure=0.000000, ambiguous=0.033450, time=0.140s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": false, "ber": 0.0166375, "fer": 0.04795, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 78, "total": 264}
+    soft_mld: BER=0.001819, FER=0.005550, failure=0.000000, ambiguous=0.000050, time=0.022s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": false, "ber": 0.00181875, "fer": 0.00555, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 79, "total": 264}
+    chase: BER=0.007119, FER=0.012400, failure=0.004450, ambiguous=0.000050, time=19.827s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.00711875, "fer": 0.0124, "failure_rate": 0.00445, "completed_decoders": 4, "planned_decoders": 4, "completed": 80, "total": 264}
+PROGRESS {"completed": 80, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.168025, FER=0.168200, failure=0.167900, ambiguous=0.000000, time=2.392s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.168025, "fer": 0.1682, "failure_rate": 0.1679, "completed_decoders": 1, "planned_decoders": 4, "completed": 81, "total": 264}
+    hard_mld: BER=0.009975, FER=0.028700, failure=0.000000, ambiguous=0.019900, time=0.149s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": false, "ber": 0.009975, "fer": 0.0287, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 82, "total": 264}
+    soft_mld: BER=0.000869, FER=0.002600, failure=0.000000, ambiguous=0.000000, time=0.023s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": false, "ber": 0.00086875, "fer": 0.0026, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 83, "total": 264}
+    chase: BER=0.003294, FER=0.006200, failure=0.001850, ambiguous=0.000000, time=21.264s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.00329375, "fer": 0.0062, "failure_rate": 0.00185, "completed_decoders": 4, "planned_decoders": 4, "completed": 84, "total": 264}
+PROGRESS {"completed": 84, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.119681, FER=0.119800, failure=0.119600, ambiguous=0.000000, time=2.414s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.11968125, "fer": 0.1198, "failure_rate": 0.1196, "completed_decoders": 1, "planned_decoders": 4, "completed": 85, "total": 264}
+    hard_mld: BER=0.005994, FER=0.017050, failure=0.000000, ambiguous=0.012250, time=0.159s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": false, "ber": 0.00599375, "fer": 0.01705, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 86, "total": 264}
+    soft_mld: BER=0.000262, FER=0.000900, failure=0.000000, ambiguous=0.000000, time=0.024s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0002625, "fer": 0.0009, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 87, "total": 264}
+    chase: BER=0.001262, FER=0.002300, failure=0.000750, ambiguous=0.000000, time=20.290s
+PROGRESS {"stage": "running", "code": "bch_derived_16_8_equal", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.0012625, "fer": 0.0023, "failure_rate": 0.00075, "completed_decoders": 4, "planned_decoders": 4, "completed": 88, "total": 264}
+PROGRESS {"completed": 88, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_16_8_equal", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 88, "total": 264, "stage": "code_finished", "code": "bch_derived_16_8_equal"}
+
+Код wavelet_32_16_equal [wavelet]: n=32, k=16
+PROGRESS {"completed": 88, "total": 264, "stage": "code_started", "code": "wavelet_32_16_equal", "family": "wavelet", "n": 32, "k": 16, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=2: 529 синдромов / 529 шаблонов, коллизий 0, ~0.05 MiB, построение 0.000s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.895997, FER=0.897250, failure=0.894750, ambiguous=0.000000, time=1.216s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.895996875, "fer": 0.89725, "failure_rate": 0.89475, "completed_decoders": 1, "planned_decoders": 4, "completed": 89, "total": 264}
+    hard_mld: BER=0.299766, FER=0.614850, failure=0.000000, ambiguous=0.525300, time=48.935s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": false, "ber": 0.299765625, "fer": 0.61485, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 90, "total": 264}
+    soft_mld: BER=0.148234, FER=0.303500, failure=0.000000, ambiguous=0.000150, time=15.019s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": false, "ber": 0.148234375, "fer": 0.3035, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 91, "total": 264}
+    chase: BER=0.438475, FER=0.512450, failure=0.369200, ambiguous=0.000000, time=59.428s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.438475, "fer": 0.51245, "failure_rate": 0.3692, "completed_decoders": 4, "planned_decoders": 4, "completed": 92, "total": 264}
+PROGRESS {"completed": 92, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.854313, FER=0.855450, failure=0.853300, ambiguous=0.000000, time=1.487s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.8543125, "fer": 0.85545, "failure_rate": 0.8533, "completed_decoders": 1, "planned_decoders": 4, "completed": 93, "total": 264}
+    hard_mld: BER=0.259966, FER=0.533700, failure=0.000000, ambiguous=0.478400, time=45.967s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": false, "ber": 0.259965625, "fer": 0.5337, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 94, "total": 264}
+    soft_mld: BER=0.107634, FER=0.220050, failure=0.000000, ambiguous=0.000050, time=14.069s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": false, "ber": 0.107634375, "fer": 0.22005, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 95, "total": 264}
+    chase: BER=0.356409, FER=0.417250, failure=0.299200, ambiguous=0.000000, time=64.648s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.356409375, "fer": 0.41725, "failure_rate": 0.2992, "completed_decoders": 4, "planned_decoders": 4, "completed": 96, "total": 264}
+PROGRESS {"completed": 96, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.800991, FER=0.801950, failure=0.800150, ambiguous=0.000000, time=1.723s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.800990625, "fer": 0.80195, "failure_rate": 0.80015, "completed_decoders": 1, "planned_decoders": 4, "completed": 97, "total": 264}
+    hard_mld: BER=0.217597, FER=0.448550, failure=0.000000, ambiguous=0.424700, time=47.479s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": false, "ber": 0.217596875, "fer": 0.44855, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 98, "total": 264}
+    soft_mld: BER=0.073119, FER=0.149500, failure=0.000000, ambiguous=0.000100, time=13.954s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": false, "ber": 0.07311875, "fer": 0.1495, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 99, "total": 264}
+    chase: BER=0.274578, FER=0.320900, failure=0.231600, ambiguous=0.000000, time=72.254s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.274578125, "fer": 0.3209, "failure_rate": 0.2316, "completed_decoders": 4, "planned_decoders": 4, "completed": 100, "total": 264}
+PROGRESS {"completed": 100, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.736119, FER=0.736850, failure=0.735350, ambiguous=0.000000, time=2.089s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.73611875, "fer": 0.73685, "failure_rate": 0.73535, "completed_decoders": 1, "planned_decoders": 4, "completed": 101, "total": 264}
+    hard_mld: BER=0.175969, FER=0.361700, failure=0.000000, ambiguous=0.358800, time=48.179s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": false, "ber": 0.17596875, "fer": 0.3617, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 102, "total": 264}
+    soft_mld: BER=0.045225, FER=0.091700, failure=0.000000, ambiguous=0.000000, time=13.969s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": false, "ber": 0.045225, "fer": 0.0917, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 103, "total": 264}
+    chase: BER=0.200041, FER=0.232950, failure=0.168750, ambiguous=0.000000, time=81.531s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.200040625, "fer": 0.23295, "failure_rate": 0.16875, "completed_decoders": 4, "planned_decoders": 4, "completed": 104, "total": 264}
+PROGRESS {"completed": 104, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.657253, FER=0.657900, failure=0.656600, ambiguous=0.000000, time=2.647s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.657253125, "fer": 0.6579, "failure_rate": 0.6566, "completed_decoders": 1, "planned_decoders": 4, "completed": 105, "total": 264}
+    hard_mld: BER=0.135272, FER=0.277850, failure=0.000000, ambiguous=0.287400, time=47.303s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": false, "ber": 0.135271875, "fer": 0.27785, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 106, "total": 264}
+    soft_mld: BER=0.025200, FER=0.051250, failure=0.000000, ambiguous=0.000000, time=14.714s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": false, "ber": 0.0252, "fer": 0.05125, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 107, "total": 264}
+    chase: BER=0.135944, FER=0.157500, failure=0.115350, ambiguous=0.000000, time=90.680s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.13594375, "fer": 0.1575, "failure_rate": 0.11535, "completed_decoders": 4, "planned_decoders": 4, "completed": 108, "total": 264}
+PROGRESS {"completed": 108, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.564497, FER=0.564900, failure=0.564100, ambiguous=0.000000, time=3.034s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.564496875, "fer": 0.5649, "failure_rate": 0.5641, "completed_decoders": 1, "planned_decoders": 4, "completed": 109, "total": 264}
+    hard_mld: BER=0.100150, FER=0.206800, failure=0.000000, ambiguous=0.222850, time=45.620s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": false, "ber": 0.10015, "fer": 0.2068, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 110, "total": 264}
+    soft_mld: BER=0.012728, FER=0.025700, failure=0.000000, ambiguous=0.000000, time=14.227s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": false, "ber": 0.012728125, "fer": 0.0257, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 111, "total": 264}
+    chase: BER=0.080200, FER=0.093000, failure=0.068050, ambiguous=0.000000, time=104.496s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.0802, "fer": 0.093, "failure_rate": 0.06805, "completed_decoders": 4, "planned_decoders": 4, "completed": 112, "total": 264}
+PROGRESS {"completed": 112, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.465184, FER=0.465350, failure=0.465000, ambiguous=0.000000, time=3.655s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.465184375, "fer": 0.46535, "failure_rate": 0.465, "completed_decoders": 1, "planned_decoders": 4, "completed": 113, "total": 264}
+    hard_mld: BER=0.069138, FER=0.142450, failure=0.000000, ambiguous=0.165500, time=45.583s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": false, "ber": 0.0691375, "fer": 0.14245, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 114, "total": 264}
+    soft_mld: BER=0.004994, FER=0.010000, failure=0.000000, ambiguous=0.000000, time=14.451s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": false, "ber": 0.00499375, "fer": 0.01, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 115, "total": 264}
+    chase: BER=0.041584, FER=0.048650, failure=0.034600, ambiguous=0.000000, time=116.760s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.041584375, "fer": 0.04865, "failure_rate": 0.0346, "completed_decoders": 4, "planned_decoders": 4, "completed": 116, "total": 264}
+PROGRESS {"completed": 116, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.363900, FER=0.363950, failure=0.363850, ambiguous=0.000000, time=4.170s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.3639, "fer": 0.36395, "failure_rate": 0.36385, "completed_decoders": 1, "planned_decoders": 4, "completed": 117, "total": 264}
+    hard_mld: BER=0.044187, FER=0.091050, failure=0.000000, ambiguous=0.111400, time=46.023s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": false, "ber": 0.0441875, "fer": 0.09105, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 118, "total": 264}
+    soft_mld: BER=0.001922, FER=0.003850, failure=0.000000, ambiguous=0.000000, time=13.926s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": false, "ber": 0.001921875, "fer": 0.00385, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 119, "total": 264}
+    chase: BER=0.019703, FER=0.023000, failure=0.016450, ambiguous=0.000000, time=126.325s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.019703125, "fer": 0.023, "failure_rate": 0.01645, "completed_decoders": 4, "planned_decoders": 4, "completed": 120, "total": 264}
+PROGRESS {"completed": 120, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.269200, FER=0.269200, failure=0.269200, ambiguous=0.000000, time=4.577s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.2692, "fer": 0.2692, "failure_rate": 0.2692, "completed_decoders": 1, "planned_decoders": 4, "completed": 121, "total": 264}
+    hard_mld: BER=0.025166, FER=0.051800, failure=0.000000, ambiguous=0.068100, time=43.867s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": false, "ber": 0.025165625, "fer": 0.0518, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 122, "total": 264}
+    soft_mld: BER=0.000753, FER=0.001550, failure=0.000000, ambiguous=0.000000, time=14.057s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": false, "ber": 0.000753125, "fer": 0.00155, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 123, "total": 264}
+    chase: BER=0.008584, FER=0.010000, failure=0.007150, ambiguous=0.000000, time=136.076s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.008584375, "fer": 0.01, "failure_rate": 0.00715, "completed_decoders": 4, "planned_decoders": 4, "completed": 124, "total": 264}
+PROGRESS {"completed": 124, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.186300, FER=0.186300, failure=0.186300, ambiguous=0.000000, time=5.025s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.1863, "fer": 0.1863, "failure_rate": 0.1863, "completed_decoders": 1, "planned_decoders": 4, "completed": 125, "total": 264}
+    hard_mld: BER=0.012953, FER=0.026450, failure=0.000000, ambiguous=0.036550, time=44.760s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": false, "ber": 0.012953125, "fer": 0.02645, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 126, "total": 264}
+    soft_mld: BER=0.000319, FER=0.000600, failure=0.000000, ambiguous=0.000000, time=14.176s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": false, "ber": 0.00031875, "fer": 0.0006, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 127, "total": 264}
+    chase: BER=0.003525, FER=0.004250, failure=0.002850, ambiguous=0.000000, time=144.980s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.003525, "fer": 0.00425, "failure_rate": 0.00285, "completed_decoders": 4, "planned_decoders": 4, "completed": 128, "total": 264}
+PROGRESS {"completed": 128, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.117600, FER=0.117600, failure=0.117600, ambiguous=0.000000, time=5.366s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.1176, "fer": 0.1176, "failure_rate": 0.1176, "completed_decoders": 1, "planned_decoders": 4, "completed": 129, "total": 264}
+    hard_mld: BER=0.007256, FER=0.014800, failure=0.000000, ambiguous=0.020500, time=47.836s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": false, "ber": 0.00725625, "fer": 0.0148, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 130, "total": 264}
+    soft_mld: BER=0.000056, FER=0.000100, failure=0.000000, ambiguous=0.000000, time=13.856s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": false, "ber": 5.625e-05, "fer": 0.0001, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 131, "total": 264}
+    chase: BER=0.000934, FER=0.001000, failure=0.000850, ambiguous=0.000000, time=152.265s
+PROGRESS {"stage": "running", "code": "wavelet_32_16_equal", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.000934375, "fer": 0.001, "failure_rate": 0.00085, "completed_decoders": 4, "planned_decoders": 4, "completed": 132, "total": 264}
+PROGRESS {"completed": 132, "total": 264, "stage": "ebn0_finished", "code": "wavelet_32_16_equal", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 132, "total": 264, "stage": "code_finished", "code": "wavelet_32_16_equal"}
+
+Код bch_derived_32_16_equal [bch_derived]: n=32, k=16
+PROGRESS {"completed": 132, "total": 264, "stage": "code_started", "code": "bch_derived_32_16_equal", "family": "bch_derived", "n": 32, "k": 16, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=2: 529 синдромов / 529 шаблонов, коллизий 0, ~0.05 MiB, построение 0.000s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.894909, FER=0.900150, failure=0.893500, ambiguous=0.000000, time=1.033s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.894909375, "fer": 0.90015, "failure_rate": 0.8935, "completed_decoders": 1, "planned_decoders": 4, "completed": 133, "total": 264}
+    hard_mld: BER=0.172825, FER=0.618550, failure=0.000000, ambiguous=0.421400, time=47.601s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": false, "ber": 0.172825, "fer": 0.61855, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 134, "total": 264}
+    soft_mld: BER=0.086853, FER=0.324650, failure=0.000000, ambiguous=0.000050, time=14.780s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": false, "ber": 0.086853125, "fer": 0.32465, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 135, "total": 264}
+    chase: BER=0.403566, FER=0.523900, failure=0.363550, ambiguous=0.000000, time=55.257s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.403565625, "fer": 0.5239, "failure_rate": 0.36355, "completed_decoders": 4, "planned_decoders": 4, "completed": 136, "total": 264}
+PROGRESS {"completed": 136, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.854625, FER=0.859950, failure=0.853200, ambiguous=0.000000, time=1.217s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.854625, "fer": 0.85995, "failure_rate": 0.8532, "completed_decoders": 1, "planned_decoders": 4, "completed": 137, "total": 264}
+    hard_mld: BER=0.147278, FER=0.539500, failure=0.000000, ambiguous=0.381000, time=45.462s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": false, "ber": 0.147278125, "fer": 0.5395, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 138, "total": 264}
+    soft_mld: BER=0.062803, FER=0.240550, failure=0.000000, ambiguous=0.000100, time=14.322s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": false, "ber": 0.062803125, "fer": 0.24055, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 139, "total": 264}
+    chase: BER=0.327784, FER=0.429850, failure=0.294950, ambiguous=0.000000, time=59.828s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.327784375, "fer": 0.42985, "failure_rate": 0.29495, "completed_decoders": 4, "planned_decoders": 4, "completed": 140, "total": 264}
+PROGRESS {"completed": 140, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.804462, FER=0.808950, failure=0.803350, ambiguous=0.000000, time=1.456s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.8044625, "fer": 0.80895, "failure_rate": 0.80335, "completed_decoders": 1, "planned_decoders": 4, "completed": 141, "total": 264}
+    hard_mld: BER=0.121237, FER=0.453550, failure=0.000000, ambiguous=0.337600, time=48.709s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": false, "ber": 0.1212375, "fer": 0.45355, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 142, "total": 264}
+    soft_mld: BER=0.042931, FER=0.167800, failure=0.000000, ambiguous=0.000000, time=13.874s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": false, "ber": 0.04293125, "fer": 0.1678, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 143, "total": 264}
+    chase: BER=0.251334, FER=0.332350, failure=0.226000, ambiguous=0.000000, time=65.645s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.251334375, "fer": 0.33235, "failure_rate": 0.226, "completed_decoders": 4, "planned_decoders": 4, "completed": 144, "total": 264}
+PROGRESS {"completed": 144, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.738541, FER=0.742550, failure=0.737600, ambiguous=0.000000, time=1.707s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.738540625, "fer": 0.74255, "failure_rate": 0.7376, "completed_decoders": 1, "planned_decoders": 4, "completed": 145, "total": 264}
+    hard_mld: BER=0.095091, FER=0.362650, failure=0.000000, ambiguous=0.288400, time=45.991s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": false, "ber": 0.095090625, "fer": 0.36265, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 146, "total": 264}
+    soft_mld: BER=0.027534, FER=0.109150, failure=0.000000, ambiguous=0.000050, time=14.189s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": false, "ber": 0.027534375, "fer": 0.10915, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 147, "total": 264}
+    chase: BER=0.178919, FER=0.238350, failure=0.160650, ambiguous=0.000000, time=72.529s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.17891875, "fer": 0.23835, "failure_rate": 0.16065, "completed_decoders": 4, "planned_decoders": 4, "completed": 148, "total": 264}
+PROGRESS {"completed": 148, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.659222, FER=0.662800, failure=0.658400, ambiguous=0.000000, time=2.048s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.659221875, "fer": 0.6628, "failure_rate": 0.6584, "completed_decoders": 1, "planned_decoders": 4, "completed": 149, "total": 264}
+    hard_mld: BER=0.072741, FER=0.283800, failure=0.000000, ambiguous=0.234150, time=45.507s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": false, "ber": 0.072740625, "fer": 0.2838, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 150, "total": 264}
+    soft_mld: BER=0.015891, FER=0.064800, failure=0.000000, ambiguous=0.000050, time=13.826s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": false, "ber": 0.015890625, "fer": 0.0648, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 151, "total": 264}
+    chase: BER=0.119928, FER=0.162000, failure=0.107300, ambiguous=0.000000, time=80.752s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.119928125, "fer": 0.162, "failure_rate": 0.1073, "completed_decoders": 4, "planned_decoders": 4, "completed": 152, "total": 264}
+PROGRESS {"completed": 152, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.564794, FER=0.568050, failure=0.564150, ambiguous=0.000000, time=2.490s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.56479375, "fer": 0.56805, "failure_rate": 0.56415, "completed_decoders": 1, "planned_decoders": 4, "completed": 153, "total": 264}
+    hard_mld: BER=0.052481, FER=0.209200, failure=0.000000, ambiguous=0.182000, time=46.978s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": false, "ber": 0.05248125, "fer": 0.2092, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 154, "total": 264}
+    soft_mld: BER=0.007938, FER=0.033450, failure=0.000000, ambiguous=0.000000, time=13.888s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": false, "ber": 0.0079375, "fer": 0.03345, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 155, "total": 264}
+    chase: BER=0.072559, FER=0.098200, failure=0.064900, ambiguous=0.000000, time=90.069s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.072559375, "fer": 0.0982, "failure_rate": 0.0649, "completed_decoders": 4, "planned_decoders": 4, "completed": 156, "total": 264}
+PROGRESS {"completed": 156, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.468728, FER=0.471000, failure=0.468250, ambiguous=0.000000, time=2.858s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.468728125, "fer": 0.471, "failure_rate": 0.46825, "completed_decoders": 1, "planned_decoders": 4, "completed": 157, "total": 264}
+    hard_mld: BER=0.035037, FER=0.143050, failure=0.000000, ambiguous=0.133600, time=44.433s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": false, "ber": 0.0350375, "fer": 0.14305, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 158, "total": 264}
+    soft_mld: BER=0.003756, FER=0.016400, failure=0.000000, ambiguous=0.000000, time=13.964s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": false, "ber": 0.00375625, "fer": 0.0164, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 159, "total": 264}
+    chase: BER=0.039222, FER=0.053650, failure=0.035050, ambiguous=0.000000, time=99.086s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.039221875, "fer": 0.05365, "failure_rate": 0.03505, "completed_decoders": 4, "planned_decoders": 4, "completed": 160, "total": 264}
+PROGRESS {"completed": 160, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.366469, FER=0.368400, failure=0.366050, ambiguous=0.000000, time=3.278s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.36646875, "fer": 0.3684, "failure_rate": 0.36605, "completed_decoders": 1, "planned_decoders": 4, "completed": 161, "total": 264}
+    hard_mld: BER=0.022356, FER=0.092750, failure=0.000000, ambiguous=0.091350, time=48.142s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": false, "ber": 0.02235625, "fer": 0.09275, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 162, "total": 264}
+    soft_mld: BER=0.001591, FER=0.007250, failure=0.000000, ambiguous=0.000000, time=13.934s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": false, "ber": 0.001590625, "fer": 0.00725, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 163, "total": 264}
+    chase: BER=0.019338, FER=0.026550, failure=0.017300, ambiguous=0.000000, time=108.782s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.0193375, "fer": 0.02655, "failure_rate": 0.0173, "completed_decoders": 4, "planned_decoders": 4, "completed": 164, "total": 264}
+PROGRESS {"completed": 164, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.267234, FER=0.268850, failure=0.266850, ambiguous=0.000000, time=3.775s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.267234375, "fer": 0.26885, "failure_rate": 0.26685, "completed_decoders": 1, "planned_decoders": 4, "completed": 165, "total": 264}
+    hard_mld: BER=0.013100, FER=0.055700, failure=0.000000, ambiguous=0.059500, time=45.159s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": false, "ber": 0.0131, "fer": 0.0557, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 166, "total": 264}
+    soft_mld: BER=0.000528, FER=0.002650, failure=0.000000, ambiguous=0.000050, time=13.809s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": false, "ber": 0.000528125, "fer": 0.00265, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 167, "total": 264}
+    chase: BER=0.007803, FER=0.011750, failure=0.006750, ambiguous=0.000000, time=117.263s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.007803125, "fer": 0.01175, "failure_rate": 0.00675, "completed_decoders": 4, "planned_decoders": 4, "completed": 168, "total": 264}
+PROGRESS {"completed": 168, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.186069, FER=0.187100, failure=0.185850, ambiguous=0.000000, time=4.154s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.18606875, "fer": 0.1871, "failure_rate": 0.18585, "completed_decoders": 1, "planned_decoders": 4, "completed": 169, "total": 264}
+    hard_mld: BER=0.007100, FER=0.030900, failure=0.000000, ambiguous=0.035600, time=47.913s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": false, "ber": 0.0071, "fer": 0.0309, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 170, "total": 264}
+    soft_mld: BER=0.000253, FER=0.001350, failure=0.000000, ambiguous=0.000000, time=14.884s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": false, "ber": 0.000253125, "fer": 0.00135, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 171, "total": 264}
+    chase: BER=0.002775, FER=0.004400, failure=0.002350, ambiguous=0.000000, time=124.743s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.002775, "fer": 0.0044, "failure_rate": 0.00235, "completed_decoders": 4, "planned_decoders": 4, "completed": 172, "total": 264}
+PROGRESS {"completed": 172, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.119941, FER=0.120650, failure=0.119800, ambiguous=0.000000, time=4.411s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.119940625, "fer": 0.12065, "failure_rate": 0.1198, "completed_decoders": 1, "planned_decoders": 4, "completed": 173, "total": 264}
+    hard_mld: BER=0.003659, FER=0.016500, failure=0.000000, ambiguous=0.020650, time=45.582s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": false, "ber": 0.003659375, "fer": 0.0165, "failure_rate": 0.0, "completed_decoders": 2, "planned_decoders": 4, "completed": 174, "total": 264}
+    soft_mld: BER=0.000087, FER=0.000450, failure=0.000000, ambiguous=0.000000, time=13.901s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": false, "ber": 8.75e-05, "fer": 0.00045, "failure_rate": 0.0, "completed_decoders": 3, "planned_decoders": 4, "completed": 175, "total": 264}
+    chase: BER=0.000753, FER=0.001300, failure=0.000600, ambiguous=0.000000, time=129.823s
+PROGRESS {"stage": "running", "code": "bch_derived_32_16_equal", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.000753125, "fer": 0.0013, "failure_rate": 0.0006, "completed_decoders": 4, "planned_decoders": 4, "completed": 176, "total": 264}
+PROGRESS {"completed": 176, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_32_16_equal", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 176, "total": 264, "stage": "code_finished", "code": "bch_derived_32_16_equal"}
+
+Код wavelet_64_32_equal [wavelet]: n=64, k=32
+PROGRESS {"completed": 176, "total": 264, "stage": "code_started", "code": "wavelet_64_32_equal", "family": "wavelet", "n": 64, "k": 32, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=3: 43745 синдромов / 43745 шаблонов, коллизий 0, ~5.14 MiB, построение 0.029s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.993844, FER=0.993900, failure=0.993750, ambiguous=0.000000, time=0.827s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.99384375, "fer": 0.9939, "failure_rate": 0.99375, "completed_decoders": 1, "planned_decoders": 4, "completed": 177, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 178, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 179, "total": 264}
+    chase: BER=0.908441, FER=0.909950, failure=0.906450, ambiguous=0.000000, time=210.765s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.908440625, "fer": 0.90995, "failure_rate": 0.90645, "completed_decoders": 4, "planned_decoders": 4, "completed": 180, "total": 264}
+PROGRESS {"completed": 180, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.987500, FER=0.987500, failure=0.987500, ambiguous=0.000000, time=0.933s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.9875, "fer": 0.9875, "failure_rate": 0.9875, "completed_decoders": 1, "planned_decoders": 4, "completed": 181, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 182, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 183, "total": 264}
+    chase: BER=0.842797, FER=0.844200, failure=0.840850, ambiguous=0.000000, time=221.830s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.842796875, "fer": 0.8442, "failure_rate": 0.84085, "completed_decoders": 4, "planned_decoders": 4, "completed": 184, "total": 264}
+PROGRESS {"completed": 184, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.975050, FER=0.975050, failure=0.975050, ambiguous=0.000000, time=1.153s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.97505, "fer": 0.97505, "failure_rate": 0.97505, "completed_decoders": 1, "planned_decoders": 4, "completed": 185, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 186, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 187, "total": 264}
+    chase: BER=0.749602, FER=0.751200, failure=0.747450, ambiguous=0.000000, time=243.581s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.7496015625, "fer": 0.7512, "failure_rate": 0.74745, "completed_decoders": 4, "planned_decoders": 4, "completed": 188, "total": 264}
+PROGRESS {"completed": 188, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.952434, FER=0.952450, failure=0.952400, ambiguous=0.000000, time=1.534s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.952434375, "fer": 0.95245, "failure_rate": 0.9524, "completed_decoders": 1, "planned_decoders": 4, "completed": 189, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 190, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 191, "total": 264}
+    chase: BER=0.629153, FER=0.630600, failure=0.627200, ambiguous=0.000000, time=280.686s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.629153125, "fer": 0.6306, "failure_rate": 0.6272, "completed_decoders": 4, "planned_decoders": 4, "completed": 192, "total": 264}
+PROGRESS {"completed": 192, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.912484, FER=0.912500, failure=0.912450, ambiguous=0.000000, time=2.214s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.912484375, "fer": 0.9125, "failure_rate": 0.91245, "completed_decoders": 1, "planned_decoders": 4, "completed": 193, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 194, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 195, "total": 264}
+    chase: BER=0.480070, FER=0.481200, failure=0.478500, ambiguous=0.000000, time=341.861s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.4800703125, "fer": 0.4812, "failure_rate": 0.4785, "completed_decoders": 4, "planned_decoders": 4, "completed": 196, "total": 264}
+PROGRESS {"completed": 196, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.845450, FER=0.845450, failure=0.845450, ambiguous=0.000000, time=3.348s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.84545, "fer": 0.84545, "failure_rate": 0.84545, "completed_decoders": 1, "planned_decoders": 4, "completed": 197, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 198, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 199, "total": 264}
+    chase: BER=0.328400, FER=0.329300, failure=0.327100, ambiguous=0.000000, time=441.326s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.3284, "fer": 0.3293, "failure_rate": 0.3271, "completed_decoders": 4, "planned_decoders": 4, "completed": 200, "total": 264}
+PROGRESS {"completed": 200, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.754500, FER=0.754550, failure=0.754400, ambiguous=0.000000, time=4.915s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.7545, "fer": 0.75455, "failure_rate": 0.7544, "completed_decoders": 1, "planned_decoders": 4, "completed": 201, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 202, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 203, "total": 264}
+    chase: BER=0.201044, FER=0.201500, failure=0.200400, ambiguous=0.000000, time=578.638s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.20104375, "fer": 0.2015, "failure_rate": 0.2004, "completed_decoders": 4, "planned_decoders": 4, "completed": 204, "total": 264}
+PROGRESS {"completed": 204, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.637069, FER=0.637150, failure=0.636900, ambiguous=0.000000, time=6.900s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.63706875, "fer": 0.63715, "failure_rate": 0.6369, "completed_decoders": 1, "planned_decoders": 4, "completed": 205, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 206, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 207, "total": 264}
+    chase: BER=0.104372, FER=0.104550, failure=0.104100, ambiguous=0.000000, time=752.815s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.104371875, "fer": 0.10455, "failure_rate": 0.1041, "completed_decoders": 4, "planned_decoders": 4, "completed": 208, "total": 264}
+PROGRESS {"completed": 208, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.497453, FER=0.497500, failure=0.497350, ambiguous=0.000000, time=9.315s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.497453125, "fer": 0.4975, "failure_rate": 0.49735, "completed_decoders": 1, "planned_decoders": 4, "completed": 209, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 210, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 211, "total": 264}
+    chase: BER=0.043453, FER=0.043500, failure=0.043350, ambiguous=0.000000, time=948.671s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.043453125, "fer": 0.0435, "failure_rate": 0.04335, "completed_decoders": 4, "planned_decoders": 4, "completed": 212, "total": 264}
+PROGRESS {"completed": 212, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.351819, FER=0.351850, failure=0.351750, ambiguous=0.000000, time=11.772s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.35181875, "fer": 0.35185, "failure_rate": 0.35175, "completed_decoders": 1, "planned_decoders": 4, "completed": 213, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 214, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 215, "total": 264}
+    chase: BER=0.014750, FER=0.014800, failure=0.014650, ambiguous=0.000000, time=1155.008s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.01475, "fer": 0.0148, "failure_rate": 0.01465, "completed_decoders": 4, "planned_decoders": 4, "completed": 216, "total": 264}
+PROGRESS {"completed": 216, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.225100, FER=0.225100, failure=0.225100, ambiguous=0.000000, time=13.769s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.2251, "fer": 0.2251, "failure_rate": 0.2251, "completed_decoders": 1, "planned_decoders": 4, "completed": 217, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 218, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 219, "total": 264}
+    chase: BER=0.004219, FER=0.004250, failure=0.004150, ambiguous=0.000000, time=1353.164s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_equal", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.00421875, "fer": 0.00425, "failure_rate": 0.00415, "completed_decoders": 4, "planned_decoders": 4, "completed": 220, "total": 264}
+PROGRESS {"completed": 220, "total": 264, "stage": "ebn0_finished", "code": "wavelet_64_32_equal", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 220, "total": 264, "stage": "code_finished", "code": "wavelet_64_32_equal"}
+
+Код bch_derived_64_32_equal [bch_derived]: n=64, k=32
+PROGRESS {"completed": 220, "total": 264, "stage": "code_started", "code": "bch_derived_64_32_equal", "family": "bch_derived", "n": 64, "k": 32, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=3: 43745 синдромов / 43745 шаблонов, коллизий 0, ~5.13 MiB, построение 0.028s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.994700, FER=0.994700, failure=0.994700, ambiguous=0.000000, time=0.797s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.9947, "fer": 0.9947, "failure_rate": 0.9947, "completed_decoders": 1, "planned_decoders": 4, "completed": 221, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 222, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 223, "total": 264}
+    chase: BER=0.908155, FER=0.909100, failure=0.907900, ambiguous=0.000000, time=207.267s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.9081546875, "fer": 0.9091, "failure_rate": 0.9079, "completed_decoders": 4, "planned_decoders": 4, "completed": 224, "total": 264}
+PROGRESS {"completed": 224, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.988250, FER=0.988250, failure=0.988250, ambiguous=0.000000, time=0.884s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.98825, "fer": 0.98825, "failure_rate": 0.98825, "completed_decoders": 1, "planned_decoders": 4, "completed": 225, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 226, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 227, "total": 264}
+    chase: BER=0.843867, FER=0.844900, failure=0.843600, ambiguous=0.000000, time=215.916s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.8438671875, "fer": 0.8449, "failure_rate": 0.8436, "completed_decoders": 4, "planned_decoders": 4, "completed": 228, "total": 264}
+PROGRESS {"completed": 228, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.976000, FER=0.976000, failure=0.976000, ambiguous=0.000000, time=1.047s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.976, "fer": 0.976, "failure_rate": 0.976, "completed_decoders": 1, "planned_decoders": 4, "completed": 229, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 230, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 231, "total": 264}
+    chase: BER=0.745784, FER=0.746500, failure=0.745600, ambiguous=0.000000, time=229.835s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.745784375, "fer": 0.7465, "failure_rate": 0.7456, "completed_decoders": 4, "planned_decoders": 4, "completed": 232, "total": 264}
+PROGRESS {"completed": 232, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.955000, FER=0.955000, failure=0.955000, ambiguous=0.000000, time=1.330s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.955, "fer": 0.955, "failure_rate": 0.955, "completed_decoders": 1, "planned_decoders": 4, "completed": 233, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 234, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 235, "total": 264}
+    chase: BER=0.623453, FER=0.624050, failure=0.623300, ambiguous=0.000000, time=261.337s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.623453125, "fer": 0.62405, "failure_rate": 0.6233, "completed_decoders": 4, "planned_decoders": 4, "completed": 236, "total": 264}
+PROGRESS {"completed": 236, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.912950, FER=0.912950, failure=0.912950, ambiguous=0.000000, time=1.989s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.91295, "fer": 0.91295, "failure_rate": 0.91295, "completed_decoders": 1, "planned_decoders": 4, "completed": 237, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 238, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 239, "total": 264}
+    chase: BER=0.477486, FER=0.477800, failure=0.477400, ambiguous=0.000000, time=318.730s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.4774859375, "fer": 0.4778, "failure_rate": 0.4774, "completed_decoders": 4, "planned_decoders": 4, "completed": 240, "total": 264}
+PROGRESS {"completed": 240, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.845500, FER=0.845500, failure=0.845500, ambiguous=0.000000, time=3.026s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.8455, "fer": 0.8455, "failure_rate": 0.8455, "completed_decoders": 1, "planned_decoders": 4, "completed": 241, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 242, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 243, "total": 264}
+    chase: BER=0.323953, FER=0.324350, failure=0.323850, ambiguous=0.000000, time=399.843s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.323953125, "fer": 0.32435, "failure_rate": 0.32385, "completed_decoders": 4, "planned_decoders": 4, "completed": 244, "total": 264}
+PROGRESS {"completed": 244, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.749750, FER=0.749750, failure=0.749750, ambiguous=0.000000, time=4.302s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.74975, "fer": 0.74975, "failure_rate": 0.74975, "completed_decoders": 1, "planned_decoders": 4, "completed": 245, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 246, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 247, "total": 264}
+    chase: BER=0.196455, FER=0.196650, failure=0.196400, ambiguous=0.000000, time=508.473s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.1964546875, "fer": 0.19665, "failure_rate": 0.1964, "completed_decoders": 4, "planned_decoders": 4, "completed": 248, "total": 264}
+PROGRESS {"completed": 248, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.626900, FER=0.626900, failure=0.626900, ambiguous=0.000000, time=5.944s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.6269, "fer": 0.6269, "failure_rate": 0.6269, "completed_decoders": 1, "planned_decoders": 4, "completed": 249, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 250, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 251, "total": 264}
+    chase: BER=0.099056, FER=0.099250, failure=0.099000, ambiguous=0.000000, time=649.659s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.09905625, "fer": 0.09925, "failure_rate": 0.099, "completed_decoders": 4, "planned_decoders": 4, "completed": 252, "total": 264}
+PROGRESS {"completed": 252, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.489500, FER=0.489500, failure=0.489500, ambiguous=0.000000, time=7.873s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.4895, "fer": 0.4895, "failure_rate": 0.4895, "completed_decoders": 1, "planned_decoders": 4, "completed": 253, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 254, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 255, "total": 264}
+    chase: BER=0.042411, FER=0.042450, failure=0.042400, ambiguous=0.000000, time=802.299s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.0424109375, "fer": 0.04245, "failure_rate": 0.0424, "completed_decoders": 4, "planned_decoders": 4, "completed": 256, "total": 264}
+PROGRESS {"completed": 256, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.342050, FER=0.342050, failure=0.342050, ambiguous=0.000000, time=9.886s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.34205, "fer": 0.34205, "failure_rate": 0.34205, "completed_decoders": 1, "planned_decoders": 4, "completed": 257, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 258, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 259, "total": 264}
+    chase: BER=0.014350, FER=0.014350, failure=0.014350, ambiguous=0.000000, time=983.414s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.01435, "fer": 0.01435, "failure_rate": 0.01435, "completed_decoders": 4, "planned_decoders": 4, "completed": 260, "total": 264}
+PROGRESS {"completed": 260, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.218400, FER=0.218400, failure=0.218400, ambiguous=0.000000, time=11.547s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.2184, "fer": 0.2184, "failure_rate": 0.2184, "completed_decoders": 1, "planned_decoders": 4, "completed": 261, "total": 264}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 262, "total": 264}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 263, "total": 264}
+    chase: BER=0.003750, FER=0.003750, failure=0.003750, ambiguous=0.000000, time=1142.200s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_equal", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.00375, "fer": 0.00375, "failure_rate": 0.00375, "completed_decoders": 4, "planned_decoders": 4, "completed": 264, "total": 264}
+PROGRESS {"completed": 264, "total": 264, "stage": "ebn0_finished", "code": "bch_derived_64_32_equal", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 264, "total": 264, "stage": "code_finished", "code": "bch_derived_64_32_equal"}
+PROGRESS {"stage": "writing_results", "output_path": "/app/research_results/web/ff586c9d7175_experiment/summary.csv", "completed": 264, "total": 264}
+
+Исследование завершено.
+Файл результатов: /app/research_results/web/ff586c9d7175_experiment/summary.csv
+PROGRESS {"stage": "completed", "results_dir": "/app/research_results/web/ff586c9d7175_experiment"}

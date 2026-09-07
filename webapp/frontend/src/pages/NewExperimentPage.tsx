@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { CodeConfigEditor } from "../CodeConfigEditor";
 import { EbN0Editor } from "../EbN0Editor";
-import type { CodeConfig, Experiment, ResearchConfig } from "../types";
+import type { CodeConfig, CustomPreset, Experiment, ExperimentPreview, ResearchConfig } from "../types";
 
 
 const emptyConfig: ResearchConfig = {
@@ -29,9 +29,10 @@ const emptyConfig: ResearchConfig = {
 
 export function NewExperimentPage() {
   const navigate = useNavigate();
-  const [presets, setPresets] = useState<
+  const [builtinPresets, setBuiltinPresets] = useState<
     Array<{ id: string; name: string; config: ResearchConfig }>
   >([]);
+  const [customPresets, setCustomPresets] = useState<CustomPreset[]>([]);
   const [codePresets, setCodePresets] = useState<
     Array<{ id: string; name: string; config: CodeConfig }>
   >([]);
@@ -47,18 +48,20 @@ export function NewExperimentPage() {
     warnings: string[];
     report: Record<string, number>;
   } | null>(null);
+  const [preview, setPreview] = useState<ExperimentPreview | null>(null);
   const [busy, setBusy] = useState(false);
   const [launched, setLaunched] = useState<Experiment | null>(null);
   const [launchLogs, setLaunchLogs] = useState<string[]>([]);
+  const [presetMessage, setPresetMessage] = useState("");
 
   useEffect(() => {
     api.presets().then(data => {
-      const allPresets = [...data.experiments, ...data.user];
-      setPresets(allPresets);
+      setBuiltinPresets(data.experiments);
+      setCustomPresets(data.user);
       setCodePresets(data.codes);
-      if (allPresets[0]) {
-        setSelected(allPresets[0].id);
-        setConfig(allPresets[0].config);
+      if (data.experiments[0]) {
+        setSelected(data.experiments[0].id);
+        setConfig(data.experiments[0].config);
       }
       if (data.codes[0]) setSelectedCode(data.codes[0].id);
     });
@@ -79,11 +82,69 @@ export function NewExperimentPage() {
 
   const update = (patch: Partial<ResearchConfig>) => {
     setConfig(current => ({ ...current, ...patch }));
+    setPreview(null);
   };
   const loadPreset = (id: string) => {
-    const preset = presets.find(item => item.id === id);
-    if (preset) setConfig(structuredClone(preset.config));
+    const preset = [...builtinPresets, ...customPresets].find(item => item.id === id);
+    if (preset) {
+      setConfig(structuredClone(preset.config));
+      setName(preset.name);
+      setDescription(
+        "description" in preset && typeof preset.description === "string"
+          ? preset.description
+          : "",
+      );
+    }
     setSelected(id);
+    setPreview(null);
+  };
+  const selectedCustomPreset = customPresets.find(item => item.id === selected);
+  const savePreset = async () => {
+    setBusy(true);
+    try {
+      const preset = selectedCustomPreset
+        ? await api.updatePreset(selectedCustomPreset.id, name, description, config)
+        : await api.createPreset(name, description, config);
+      setCustomPresets(current => [preset, ...current.filter(item => item.id !== preset.id)]);
+      setSelected(preset.id);
+    } catch (error) {
+      setReport({ valid: false, errors: [(error as Error).message], warnings: [], report: {} });
+    } finally {
+      setBusy(false);
+    }
+  };
+  const duplicatePreset = async () => {
+    if (!selectedCustomPreset) return;
+    const preset = await api.duplicatePreset(selectedCustomPreset.id);
+    setCustomPresets(current => [preset, ...current]);
+    setSelected(preset.id);
+    setName(preset.name);
+    setDescription(preset.description);
+    setConfig(structuredClone(preset.config));
+  };
+  const deletePreset = async () => {
+    if (!selectedCustomPreset || !window.confirm(`Удалить пресет «${selectedCustomPreset.name}»?`)) return;
+    await api.deletePreset(selectedCustomPreset.id);
+    setCustomPresets(current => current.filter(item => item.id !== selectedCustomPreset.id));
+    setSelected("");
+  };
+  const importPreset = async (file: File) => {
+    setBusy(true);
+    setPresetMessage("");
+    try {
+      const preset = await api.importPreset(file);
+      setCustomPresets(current => [preset, ...current]);
+      setSelected(preset.id);
+      setName(preset.name);
+      setDescription(preset.description);
+      setConfig(structuredClone(preset.config));
+      setPreview(null);
+      setPresetMessage("Preset импортирован. Эксперимент не запущен.");
+    } catch (error) {
+      setReport({ valid: false, errors: [(error as Error).message], warnings: [], report: {} });
+    } finally {
+      setBusy(false);
+    }
   };
   const addCode = () => {
     const preset = codePresets.find(item => item.id === selectedCode);
@@ -101,14 +162,22 @@ export function NewExperimentPage() {
       )),
     });
   };
-  const validate = () => api.validate(config)
-    .then(setReport)
-    .catch((error: Error) => setReport({
-      valid: false,
-      errors: [error.message],
-      warnings: [],
-      report: {},
-    }));
+  const buildPreview = () => api.preview(config)
+    .then(result => {
+      setPreview(result);
+      setReport({
+        valid: result.valid,
+        errors: result.errors,
+        warnings: result.warnings,
+        report: Object.fromEntries(
+          Object.entries(result.workload).filter(([, value]) => typeof value === "number"),
+        ) as Record<string, number>,
+      });
+    })
+    .catch((error: Error) => {
+      setPreview(null);
+      setReport({ valid: false, errors: [error.message], warnings: [], report: {} });
+    });
   const create = async () => {
     setBusy(true);
     try {
@@ -152,15 +221,57 @@ export function NewExperimentPage() {
                 Пресет эксперимента
                 <select value={selected} onChange={event => loadPreset(event.target.value)}>
                   <option value="">Выбрать</option>
-                  {presets.map(preset => (
-                    <option value={preset.id} key={preset.id}>{preset.name}</option>
-                  ))}
+                  <optgroup label="Built-in presets">
+                    {builtinPresets.map(preset => (
+                      <option value={preset.id} key={preset.id}>{preset.name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="Custom presets">
+                    {customPresets.map(preset => (
+                      <option value={preset.id} key={preset.id}>{preset.name}</option>
+                    ))}
+                  </optgroup>
                 </select>
               </label>
               <label>
                 Название
                 <input value={name} onChange={event => setName(event.target.value)} />
               </label>
+              <div className="preset-actions">
+                <button
+                  className="button"
+                  onClick={() => {
+                    setSelected("");
+                    setName("Новый custom preset");
+                    setDescription("");
+                  }}
+                >
+                  Новый custom preset
+                </button>
+                <button className="button primary" disabled={busy || !name.trim()} onClick={savePreset}>
+                  {selectedCustomPreset ? "Сохранить изменения" : "Save preset"}
+                </button>
+                {selectedCustomPreset && (
+                  <>
+                    <button className="button" onClick={duplicatePreset}>Duplicate</button>
+                    <button className="button" onClick={() => api.exportPreset(selectedCustomPreset.id, selectedCustomPreset.name)}>Export JSON</button>
+                    <button className="button danger" onClick={deletePreset}>Delete</button>
+                  </>
+                )}
+                <label className="button preset-file-button">
+                  Import JSON
+                  <input
+                    type="file"
+                    accept=".json,application/json"
+                    onChange={event => {
+                      const file = event.target.files?.[0];
+                      if (file) void importPreset(file);
+                      event.target.value = "";
+                    }}
+                  />
+                </label>
+              </div>
+              {presetMessage && <div className="alert">{presetMessage}</div>}
               <label>
                 Описание
                 <textarea value={description} onChange={event => setDescription(event.target.value)} />
@@ -249,6 +360,7 @@ export function NewExperimentPage() {
                         <option value="bch">bch</option>
                         <option value="bch_derived">bch_derived</option>
                         <option value="goppa_derived">goppa_derived</option>
+                        <option value="reed_solomon_binary">reed_solomon_binary</option>
                       </select>
                     </label>
                     <label>
@@ -320,8 +432,8 @@ export function NewExperimentPage() {
           {step === 4 && (
             <>
               <h2>Проверка</h2>
-              <button className="button primary" onClick={validate}>
-                Проверить конфигурацию
+              <button className="button primary" onClick={buildPreview}>
+                Preview experiment
               </button>
               {report && (
                 <div className={`validation ${report.valid ? "valid" : "invalid"}`}>
@@ -333,6 +445,48 @@ export function NewExperimentPage() {
                   ))}
                 </div>
               )}
+              {preview?.valid && preview.summary && (
+                <div className="preview-stack">
+                  <div className="preview-summary">
+                    <div><span>Messages</span><strong>{preview.summary.message_count.toLocaleString("ru-RU")}</strong></div>
+                    <div><span>Codes</span><strong>{preview.summary.code_count}</strong></div>
+                    <div><span>Eb/N0 points</span><strong>{preview.summary.ebn0_db_values.length}</strong></div>
+                    <div><span>Workload</span><strong>{String(preview.workload.level).toUpperCase()}</strong></div>
+                  </div>
+                  <div className="crn-report">
+                    <strong>Common random numbers: {preview.common_random_numbers.enabled ? "ON" : "OFF"}</strong>
+                    <span>{preview.common_random_numbers.same_information_messages ? "✓" : "×"} same information messages</span>
+                    <span>{preview.common_random_numbers.same_base_noise ? "✓" : "×"} same base noise {preview.common_random_numbers.scope}</span>
+                  </div>
+                  {preview.groups.map(group => (
+                    <div className="preview-group" key={group.key}>
+                      <div className="panel-heading">
+                        <h3>{group.key}</h3>
+                        <div>
+                          <span className={`preview-check ${group.rate_matched ? "ok" : "warn"}`}>Rate {group.rate_matched ? "matched" : "mismatch"}</span>
+                          <span className={`preview-check ${group.decoder_matched ? "ok" : "warn"}`}>Decoder {group.decoder_matched ? "matched" : "mismatch"}</span>
+                        </div>
+                      </div>
+                      <div className="preview-code-grid">
+                        {group.codes.map(code => (
+                          <div key={code.name}>
+                            <strong>{code.name}</strong>
+                            <span>{code.family} · [{code.n},{code.k}] · R={code.rate.toFixed(3)}</span>
+                            <span>Syndrome t={code.syndrome_t} · Chase t={code.chase_inner_t}, p={code.chase_p}</span>
+                            <span>Hard MLD: {code.hard_mld.status}{code.hard_mld.reason ? ` (${code.hard_mld.reason})` : ""}</span>
+                            <span>Soft MLD: {code.soft_mld.status}{code.soft_mld.reason ? ` (${code.soft_mld.reason})` : ""}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  <div className="workload-details">
+                    <span>Code/SNR points: <strong>{preview.workload.code_snr_points}</strong></span>
+                    <span>Maximum decoder evaluations: <strong>{preview.workload.maximum_decoder_evaluations}</strong></span>
+                    <span>Total frames: <strong>{preview.workload.total_frames}</strong></span>
+                  </div>
+                </div>
+              )}
             </>
           )}
 
@@ -342,10 +496,10 @@ export function NewExperimentPage() {
               <p>Конфигурация будет сохранена как runtime JSON, а исследование пойдёт отдельным процессом.</p>
               <button
                 className="button primary"
-                disabled={busy || !config.codes.length}
+                disabled={busy || !config.codes.length || !preview?.valid}
                 onClick={create}
               >
-                {busy ? "Создание..." : "Запустить эксперимент"}
+                {busy ? "Создание..." : preview?.valid ? "Запустить эксперимент" : "Сначала выполните Preview"}
               </button>
             </>
           )}

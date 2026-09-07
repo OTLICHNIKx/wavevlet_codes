@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import DB_PATH, PRESETS_DIR, WEBAPP_DATA_ROOT
-from app.models.experiment import Base
+from app.models.experiment import Base, CustomPreset
 
 
 def init_directories() -> None:
@@ -66,6 +66,41 @@ def _migrate_experiments_table() -> None:
 def init_db() -> None:
     Base.metadata.create_all(bind=engine)
     _migrate_experiments_table()
+    _migrate_legacy_presets()
+
+
+def _migrate_legacy_presets() -> None:
+    """Однократно переносит старые JSON-пресеты в SQLite."""
+    import json
+    import uuid
+    from datetime import datetime, timezone
+
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    with SessionLocal() as session:
+        for path in sorted(PRESETS_DIR.glob("*.json")):
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                name = str(data["name"]).strip()
+                config = data["config"]
+            except (OSError, KeyError, TypeError, json.JSONDecodeError):
+                continue
+            if not name or not isinstance(config, dict):
+                continue
+            legacy_id = str(uuid.uuid5(uuid.NAMESPACE_URL, f"wavelet-preset:{path.stem}"))
+            if session.get(CustomPreset, legacy_id) is not None:
+                continue
+            session.add(
+                CustomPreset(
+                    id=legacy_id,
+                    name=name,
+                    description=str(data.get("description", "")),
+                    created_at=now,
+                    updated_at=now,
+                    config_json=json.dumps(config, ensure_ascii=False),
+                    schema_version=1,
+                )
+            )
+        session.commit()
 
 
 @contextmanager

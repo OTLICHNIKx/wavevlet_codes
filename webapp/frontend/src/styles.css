@@ -61,6 +61,10 @@ label { display: grid; gap: 7px; color: #526159; font-size: 13px; margin-bottom:
   grid-column: 1 / -1;
 }
 
+.preset-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 2px 0 18px; }
+.preset-file-button { display: inline-flex; width: auto; align-items: center; margin: 0; }.preset-file-button input { display: none; }
+.preview-stack { display: grid; gap: 14px; margin-top: 18px; }.preview-summary { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #dce4dd; }.preview-summary div { padding: 12px; background: #f8faf7; }.preview-summary span, .preview-summary strong, .preview-code-grid span, .preview-code-grid strong { display: block; }.preview-summary span, .preview-code-grid span { color: #748178; font-size: 12px; margin-bottom: 4px; }.crn-report { display: grid; gap: 5px; padding: 14px; background: #e8f2e9; color: #286444; }.preview-group { border: 1px solid #d7dfd8; padding: 15px; }.preview-group h3 { margin: 0; font-size: 17px; }.preview-check { display: inline-block; margin-left: 6px; padding: 4px 7px; font-size: 11px; border-radius: 3px; }.preview-check.ok { background: #dceddf; color: #2b704d; }.preview-check.warn { background: #f7e8c9; color: #855c19; }.preview-code-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: #e1e7e1; margin-top: 12px; }.preview-code-grid > div { min-width: 0; padding: 12px; background: #fbfcfa; }.preview-code-grid strong { overflow-wrap: anywhere; margin-bottom: 7px; }.workload-details { display: flex; flex-wrap: wrap; gap: 8px 20px; color: #5c6d64; font-size: 13px; }
+
 .ebn0-editor {
   display: grid;
   gap: 10px;

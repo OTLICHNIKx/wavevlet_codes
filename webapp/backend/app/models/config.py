@@ -3,10 +3,10 @@
 import math
 from typing import Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
-CodeFamily = Literal["wavelet", "bch", "bch_derived", "goppa_derived"]
+CodeFamily = Literal["wavelet", "bch", "bch_derived", "goppa_derived", "reed_solomon_binary"]
 
 
 class CodeConfigSchema(BaseModel):
@@ -40,9 +40,21 @@ class CodeConfigSchema(BaseModel):
     goppa_degree: int | None = None
     goppa_support_size: int | None = None
     goppa_seed: int = 42
+    # Generalized Reed-Solomon binary image.
+    reed_solomon_m: int | None = Field(default=None, ge=1)
+    reed_solomon_symbol_n: int | None = Field(default=None, gt=0)
+    reed_solomon_symbol_k: int | None = Field(default=None, gt=0)
+    reed_solomon_primitive_polynomial: int | None = Field(default=None, gt=0)
+    reed_solomon_evaluation_points: list[int] | None = None
+    reed_solomon_column_multipliers: list[int] | None = None
     goppa_primitive_polynomial: int | None = None
 
     expected_min_distance: int | None = None
+    minimum_distance_exact: int | None = Field(default=None, ge=0)
+    minimum_distance_lower_bound: int | None = Field(default=None, ge=0)
+    minimum_distance_upper_bound: int | None = Field(default=None, ge=0)
+    distance_evidence: str = ""
+    verified_error_correction_radius: int | None = Field(default=None, ge=0)
 
     syndrome_max_error_weight: int | None = Field(default=None, ge=0)
     chase_inner_decoder_max_error_weight: int | None = Field(default=None, ge=0)
@@ -69,6 +81,47 @@ class CodeConfigSchema(BaseModel):
         return v
 
 
+
+    @model_validator(mode="after")
+    def validate_reed_solomon_binary(self) -> "CodeConfigSchema":
+        if self.family != "reed_solomon_binary":
+            return self
+        required = {
+            "reed_solomon_m": self.reed_solomon_m,
+            "reed_solomon_symbol_n": self.reed_solomon_symbol_n,
+            "reed_solomon_symbol_k": self.reed_solomon_symbol_k,
+            "reed_solomon_primitive_polynomial": self.reed_solomon_primitive_polynomial,
+            "reed_solomon_evaluation_points": self.reed_solomon_evaluation_points,
+            "reed_solomon_column_multipliers": self.reed_solomon_column_multipliers,
+        }
+        missing = [name for name, value in required.items() if value is None]
+        if missing:
+            raise ValueError("Для reed_solomon_binary не заданы: " + ", ".join(missing))
+        assert self.reed_solomon_m is not None
+        assert self.reed_solomon_symbol_n is not None
+        assert self.reed_solomon_symbol_k is not None
+        assert self.reed_solomon_evaluation_points is not None
+        assert self.reed_solomon_column_multipliers is not None
+        if self.reed_solomon_symbol_k >= self.reed_solomon_symbol_n:
+            raise ValueError("Для GRS требуется symbol_k < symbol_n")
+        if self.reed_solomon_symbol_n > (1 << self.reed_solomon_m):
+            raise ValueError("symbol_n не может превышать размер GF(2^m)")
+        if self.n != self.reed_solomon_m * self.reed_solomon_symbol_n:
+            raise ValueError("n должно совпадать с m * symbol_n")
+        if self.k != self.reed_solomon_m * self.reed_solomon_symbol_k:
+            raise ValueError("k должно совпадать с m * symbol_k")
+        field_size = 1 << self.reed_solomon_m
+        points = self.reed_solomon_evaluation_points
+        multipliers = self.reed_solomon_column_multipliers
+        if len(points) != self.reed_solomon_symbol_n or len(multipliers) != self.reed_solomon_symbol_n:
+            raise ValueError("Длины evaluation_points и column_multipliers должны совпадать с symbol_n")
+        if len(set(points)) != len(points):
+            raise ValueError("evaluation_points должны быть уникальны")
+        if any(value < 0 or value >= field_size for value in points):
+            raise ValueError("evaluation_points должны принадлежать GF(2^m)")
+        if any(value <= 0 or value >= field_size for value in multipliers):
+            raise ValueError("column_multipliers должны быть ненулевыми элементами GF(2^m)")
+        return self
 class DecoderConfigSchema(BaseModel):
     """Настройки декодеров."""
 

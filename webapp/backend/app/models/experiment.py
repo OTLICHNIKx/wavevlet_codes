@@ -78,3 +78,19 @@ class Experiment(Base):
     # Исходное имя загруженного файла/пакета (только для отображения,
     # никогда не используется как filesystem path).
     original_filename: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+
+
+class CustomPreset(Base):
+    __tablename__ = "custom_presets"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=utcnow
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=utcnow
+    )
+    config_json: Mapped[str] = mapped_column(Text, nullable=False)
+    schema_version: Mapped[int] = mapped_column(Integer, nullable=False, default=1)

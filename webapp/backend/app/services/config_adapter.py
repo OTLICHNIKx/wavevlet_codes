@@ -8,6 +8,7 @@ import numpy as np
 from decode.syndrome_decoding import recover_message_from_codeword
 from app.models.config import ResearchConfigSchema, ValidationResponse
 from research.code_factory import build_code_from_config
+from research.config import REED_SOLOMON_16_8_CONFIG, REED_SOLOMON_32_16_CONFIG, REED_SOLOMON_64_32_CONFIG
 from research.config import (
     BCH_15_7_CONFIG,
     BCH_63_45_CONFIG,
@@ -47,6 +48,9 @@ CODE_PRESETS = {
     "GOPPA_16_8_CONFIG": GOPPA_16_8_CONFIG,
     "GOPPA_32_16_CONFIG": GOPPA_32_16_CONFIG,
     "GOPPA_64_32_CONFIG": GOPPA_64_32_CONFIG,
+    "GRS_BINARY_16_8": REED_SOLOMON_16_8_CONFIG,
+    "GRS_BINARY_32_16": REED_SOLOMON_32_16_CONFIG,
+    "GRS_BINARY_64_32": REED_SOLOMON_64_32_CONFIG
 }
 
 RESEARCH_PRESETS = {
@@ -211,3 +215,14 @@ def builtin_presets() -> dict[str, list[dict[str, Any]]]:
             for name, value in RESEARCH_PRESETS.items()
         ],
     }
+
+from research.config import (
+    EQUAL_DECODER_20K_FOUR_FAMILIES_16_8,
+    EQUAL_DECODER_20K_FOUR_FAMILIES_32_16,
+    EQUAL_DECODER_20K_FOUR_FAMILIES_64_32,
+)
+RESEARCH_PRESETS.update({
+    "FOUR_FAMILIES_20K_16_8": EQUAL_DECODER_20K_FOUR_FAMILIES_16_8,
+    "FOUR_FAMILIES_20K_32_16": EQUAL_DECODER_20K_FOUR_FAMILIES_32_16,
+    "FOUR_FAMILIES_20K_64_32": EQUAL_DECODER_20K_FOUR_FAMILIES_64_32,
+})
