@@ -1,0 +1,4 @@
+[17:16:37] primitive degree-6 polynomials: [67, 91, 97, 103, 109, 115]
+[17:16:38] parent configs in scope: 14
+[17:22:26] saved research_results\code_optimization_phase2\bch_phase2_candidates.json
+[17:22:26] no candidate reached d >= target

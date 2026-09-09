@@ -1,0 +1,549 @@
+{
+  "task": "code_parameter_optimization (offline design stage)",
+  "families": [
+    {
+      "family": "wavelet",
+      "n": 64,
+      "k": 32,
+      "baseline": {
+        "parameters": {
+          "h_len": 32,
+          "shift": 1
+        },
+        "distance_exact": null,
+        "distance_lower_bound": 8,
+        "distance_upper_bound": 8,
+        "fingerprint": "414d12b0160e51f9",
+        "note": "weight-8 codeword found by project scripts => exact 8"
+      },
+      "search": {
+        "algorithm": "two-stage hill climbing on syndrome-certificate violations (w=3 then w=4) over (h, shift), a=b=1, g derived; deterministic per seed",
+        "script": "research/optimization/optimize_wavelet_64_32.py",
+        "seeds": [
+          11,
+          555
+        ],
+        "outcome": "first restart reached 0 violations in both stages (2 evaluations, seed 11); second seed 555 produced an independent candidate (len 20)"
+      },
+      "best": {
+        "parameters": {
+          "h": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1
+          ],
+          "shift": 5,
+          "a": 1,
+          "b": 1,
+          "g": null
+        },
+        "distance_exact": null,
+        "distance_lower_bound": 11,
+        "distance_upper_bound": 14,
+        "fingerprint": "84a6a23f5674f7db",
+        "evidence": "strict syndrome certificate w=5 over all subsets <=5 of H columns (no zero, pairwise distinct) => no dependent sets <=10 => d>=11; a weight-14 codeword found (exhaustive msg weight <=5 + random) => d <= 14. Cross-checked by three independent implementations (ldpc minimum_distance_certificate, project CompactSyndromeTable t=4: 679121/679121, no collisions, direct S1..S5 enumeration in finalize_wavelet_candidates.py)"
+      },
+      "integrated": true
+    },
+    {
+      "family": "bch_derived",
+      "n": 32,
+      "k": 16,
+      "baseline": {
+        "parameters": {
+          "m": 6,
+          "designed_distance": 7,
+          "shortening": 29,
+          "puncture": 2,
+          "puncture_coordinates": "default (last 2)"
+        },
+        "distance_exact": 5,
+        "fingerprint": "b64120fd51867c0a"
+      },
+      "search": {
+        "phase1": {
+          "algorithm": "exhaustive over all C(18,2)=153 parity puncture pairs, exact d by full 2^16 enumeration + weight enumerator",
+          "script": "research/optimization/optimize_bch_32_16.py",
+          "pairs": 153,
+          "result": "max d=6 at pairs (20,22) (A_6=14) and (others, A_6>=14); all shortened [34,16] codes have d=7 so d>=7 after puncture 2 is impossible in this construction"
+        },
+        "phase2": {
+          "algorithm": "alternative valid parents per TZ 7.2: [63,39,>=9] p=8, [63,36,>=11] p=11, [63,30,>=9,root5] p=17; sampled shortening sets (new shortening_coordinates support added to bch/derived.py as minimal generalization, default behavior byte-identical) + puncture-set local search",
+          "script": "research/optimization/optimize_bch_32_16_phase2.py",
+          "seed": 7001,
+          "samples": 60,
+          "result": "max d=6 across all configurations tested; d>=7 not found within budget"
+        }
+      },
+      "best": {
+        "parameters": {
+          "m": 6,
+          "designed_distance": 7,
+          "shortening": 29,
+          "puncture_coordinates": [
+            20,
+            22
+          ]
+        },
+        "distance_exact": 6,
+        "A_dmin": 14,
+        "fingerprint": "94ce4cef089d2841",
+        "evidence": "exact 2^16 enumeration; tie-broken by A_dmin and A_{d+1} among all 153 pairs"
+      },
+      "integrated": true,
+      "target_d_>=7_not_reached": "honest max in this family's search space at equal (n,k) is 6 for puncture 2 (structural: all [34,16] shortenings keep d=7)"
+    },
+    {
+      "family": "goppa_derived",
+      "n": 32,
+      "k": 16,
+      "baseline": {
+        "parameters": {
+          "m": 5,
+          "degree": 3,
+          "seed": 42
+        },
+        "distance_exact": 7,
+        "A_dmin": 100,
+        "fingerprint": "efdc15c1f5794c87"
+      },
+      "search": {
+        "algorithm": "deterministic seed sweep x all 6 primitive degree-5 polynomials; exact d per unique code",
+        "script": "research/optimization/optimize_goppa_32_16.py",
+        "seeds_per_polynomial": 1500,
+        "unique_codes": 55,
+        "d_distribution": {
+          "7": 55
+        },
+        "result": "max d=7 (no candidate reached 8)"
+      },
+      "best": {
+        "parameters": {
+          "m": 5,
+          "degree": 3,
+          "seed": 3,
+          "primitive_polynomial": 59
+        },
+        "distance_exact": 7,
+        "A_dmin": 95,
+        "fingerprint": "4f4bda9987075491",
+        "evidence": "exact 2^16 enumeration"
+      },
+      "integrated": false,
+      "decision": "baseline kept: A_7 improves 100 -> 95 only, not an objectively better secondary criterion (TZ 8.3)"
+    },
+    {
+      "family": "reed_solomon_binary",
+      "n": 32,
+      "k": 16,
+      "baseline": {
+        "parameters": {
+          "m": 4,
+          "symbol_n": 8,
+          "symbol_k": 4,
+          "primitive_polynomial": 19,
+          "evaluation_points": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "column_multipliers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "distance_exact": 6,
+        "A_dmin": 8,
+        "fingerprint": "76df1282447f05d9"
+      },
+      "search": {
+        "family": "reed_solomon_binary",
+        "n": 32,
+        "k": 16,
+        "runs": [
+          {
+            "phase": "1 (column multipliers only, points fixed 0..7)",
+            "script": "python -m research.optimization.optimize_rs_32_16 --time-limit 1200 --chains 3 --seed 420",
+            "evaluations": 22571,
+            "best": {
+              "d_min_exact": 7,
+              "A_dmin": 28,
+              "column_multipliers": [
+                4,
+                6,
+                13,
+                7,
+                8,
+                12,
+                15,
+                10
+              ],
+              "evaluation_points": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "fingerprint": "e0f4d1f05cc196bb"
+            },
+            "note": "artifact overwritten by phase 2 run; the winner is re-verified independently in verification.json (exact 2^16 enumeration of the production config)"
+          },
+          {
+            "phase": "2 (multipliers + evaluation points)",
+            "script": "python -m research.optimization.optimize_rs_32_16 --time-limit 600 --chains 2 --seed 99000 --with-points",
+            "evaluations": 11673,
+            "best": {
+              "d_min_exact": 7,
+              "A_dmin": 45,
+              "column_multipliers": [
+                12,
+                4,
+                14,
+                13,
+                13,
+                5,
+                12,
+                4
+              ],
+              "evaluation_points": [
+                8,
+                3,
+                13,
+                7,
+                4,
+                14,
+                6,
+                12
+              ],
+              "fingerprint": "86185d9ccee8278a"
+            },
+            "note": "no improvement beyond d=7; A_d worse than phase 1; phase 1 winner retained"
+          }
+        ],
+        "decision": "integrated phase 1 winner (d=7, A_7=28) into REED_SOLOMON_32_16_CONFIG"
+      },
+      "best": {
+        "parameters": {
+          "column_multipliers": [
+            4,
+            6,
+            13,
+            7,
+            8,
+            12,
+            15,
+            10
+          ],
+          "evaluation_points": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "distance_exact": 7,
+        "A_dmin": 28,
+        "fingerprint": "e0f4d1f05cc196bb",
+        "evidence": "exact binary 2^16 enumeration of the production config code (re-verified in verification.json)"
+      },
+      "integrated": true,
+      "target_d_8_not_reached": "34244 exact evaluations (both phases) capped at d=7"
+    },
+    {
+      "family": "ldpc + wavelet 32_16",
+      "n": 32,
+      "k": 16,
+      "decision": "unchanged per TZ 10 (both exact d=8, reference strong representatives)"
+    }
+  ],
+  "verification": {
+    "codes": [
+      {
+        "family": "bch_derived",
+        "name": "bch_derived_32_16",
+        "matrices_valid": true,
+        "d_min_exact_enum": 6,
+        "matches_expected": true,
+        "matches_config_metadata": true,
+        "A_dmin": 14,
+        "weight_enumerator": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          14,
+          70,
+          157,
+          394,
+          964,
+          1972,
+          3459,
+          5342,
+          7286,
+          8650,
+          9065,
+          8506,
+          7162,
+          5406,
+          3532,
+          1962,
+          948,
+          408,
+          169,
+          52,
+          10,
+          6,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fingerprint": "94ce4cef089d2841"
+      },
+      {
+        "family": "goppa_derived",
+        "name": "goppa_derived_32_16",
+        "matrices_valid": true,
+        "d_min_exact_enum": 7,
+        "matches_expected": true,
+        "matches_config_metadata": true,
+        "A_dmin": 100,
+        "weight_enumerator": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          300,
+          588,
+          1299,
+          2624,
+          4324,
+          6208,
+          8108,
+          9256,
+          9133,
+          8120,
+          6330,
+          4192,
+          2564,
+          1440,
+          636,
+          212,
+          62,
+          28,
+          11,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fingerprint": "efdc15c1f5794c87"
+      },
+      {
+        "family": "reed_solomon_binary",
+        "name": "reed_solomon_binary_32_16",
+        "matrices_valid": true,
+        "d_min_exact_enum": 7,
+        "matches_expected": true,
+        "matches_config_metadata": true,
+        "A_dmin": 28,
+        "weight_enumerator": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          28,
+          199,
+          480,
+          1064,
+          1885,
+          3236,
+          5369,
+          7236,
+          8716,
+          9275,
+          8548,
+          7108,
+          5286,
+          3516,
+          1934,
+          972,
+          464,
+          157,
+          52,
+          4,
+          5,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "fingerprint": "e0f4d1f05cc196bb"
+      },
+      {
+        "family": "wavelet",
+        "name": "wavelet_32_16",
+        "matrices_valid": true,
+        "d_min_exact_enum": 8,
+        "matches_expected": true,
+        "matches_config_metadata": true,
+        "A_dmin": 368,
+        "weight_enumerator": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          368,
+          0,
+          2016,
+          0,
+          6832,
+          0,
+          14112,
+          0,
+          18878,
+          0,
+          14112,
+          0,
+          6832,
+          0,
+          2016,
+          0,
+          368,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "fingerprint": "335caff4c2b02684"
+      },
+      {
+        "family": "wavelet",
+        "name": "wavelet_64_32",
+        "matrices_valid": true,
+        "certificate_w4_lower_bound": 9,
+        "certificate_w5_lower_bound": 11,
+        "strict_certificate_d_ge_9": true,
+        "upper_bound_found_weight": 14,
+        "upper_bound_source": "(0,)",
+        "matches_config_lower_bound": true,
+        "fingerprint": "84a6a23f5674f7db",
+        "differs_from_baseline": true
+      }
+    ],
+    "wavelet_32_four_family_metadata": {
+      "family": "wavelet",
+      "name": "wavelet_32_16_four_family",
+      "matrices_valid": true,
+      "d_min_exact_enum": 8,
+      "matches_expected": true,
+      "matches_config_metadata": true,
+      "A_dmin": 368,
+      "weight_enumerator": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        368,
+        0,
+        2016,
+        0,
+        6832,
+        0,
+        14112,
+        0,
+        18878,
+        0,
+        14112,
+        0,
+        6832,
+        0,
+        2016,
+        0,
+        368,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "fingerprint": "335caff4c2b02684"
+    },
+    "comparison_configs_build_ok": true
+  },
+  "commands_to_reproduce_verification_only": [
+    "python -m research.optimization.capture_baseline",
+    "python -m research.optimization.verify_optimized_codes",
+    "python -m research.optimization.finalize_wavelet_candidates"
+  ],
+  "integrated_changes": [
+    "research/config.py: WAVELET_64_32_CONFIG (h+shift+metadata)",
+    "research/config.py: FOUR_FAMILY_WAVELET_64_32_CONFIG late metadata override",
+    "research/config.py: BCH_DERIVED_32_16_CONFIG puncture (20,22) + metadata",
+    "research/config.py: FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG metadata",
+    "research/config.py: REED_SOLOMON_32_16_CONFIG multipliers + metadata",
+    "research/config.py: REED_SOLOMON_32_16_EQUAL_CONFIG metadata",
+    "bch/derived.py: shorten_systematic_generator_matrix_at + wiring (backward compatible; default byte-identical, verified by fingerprints in verification.json)",
+    "tests/test_four_family_distance_metadata.py: updated to new values"
+  ]
+}

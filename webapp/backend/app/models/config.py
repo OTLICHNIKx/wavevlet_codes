@@ -40,6 +40,8 @@ class CodeConfigSchema(BaseModel):
     goppa_degree: int | None = None
     goppa_support_size: int | None = None
     goppa_seed: int = 42
+    goppa_primitive_polynomial: int | None = None
+    goppa_subcode_functional: list[int] | None = None
     # Generalized Reed-Solomon binary image.
     reed_solomon_m: int | None = Field(default=None, ge=1)
     reed_solomon_symbol_n: int | None = Field(default=None, gt=0)
@@ -47,7 +49,6 @@ class CodeConfigSchema(BaseModel):
     reed_solomon_primitive_polynomial: int | None = Field(default=None, gt=0)
     reed_solomon_evaluation_points: list[int] | None = None
     reed_solomon_column_multipliers: list[int] | None = None
-    goppa_primitive_polynomial: int | None = None
 
     expected_min_distance: int | None = None
     minimum_distance_exact: int | None = Field(default=None, ge=0)

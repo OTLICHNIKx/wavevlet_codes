@@ -44,6 +44,11 @@ def _payload(name: str = "Custom 500") -> dict:
                     "goppa_m": 5,
                     "goppa_degree": 3,
                     "goppa_support_size": 32,
+                    "goppa_seed": 3,
+                    "goppa_primitive_polynomial": 59,
+                    "goppa_subcode_functional": [
+                        0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1,
+                    ],
                     "syndrome_max_error_weight": 2,
                     "chase_inner_decoder_max_error_weight": 2,
                     "chase_unreliable_positions_count": 6,

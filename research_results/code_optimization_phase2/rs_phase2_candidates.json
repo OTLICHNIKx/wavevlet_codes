@@ -1,0 +1,78 @@
+{
+  "family": "reed_solomon_binary",
+  "n": 32,
+  "k": 16,
+  "target": 8,
+  "reached_target": false,
+  "seed": 314001,
+  "evaluations": 40797,
+  "phase1_reference": {
+    "d": 7,
+    "A_d": 28,
+    "fingerprint": "e0f4d1f05cc196bb"
+  },
+  "best": [
+    {
+      "d": 7,
+      "A_d": 28,
+      "A_d1": 199,
+      "weight_enumerator": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        28,
+        199,
+        480,
+        1064,
+        1885,
+        3236,
+        5369,
+        7236,
+        8716,
+        9275,
+        8548,
+        7108,
+        5286,
+        3516,
+        1934,
+        972,
+        464,
+        157,
+        52,
+        4,
+        5,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "multipliers": [
+        4,
+        6,
+        13,
+        7,
+        8,
+        12,
+        15,
+        10
+      ],
+      "points": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "polynomial": 19,
+      "fingerprint": "e0f4d1f05cc196bb"
+    }
+  ]
+}

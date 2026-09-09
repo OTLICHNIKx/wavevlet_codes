@@ -296,6 +296,46 @@ def shorten_systematic_generator_matrix(
     return shortened_matrix
 
 
+def shorten_systematic_generator_matrix_at(
+    generator_matrix: object,
+    shortening_coordinates: tuple[int, ...],
+) -> np.ndarray:
+    """
+    Укорачивает систематический код по явным информационным координатам.
+
+    Для G = [I_k | P] фиксируются нулём информационные позиции из
+    shortening_coordinates; соответствующие строки и столбцы
+    удаляются. При shortening_coordinates = range(s) результат
+    совпадает с shorten_systematic_generator_matrix.
+    """
+    matrix = validate_systematic_generator_matrix(
+        generator_matrix
+    )
+    k, _ = matrix.shape
+
+    coords = tuple(sorted(int(c) for c in shortening_coordinates))
+    if len(set(coords)) != len(coords):
+        raise ValueError("shortening_coordinates содержат повторы")
+    if any(not 0 <= c < k for c in coords):
+        raise ValueError(
+            "Укорочение поддержано только по информационным "
+            f"позициям [0, {k})"
+        )
+
+    if len(coords) == 0:
+        return matrix.copy()
+
+    rows = [row for row in range(k) if row not in coords]
+    columns = [column for column in range(matrix.shape[1]) if column not in coords]
+    shortened_matrix = matrix[np.ix_(rows, columns)].copy()
+
+    validate_systematic_generator_matrix(
+        shortened_matrix
+    )
+
+    return shortened_matrix
+
+
 def puncture_systematic_generator_matrix(
     generator_matrix: object,
     puncture_count: int,
@@ -616,10 +656,20 @@ class BCHDerivedCode:
             )
 
         # Выполняем укорочение.
-        shortened_generator = shorten_systematic_generator_matrix(
-            generator_matrix=parent_systematic,
-            shortening_count=shortening_count,
-        )
+        if shortening_coordinates is None:
+            shortened_generator = shorten_systematic_generator_matrix(
+                generator_matrix=parent_systematic,
+                shortening_count=shortening_count,
+            )
+        else:
+            # Минимальное обобщение (ТЗ code optimization, этап C):
+            # явное множество информационных координат вместо
+            # "первых s". При system_shortening == range(s) результат
+            # побайтово совпадает со старым поведением.
+            shortened_generator = shorten_systematic_generator_matrix_at(
+                generator_matrix=parent_systematic,
+                shortening_coordinates=system_shortening,
+            )
 
         shortened_n = shortened_generator.shape[1]
 

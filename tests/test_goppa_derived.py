@@ -30,4 +30,7 @@ def test_derived_code_has_target_dimension(code, n, k, parent_k) -> None:
 def test_small_derived_code_exact_distance_matches_bound(code) -> None:
     analysis = analyze_small_code(code.generator_matrix, code.parity_check_matrix)
 
-    assert analysis.d_min == code.distance_lower_bound
+    # Гарантированная граница конструкции (2*deg+1) обязана выполняться;
+    # phase-2 derived subcode (message-functional kernel) может её строго
+    # превышать (для 32_16: d_min=8 > bound=7).
+    assert analysis.d_min >= code.distance_lower_bound

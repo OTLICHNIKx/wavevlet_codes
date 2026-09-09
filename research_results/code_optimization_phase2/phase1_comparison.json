@@ -1,0 +1,124 @@
+{
+  "rows": [
+    {
+      "family": "wavelet",
+      "n": 16,
+      "k": 8,
+      "phase1_d": 5,
+      "phase1_A_dmin": 24,
+      "fingerprint": "33efb725170a3fb4"
+    },
+    {
+      "family": "bch_derived",
+      "n": 16,
+      "k": 8,
+      "phase1_d": 5,
+      "phase1_A_dmin": 24,
+      "fingerprint": "d6f7c6f769213bcf"
+    },
+    {
+      "family": "goppa_derived",
+      "n": 16,
+      "k": 8,
+      "phase1_d": 5,
+      "phase1_A_dmin": 24,
+      "fingerprint": "6173431188bfdecb"
+    },
+    {
+      "family": "reed_solomon_binary",
+      "n": 16,
+      "k": 8,
+      "phase1_d": 5,
+      "phase1_A_dmin": 24,
+      "fingerprint": "c22f88f09191e189"
+    },
+    {
+      "family": "ldpc",
+      "n": 16,
+      "k": 8,
+      "phase1_d": 5,
+      "phase1_A_dmin": 24,
+      "fingerprint": "90b4883176a4a2e3"
+    },
+    {
+      "family": "wavelet",
+      "n": 32,
+      "k": 16,
+      "phase1_d": 8,
+      "phase1_A_dmin": 368,
+      "fingerprint": "335caff4c2b02684"
+    },
+    {
+      "family": "bch_derived",
+      "n": 32,
+      "k": 16,
+      "phase1_d": 6,
+      "phase1_A_dmin": 14,
+      "fingerprint": "94ce4cef089d2841"
+    },
+    {
+      "family": "goppa_derived",
+      "n": 32,
+      "k": 16,
+      "phase1_d": 8,
+      "phase1_A_dmin": 400,
+      "fingerprint": "193e992ca8fa78e2"
+    },
+    {
+      "family": "reed_solomon_binary",
+      "n": 32,
+      "k": 16,
+      "phase1_d": 7,
+      "phase1_A_dmin": 28,
+      "fingerprint": "e0f4d1f05cc196bb"
+    },
+    {
+      "family": "ldpc",
+      "n": 32,
+      "k": 16,
+      "phase1_d": 8,
+      "phase1_A_dmin": 620,
+      "fingerprint": "16f524af11466130"
+    },
+    {
+      "family": "wavelet",
+      "n": 64,
+      "k": 32,
+      "phase1_d": 11,
+      "phase1_A_dmin": null,
+      "fingerprint": "84a6a23f5674f7db"
+    },
+    {
+      "family": "bch_derived",
+      "n": 64,
+      "k": 32,
+      "phase1_d": 9,
+      "phase1_A_dmin": null,
+      "fingerprint": "c77ee48d98603561"
+    },
+    {
+      "family": "goppa_derived",
+      "n": 64,
+      "k": 32,
+      "phase1_d": 9,
+      "phase1_A_dmin": null,
+      "fingerprint": "3794663d25a7c09b"
+    },
+    {
+      "family": "reed_solomon_binary",
+      "n": 64,
+      "k": 32,
+      "phase1_d": 9,
+      "phase1_A_dmin": null,
+      "fingerprint": "05b970891420f14f"
+    },
+    {
+      "family": "ldpc",
+      "n": 64,
+      "k": 32,
+      "phase1_d": 9,
+      "phase1_A_dmin": null,
+      "fingerprint": "8eedecae51a47d3f"
+    }
+  ]
+}

@@ -13,7 +13,10 @@ def test_32_16_is_equal_nkr_equal_decoder_not_equal_distance() -> None:
     assert {(code.n, code.k) for code in config.codes} == {(32, 16)}
     assert {code.k / code.n for code in config.codes} == {0.5}
     assert {code.syndrome_max_error_weight for code in config.codes} == {2}
-    assert [code.minimum_distance_exact for code in config.codes] == [8, 5, 7, 6]
+    # wavelet, bch_derived (optimized puncture (20,22)), goppa
+    # (phase-2 message-functional kernel, d 7 -> 8), reed_solomon
+    # (optimized multipliers, d 6 -> 7)
+    assert [code.minimum_distance_exact for code in config.codes] == [8, 6, 8, 7]
 
 
 def test_64_32_uses_common_t3_and_correct_distance_metadata() -> None:
@@ -22,7 +25,21 @@ def test_64_32_uses_common_t3_and_correct_distance_metadata() -> None:
     assert {code.k / code.n for code in config.codes} == {0.5}
     assert config.decoders.syndrome_max_error_weight == 3
     assert {code.syndrome_max_error_weight for code in config.codes} == {3}
-    assert [(code.minimum_distance_exact, code.minimum_distance_lower_bound, code.minimum_distance_upper_bound) for code in config.codes] == [(8, 8, 8), (None, 9, 10), (9, 9, 9), (10, 10, 10)]
+    # wavelet optimized (certificate 11 <= d <= 14), bch_derived
+    # (9..10), goppa (9), reed_solomon (10)
+    assert [
+        (
+            code.minimum_distance_exact,
+            code.minimum_distance_lower_bound,
+            code.minimum_distance_upper_bound,
+        )
+        for code in config.codes
+    ] == [
+        (None, 11, 14),
+        (None, 9, 10),
+        (9, 9, 9),
+        (10, 10, 10),
+    ]
 
 
 def test_summary_rows_preserve_distance_upper_bound_and_evidence(tmp_path) -> None:

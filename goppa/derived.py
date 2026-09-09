@@ -40,6 +40,7 @@ class GoppaDerivedCode:
     target_k: int
     derivation_method: str
     name: str = "Goppa-derived code"
+    subcode_functional: tuple[int, ...] | None = None
 
     def __post_init__(self) -> None:
         self.generator_matrix = to_binary_matrix(
@@ -159,14 +160,24 @@ class GoppaDerivedCode:
         target_k: int,
         derivation_method: str = "rref_first_k",
         name: str | None = None,
+        subcode_functional: tuple[int, ...] | None = None,
     ) -> "GoppaDerivedCode":
         """
         Строит Goppa-derived подкод из parent code.
 
-        Алгоритм:
+        Алгоритм (derivation_method="rref_first_k", default):
             1. Приводим G_parent к RREF.
             2. Берём первые target_k ненулевых строк.
             3. Строим H_sub как nullspace(G_sub).
+
+        Алгоритм (subcode_functional задан, метод
+        "message_functional_kernel" — минимальное обобщение из
+        phase-2 оптимизации, ТЗ §4 "варианты construction parameters"):
+            subcode = {m·G_parent : f·m = 0}, где f — nonzero линейная
+            функциона на пространстве сообщений parent. Такие подкоды —
+            ровно гиперплоскостные subcodes parent-кода; алгоритм
+            построения Goppa parent не меняется. По умолчанию (f=None)
+            поведение побайтово совпадает со старым.
         """
         if target_k > parent_code.k:
             raise ValueError(
@@ -181,9 +192,39 @@ class GoppaDerivedCode:
         G_parent = parent_code.generator_matrix
         G_rref, pivot_cols = gf2_row_reduce(G_parent)
 
-        # Берём первые target_k строк (они линейно независимы)
-        # После RREF ненулевые строки идут первыми
-        G_sub = G_rref[:target_k, :].copy()
+        if subcode_functional is None:
+            # Берём первые target_k строк (они линейно независимы)
+            # После RREF ненулевые строки идут первыми
+            G_sub = G_rref[:target_k, :].copy()
+        else:
+            f = np.asarray(subcode_functional, dtype=np.uint8)
+            if f.shape[0] != G_parent.shape[0]:
+                raise ValueError(
+                    "subcode_functional должен иметь длину parent_k"
+                )
+            pivot_positions = np.flatnonzero(f == 1)
+            if pivot_positions.size == 0:
+                raise ValueError("subcode_functional не может быть нулевым")
+            pivot = int(pivot_positions[0])
+            rows = []
+            for i in range(G_parent.shape[0]):
+                if i == pivot:
+                    continue
+                vector = np.zeros(G_parent.shape[0], dtype=np.uint8)
+                vector[i] = 1
+                vector[pivot] = int(f[i])
+                rows.append(vector)
+            if len(rows) != target_k:
+                raise ValueError(
+                    "размерность ядра функционала не равна target_k"
+                )
+            basis = np.vstack(rows).astype(np.uint8)
+            G_sub = (
+                basis.astype(np.int64) @ G_parent.astype(np.int64) % 2
+            ).astype(np.uint8)
+            derivation_method = "message_functional_kernel"
+            G_rref, pivot_cols = gf2_row_reduce(G_sub)
+            G_sub = G_rref[:target_k, :].copy()
 
         # Проверяем, что выбранные строки действительно независимы
         if gf2_matrix_rank(G_sub) != target_k:
@@ -193,22 +234,9 @@ class GoppaDerivedCode:
             )
 
         # Строим H_sub как nullspace(G_sub) над GF(2)
-        # G_sub имеет размер (target_k, n)
+        # G_sub должна иметь размер (target_k, n)
         # H_sub должна иметь размер (n - target_k, n) и G_sub @ H_sub.T = 0
         n = G_sub.shape[1]
-
-        # Используем gf2_row_reduce для нахождения nullspace
-        # Транспонируем G_sub, приводим к RREF, находим свободные переменные
-        G_sub_T = G_sub.T  # (n, target_k)
-        G_sub_T_rref, pivot_cols_T = gf2_row_reduce(G_sub_T)
-
-        # Свободные столбцы в G_sub_T — это строки H_sub
-        # Но нам нужно решение G_sub @ x = 0, то есть nullspace(G_sub)
-        # Это эквивалентно nullspace(G_sub) = rowspan(H_sub)
-
-        # Альтернатива: строим H_sub через RREF G_sub
-        # G_sub уже в RREF (первые target_k строк G_rref)
-        # Свободные переменные — столбцы не в pivot_cols
         free_cols = [c for c in range(n) if c not in pivot_cols[:target_k]]
 
         # Базис nullspace: для каждой свободной переменной создаём вектор
@@ -245,4 +273,9 @@ class GoppaDerivedCode:
             target_k=target_k,
             derivation_method=derivation_method,
             name=name,
+            subcode_functional=(
+                None
+                if subcode_functional is None
+                else tuple(int(v) % 2 for v in subcode_functional)
+            ),
         )

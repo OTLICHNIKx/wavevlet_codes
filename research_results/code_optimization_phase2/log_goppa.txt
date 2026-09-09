@@ -1,0 +1,39 @@
+[17:35:35] sweep 12000 candidates over polynomials [37, 41, 47, 55, 59, 61]
+[17:36:53] poly 37: unique=6 d_dist={7: 6}
+[17:38:13] poly 41: unique=15 d_dist={7: 15}
+[17:39:30] poly 47: unique=21 d_dist={7: 21}
+[17:40:47] poly 55: unique=32 d_dist={7: 32}
+[17:42:26] poly 59: unique=43 d_dist={7: 43}
+[17:44:10] poly 61: unique=55 d_dist={7: 55}
+[17:44:10] hyperplane probe: parent seed=3 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=4 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=13 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=5 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=24 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=4 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=0 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=9 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=13 A7=128 -> subcode d=7
+[17:44:10] hyperplane probe: parent seed=0 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=18 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=6 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=7 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=12 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=19 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=2 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=4 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=5 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=10 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=7 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=0 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=0 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=2 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=4 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=0 A7=128 -> subcode d=7
+[17:44:11] hyperplane probe: parent seed=2 A7=128 -> subcode d=7
+[17:44:12] hyperplane probe: parent seed=3 A7=128 -> subcode d=7
+[17:44:12] hyperplane probe: parent seed=17 A7=128 -> subcode d=7
+[17:44:12] hyperplane probe: parent seed=13 A7=128 -> subcode d=7
+[17:44:12] hyperplane probe: parent seed=10 A7=128 -> subcode d=7
+[17:44:12] saved research_results\code_optimization_phase2\goppa_phase2_candidates.json
+[17:44:12] goppa best: d=7 A=95 seed=3 poly=59

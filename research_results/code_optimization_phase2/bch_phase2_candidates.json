@@ -1,0 +1,13 @@
+{
+  "family": "bch_derived",
+  "n": 32,
+  "k": 16,
+  "target": 7,
+  "reached_target": false,
+  "seed": 222001,
+  "evaluated_candidates": 629440,
+  "intermediate_checks": 1120,
+  "parent_configs": 14,
+  "elapsed_sec": 348.74047430000064,
+  "best": []
+}

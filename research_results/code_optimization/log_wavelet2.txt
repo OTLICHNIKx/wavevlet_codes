@@ -1,0 +1,50 @@
+[15:35:12] stage1 best violations=0 h=(1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1) shift=18
+[15:35:12] stage2 best violations=0 h=(1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1) shift=18
+{
+  "status": "found",
+  "h": [
+    1,
+    0,
+    1,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1
+  ],
+  "shift": 18,
+  "a": 1,
+  "b": 1,
+  "g": null,
+  "fingerprint": "dc2c96338f6795fe",
+  "differs_from_baseline": true,
+  "certificate_w4": 9,
+  "upper_bound_word_weight": 14,
+  "upper_bound_message": [
+    0,
+    7,
+    11,
+    12,
+    15,
+    18,
+    19,
+    23,
+    30
+  ],
+  "evaluations": 2,
+  "restarts": 1,
+  "elapsed_sec": 19.779602100000375
+}
+[15:35:32] saved: research_results\code_optimization\wavelet_64_32_best.json

@@ -50,10 +50,6 @@ class CodeResearchConfig:
     goppa_support_size: int | None = None
     goppa_seed: int = 42
     goppa_primitive_polynomial: int | None = None
-    # Для derivation_method="message_functional_kernel" (phase-2):
-    # бинарный вектор-функционал на пространстве сообщений parent,
-    # subcode = ker f. None = классический rref_first_k.
-    goppa_subcode_functional: tuple[int, ...] | None = None
     # Параметры binary-image Reed-Solomon.
     reed_solomon_m: int | None = None
     reed_solomon_symbol_n: int | None = None
@@ -112,11 +108,6 @@ class CodeResearchConfig:
             "goppa_support_size": self.goppa_support_size,
             "goppa_seed": self.goppa_seed,
             "goppa_primitive_polynomial": self.goppa_primitive_polynomial,
-            "goppa_subcode_functional": (
-                None
-                if self.goppa_subcode_functional is None
-                else list(self.goppa_subcode_functional)
-            ),
             # Параметры Reed-Solomon.
             "reed_solomon_m": self.reed_solomon_m,
             "reed_solomon_symbol_n": self.reed_solomon_symbol_n,
@@ -168,10 +159,6 @@ class CodeResearchConfig:
         ):
             if converted.get(key) is not None:
                 converted[key] = tuple(int(v) for v in converted[key])
-        if converted.get("goppa_subcode_functional") is not None:
-            converted["goppa_subcode_functional"] = tuple(
-                int(v) for v in converted["goppa_subcode_functional"]
-            )
         if converted.get("bch_puncture_coordinates") is not None:
             converted["bch_puncture_coordinates"] = tuple(
                 int(v)
@@ -567,34 +554,20 @@ WAVELET_64_32_CONFIG = CodeResearchConfig(
     n=64,
     k=32,
     h=(
-        1, 0, 1, 0, 1, 1, 1, 0,
-        0, 0, 0, 1, 1, 0, 1, 1,
+        1, 0, 0, 1, 0, 0, 1, 1,
+        1, 1, 0, 0, 0, 1, 0, 0,
+        1, 1, 1, 1, 1, 0, 1, 0,
+        0, 0, 1, 1, 1, 1, 1, 1,
     ),
     g=None,
-    shift=5,
 
-    # Найдено офлайн-поиском research/optimization/optimize_wavelet_64_32.py
-    # (seed=11, детерминированно воспроизводится). Строгий сертификат:
-    # все подмножества <=5 столбцов H имеют ненулевые попарно различные
-    # синдромы => нет зависимостей веса <=10 => d_min >= 11.
-    # Верхняя оценка: найдено кодовое слово веса 14.
-    # Точное d_min не устанавливалось (11 <= d_min <= 14).
+    # Проверено: все ошибки веса <= 3 имеют разные синдромы,
+    # и найдено кодовое слово веса 8. Текущая строгая граница:
+    # 7 <= d_min <= 8; точное d_min отдельно не доказано.
     expected_min_distance=None,
-    minimum_distance_exact=None,
-    minimum_distance_lower_bound=11,
-    minimum_distance_upper_bound=14,
-    distance_evidence=(
-        "syndrome certificate up to weight 5 (all subsets <=5 of the "
-        "frozen H have nonzero pairwise distinct syndromes) proves no "
-        "codewords of weight <= 10: d_min >= 11; a weight-14 codeword "
-        "gives d_min <= 14; searched by research/optimization/"
-        "optimize_wavelet_64_32.py seed 11"
-    ),
-    verified_error_correction_radius=5,
 
-    # Проверенный сертификат позволяет t до 5; в equal-decoder
-    # сравнении сознательно оставлены общие с остальными [64,32]
-    # кодами параметры декодера (t=3, p=8).
+    # Проверенная уникальность синдромов до веса 3 позволяет
+    # использовать гарантированный радиус t=3.
     syndrome_max_error_weight=3,
     chase_inner_decoder_max_error_weight=3,
     chase_unreliable_positions_count=8,
@@ -673,28 +646,19 @@ GOPPA_32_16_CONFIG = CodeResearchConfig(
     n=32,
     k=16,
 
-    # Goppa: m=5, deg=3, support_size=32, seed=3, primitive=59.
-    # Derived subcode = ker f (message_functional_kernel, phase-2):
-    # f строго отделяет все 128 слов веса 7 parent [32,17,>=7].
+    # Goppa: m=5, deg=3, support_size=32
     goppa_m=5,
     goppa_degree=3,
     goppa_support_size=32,
-    goppa_seed=3,
-    goppa_primitive_polynomial=59,
-    goppa_subcode_functional=(0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1),
+    goppa_seed=42,
 
     # Расстояние
-    minimum_distance_exact=8,
-    minimum_distance_lower_bound=8,
-    minimum_distance_upper_bound=8,
-    distance_evidence=(
-        "exact enumeration of all 2^16 codewords: d_min=8, A_8=400; "
-        "hyperplane (message functional) derivation proven by affine "
-        "system f.w=1 over all 128 parent weight-7 words "
-        "(research/optimization/phase2/optimize_goppa_phase2.py)"
-    ),
+    minimum_distance_exact=7,
+    minimum_distance_lower_bound=7,
+    minimum_distance_upper_bound=7,
+    distance_evidence="exact enumeration of all 2^16 codewords",
 
-    # Equal decoder parameters (t не повышается: равные условия сравнения)
+    # Equal decoder parameters
     syndrome_max_error_weight=2,
     chase_inner_decoder_max_error_weight=2,
     chase_unreliable_positions_count=6,
@@ -1095,17 +1059,12 @@ BCH_DERIVED_32_16_CONFIG = CodeResearchConfig(
     # [63,45] -> [34,16] -> [32,16]
     bch_shortening_count=29,
     bch_puncture_count=2,
-    # Оптимизированная пара выкалываемых проверочных координат:
-    # полный перебор всех C(18,2)=153 пар в
-    # research/optimization/optimize_bch_32_16.py;
-    # оптимум по (d_min, A_dmin, A_{d+1}) — (20,22).
-    bch_puncture_coordinates=(20, 22),
 
     expected_min_distance=None,
-    minimum_distance_exact=6,
-    minimum_distance_lower_bound=6,
-    minimum_distance_upper_bound=6,
-    distance_evidence="exhaustive over all 153 parity puncture pairs (all shortened [34,16] have d=7; after puncture 2 max d=6); exact d_min=6, A_6=14 by 2^16 enumeration",
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=5,
+    minimum_distance_upper_bound=None,
+    distance_evidence="BCH(63,45,d>=7) shorten 29 puncture 2",
     verified_error_correction_radius=2,
 
     syndrome_max_error_weight=2,
@@ -1542,14 +1501,11 @@ REED_SOLOMON_32_16_CONFIG = CodeResearchConfig(
     reed_solomon_symbol_k=4,
     reed_solomon_primitive_polynomial=0b10011,
     reed_solomon_evaluation_points=(0, 1, 2, 3, 4, 5, 6, 7),
-    # Оптимизированные column multipliers: simulated annealing по
-    # 15^8 наборам (research/optimization/optimize_rs_32_16.py,
-    # seed 420, 22571 точных оценок перебором 2^16).
-    reed_solomon_column_multipliers=(4, 6, 13, 7, 8, 12, 15, 10),
-    minimum_distance_exact=7,
-    minimum_distance_lower_bound=7,
-    minimum_distance_upper_bound=7,
-    distance_evidence="Exact binary d_min=7 by exhaustive enumeration of all 65,535 non-zero GRS binary codewords; A_7=28, searched over column multipliers by research/optimization/optimize_rs_32_16.py (seed 420)",
+    reed_solomon_column_multipliers=(1, 1, 1, 1, 1, 1, 1, 1),
+    minimum_distance_exact=6,
+    minimum_distance_lower_bound=6,
+    minimum_distance_upper_bound=6,
+    distance_evidence="Exhaustive enumeration of all 65535 non-zero GRS binary codewords",
     verified_error_correction_radius=2,
     syndrome_max_error_weight=2,
     chase_inner_decoder_max_error_weight=2,
@@ -1639,12 +1595,12 @@ EQUAL_DECODER_20K_FOUR_FAMILIES_64_32 = _four_family_config(
 # Corrected distance metadata and comparison semantics.
 # [32,16] is an equal-(n,k,R), equal-decoder comparison, not equal-distance.
 FOUR_FAMILY_WAVELET_32_16_CONFIG = replace(FOUR_FAMILY_WAVELET_32_16_CONFIG, minimum_distance_exact=8, minimum_distance_lower_bound=8, minimum_distance_upper_bound=8, distance_evidence="Exact binary d_min=8 verified for the fixed Wavelet [32,16] construction")
-FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG = replace(FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG, minimum_distance_exact=6, minimum_distance_lower_bound=6, minimum_distance_upper_bound=6, distance_evidence="Exact binary d_min=6 verified by exhaustive 2^16 enumeration; optimized puncture pair (20,22) chosen over all 153 parity pairs by research/optimization/optimize_bch_32_16.py")
-FOUR_FAMILY_GOPPA_32_16_CONFIG = replace(FOUR_FAMILY_GOPPA_32_16_CONFIG, minimum_distance_exact=8, minimum_distance_lower_bound=8, minimum_distance_upper_bound=8, distance_evidence="Exact binary d_min=8, A_8=400 verified for the phase-2 optimized Goppa-derived [32,16] construction (seed 3, poly 59, message-functional hyperplane derivation)")
-REED_SOLOMON_32_16_EQUAL_CONFIG = replace(REED_SOLOMON_32_16_CONFIG, name="reed_solomon_binary_32_16_four_family", minimum_distance_exact=7, minimum_distance_lower_bound=7, minimum_distance_upper_bound=7, distance_evidence="Exact binary d_min=7 verified by exhaustive 2^16 enumeration of optimized column multipliers (4,6,13,7,8,12,15,10), found by research/optimization/optimize_rs_32_16.py seed 420")
+FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG = replace(FOUR_FAMILY_BCH_DERIVED_32_16_CONFIG, minimum_distance_exact=5, minimum_distance_lower_bound=5, minimum_distance_upper_bound=5, distance_evidence="Exact binary d_min=5 verified for the fixed BCH-derived [32,16] construction")
+FOUR_FAMILY_GOPPA_32_16_CONFIG = replace(FOUR_FAMILY_GOPPA_32_16_CONFIG, minimum_distance_exact=7, minimum_distance_lower_bound=7, minimum_distance_upper_bound=7, distance_evidence="Exact binary d_min=7 verified for the fixed Goppa-derived [32,16] construction")
+REED_SOLOMON_32_16_EQUAL_CONFIG = replace(REED_SOLOMON_32_16_CONFIG, name="reed_solomon_binary_32_16_four_family", minimum_distance_exact=6, minimum_distance_lower_bound=6, minimum_distance_upper_bound=6, distance_evidence="Exact binary d_min=6 by exhaustive enumeration of 65,535 non-zero GRS binary codewords")
 
 # [64,32] uses common conservative t=3 without claiming equal distance.
-FOUR_FAMILY_WAVELET_64_32_CONFIG = replace(FOUR_FAMILY_WAVELET_64_32_CONFIG, minimum_distance_exact=None, minimum_distance_lower_bound=11, minimum_distance_upper_bound=14, distance_evidence="Syndrome certificate (subsets <=5) proves 11 <= d_min <= 14 for the optimized Wavelet [64,32] construction (h len 16, shift 5, searched by research/optimization/optimize_wavelet_64_32.py seed 11)", verified_error_correction_radius=5, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
+FOUR_FAMILY_WAVELET_64_32_CONFIG = replace(FOUR_FAMILY_WAVELET_64_32_CONFIG, minimum_distance_exact=8, minimum_distance_lower_bound=8, minimum_distance_upper_bound=8, distance_evidence="Exact binary d_min=8 verified for the fixed Wavelet [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
 FOUR_FAMILY_BCH_DERIVED_64_32_CONFIG = replace(FOUR_FAMILY_BCH_DERIVED_64_32_CONFIG, minimum_distance_exact=None, minimum_distance_lower_bound=9, minimum_distance_upper_bound=10, distance_evidence="Verified binary distance interval 9 <= d_min <= 10 for the fixed BCH-derived [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
 FOUR_FAMILY_GOPPA_64_32_CONFIG = replace(FOUR_FAMILY_GOPPA_64_32_CONFIG, minimum_distance_exact=9, minimum_distance_lower_bound=9, minimum_distance_upper_bound=9, distance_evidence="Exact binary d_min=9 verified for the fixed Goppa-derived [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)
 REED_SOLOMON_64_32_EQUAL_CONFIG = replace(REED_SOLOMON_64_32_CONFIG, name="reed_solomon_binary_64_32_four_family", minimum_distance_exact=10, minimum_distance_lower_bound=10, minimum_distance_upper_bound=10, distance_evidence="Exact binary d_min=10 verified for the fixed GRS binary [64,32] construction", verified_error_correction_radius=3, syndrome_max_error_weight=3, chase_inner_decoder_max_error_weight=3)

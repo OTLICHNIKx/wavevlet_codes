@@ -257,6 +257,24 @@ def build_code_from_config(
                 f"пресет={construction.degree}"
             )
 
+        if (
+            code_config.goppa_primitive_polynomial is not None
+            and construction.field.primitive_polynomial
+            != code_config.goppa_primitive_polynomial
+        ):
+            mismatches.append(
+                f"goppa_primitive_polynomial: конфиг="
+                f"{code_config.goppa_primitive_polynomial}, "
+                f"пресет={construction.field.primitive_polynomial}"
+            )
+
+        if code.subcode_functional != code_config.goppa_subcode_functional:
+            mismatches.append(
+                f"goppa_subcode_functional: конфиг="
+                f"{code_config.goppa_subcode_functional}, "
+                f"пресет={code.subcode_functional}"
+            )
+
         if construction.seed != code_config.goppa_seed:
             mismatches.append(
                 f"goppa_seed: конфиг={code_config.goppa_seed}, "

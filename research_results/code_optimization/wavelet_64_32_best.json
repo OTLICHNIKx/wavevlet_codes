@@ -1,0 +1,35 @@
+{
+  "status": "found",
+  "h": [
+    1,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1
+  ],
+  "shift": 5,
+  "a": 1,
+  "b": 1,
+  "g": null,
+  "fingerprint": "84a6a23f5674f7db",
+  "differs_from_baseline": true,
+  "certificate_w4": 9,
+  "upper_bound_word_weight": 14,
+  "upper_bound_message": [
+    0
+  ],
+  "evaluations": 2,
+  "restarts": 1,
+  "elapsed_sec": 19.82328250000046
+}
