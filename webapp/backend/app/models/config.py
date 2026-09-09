@@ -6,7 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 
-CodeFamily = Literal["wavelet", "bch", "bch_derived", "goppa_derived", "reed_solomon_binary"]
+CodeFamily = Literal["wavelet", "bch", "bch_derived", "goppa_derived", "reed_solomon_binary", "ldpc"]
 
 
 class CodeConfigSchema(BaseModel):
@@ -122,6 +122,19 @@ class CodeConfigSchema(BaseModel):
         if any(value <= 0 or value >= field_size for value in multipliers):
             raise ValueError("column_multipliers должны быть ненулевыми элементами GF(2^m)")
         return self
+
+    @model_validator(mode="after")
+    def validate_ldpc_preset(self) -> "CodeConfigSchema":
+        if self.family != "ldpc":
+            return self
+        allowed = {(16, 8), (32, 16), (64, 32)}
+        if (self.n, self.k) not in allowed:
+            raise ValueError(
+                "Для ldpc доступны только замороженные пресеты "
+                "(16, 8), (32, 16), (64, 32)"
+            )
+        return self
+
 class DecoderConfigSchema(BaseModel):
     """Настройки декодеров."""
 

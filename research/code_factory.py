@@ -2,6 +2,8 @@ import numpy as np
 
 from bch import BCHCode, BCHDerivedCode
 from goppa import GoppaDerivedCode
+from ldpc import LDPCCode
+from ldpc import presets as ldpc_presets
 from reed_solomon import ReedSolomonBinaryCode
 from goppa.presets import (
     GOPPA_16_8_CODE,
@@ -19,6 +21,7 @@ ResearchCode = (
     | BCHDerivedCode
     | GoppaDerivedCode
     | ReedSolomonBinaryCode
+    | LDPCCode
 )
 
 
@@ -265,6 +268,29 @@ def build_code_from_config(
                 "Параметры goppa_derived в конфиге не совпадают с "
                 f"зафиксированным пресетом ({code_config.n}, {code_config.k}): "
                 + "; ".join(mismatches)
+            )
+
+    elif code_config.family == "ldpc":
+        # LDPC-матрицы заморожены в ldpc/presets.py; код выбирается
+        # детерминированно по паре (n, k), случайной генерации нет.
+        preset_names = {
+            (16, 8): "LDPC_16_8",
+            (32, 16): "LDPC_32_16",
+            (64, 32): "LDPC_64_32",
+        }
+        preset_name = preset_names.get(
+            (code_config.n, code_config.k)
+        )
+        if preset_name is None:
+            raise ValueError(
+                f"Для LDPC нет пресета для ({code_config.n}, {code_config.k}). "
+                "Используйте (16, 8), (32, 16) или (64, 32)."
+            )
+        code = getattr(ldpc_presets, preset_name, None)
+        if code is None:
+            raise ValueError(
+                f"LDPC-пресет {preset_name} ещё не заморожен "
+                "(см. research/find_ldpc_presets.py)."
             )
 
     else:

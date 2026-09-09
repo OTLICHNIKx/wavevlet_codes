@@ -10,6 +10,7 @@ CodeFamily = Literal[
     "bch_derived",
     "goppa_derived",
     "reed_solomon_binary",
+    "ldpc",
 ]
 
 
@@ -383,6 +384,13 @@ class CodeResearchConfig:
                     raise ValueError("Число column multipliers должно совпадать с symbol_n")
                 if any(value <= 0 or value >= field_size for value in multipliers):
                     raise ValueError("Column multipliers должны быть ненулевыми элементами GF(2^m)")
+        elif self.family == "ldpc":
+            if (self.n, self.k) not in {(16, 8), (32, 16), (64, 32)}:
+                raise ValueError(
+                    "Для ldpc доступны только замороженные пресеты "
+                    "(16, 8), (32, 16), (64, 32); "
+                    f"получено (n={self.n}, k={self.k})"
+                )
         else:
             raise ValueError(
                 f"Неизвестное семейство кода: {self.family}"
@@ -1629,4 +1637,180 @@ FOUR_FAMILIES_20K_FULL_DECODERS_32_16 = _four_family_full_decoder_config(
 FOUR_FAMILIES_20K_FULL_DECODERS_64_32 = _four_family_full_decoder_config(
     EQUAL_DECODER_20K_FOUR_FAMILIES_64_32,
     "research_results/four_families/full_decoders/64_32_20k",
+)
+
+
+# ============================================================
+# LDPC family (frozen matrices in ldpc/presets.py, searched by
+# research/find_ldpc_presets.py). The family participates in the
+# comparison as an ordinary linear block code through the existing
+# generic decoders only.
+# ============================================================
+
+LDPC_16_8_CONFIG = CodeResearchConfig(
+    name="ldpc_16_8",
+    family="ldpc",
+    n=16,
+    k=8,
+    minimum_distance_exact=5,
+    minimum_distance_lower_bound=5,
+    minimum_distance_upper_bound=5,
+    distance_evidence=(
+        "Exact d_min=5 by exhaustive enumeration of all 2^8 codewords "
+        "of the frozen H (row weights 5-6, column weights 2-3, "
+        "density 0.336)"
+    ),
+    verified_error_correction_radius=2,
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=4,
+)
+
+LDPC_32_16_CONFIG = CodeResearchConfig(
+    name="ldpc_32_16",
+    family="ldpc",
+    n=32,
+    k=16,
+    minimum_distance_exact=8,
+    minimum_distance_lower_bound=8,
+    minimum_distance_upper_bound=8,
+    distance_evidence=(
+        "Exact d_min=8 by exhaustive enumeration of all 2^16 codewords "
+        "of the frozen H (every row has weight 8, column weights 1-6, "
+        "density 0.25; the code is the self-dual extended "
+        "quadratic-residue [32,16,8] code in a sparse parity-check "
+        "basis, distinct from all other family codes by RREF "
+        "comparison)"
+    ),
+    verified_error_correction_radius=3,
+    syndrome_max_error_weight=2,
+    chase_inner_decoder_max_error_weight=2,
+    chase_unreliable_positions_count=6,
+)
+
+LDPC_64_32_CONFIG = CodeResearchConfig(
+    name="ldpc_64_32",
+    family="ldpc",
+    n=64,
+    k=32,
+    minimum_distance_exact=None,
+    minimum_distance_lower_bound=9,
+    minimum_distance_upper_bound=None,
+    distance_evidence=(
+        "d_min >= 9 via syndrome certificate: all subsets of <= 4 "
+        "columns of the frozen H have nonzero pairwise distinct "
+        "syndromes (row weights 4-8, column weights 3-4, "
+        "density 0.107)"
+    ),
+    verified_error_correction_radius=3,
+    syndrome_max_error_weight=3,
+    chase_inner_decoder_max_error_weight=3,
+    chase_unreliable_positions_count=8,
+)
+
+LDPC_16_8_FIVE_FAMILY_CONFIG = replace(
+    LDPC_16_8_CONFIG, name="ldpc_16_8_five_family"
+)
+LDPC_32_16_FIVE_FAMILY_CONFIG = replace(
+    LDPC_32_16_CONFIG, name="ldpc_32_16_five_family"
+)
+LDPC_64_32_FIVE_FAMILY_CONFIG = replace(
+    LDPC_64_32_CONFIG, name="ldpc_64_32_five_family"
+)
+
+
+def _five_family_config(
+    message_count: int,
+    codes: tuple[CodeResearchConfig, ...],
+    results_dir: str,
+) -> ResearchConfig:
+    return ResearchConfig(
+        message_count=message_count,
+        message_seed=12345,
+        noise_seed=54321,
+        ebn0_db_values=(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0),
+        codes=codes,
+        decoders=DecoderResearchConfig(
+            run_syndrome=True,
+            run_hard_mld=False,
+            run_soft_mld=False,
+            run_chase=False,
+            syndrome_max_error_weight=2,
+            chase_inner_decoder_max_error_weight=2,
+            chase_unreliable_positions_count=4,
+            max_k_for_mld=16,
+        ),
+        results_dir=results_dir,
+    )
+
+
+# The four-family code configs are reused unchanged; the fifth
+# (LDPC) family is appended per size.  Existing four-family presets
+# and results stay untouched (spec section 2/13).
+FOUR_FAMILY_16_8_CODES = EQUAL_DECODER_20K_FOUR_FAMILIES_16_8.codes
+FOUR_FAMILY_32_16_CODES = EQUAL_DECODER_20K_FOUR_FAMILIES_32_16.codes
+FOUR_FAMILY_64_32_CODES = EQUAL_DECODER_20K_FOUR_FAMILIES_64_32.codes
+
+FIVE_FAMILIES_SMOKE_CONFIG = _five_family_config(
+    64,
+    FOUR_FAMILY_16_8_CODES + (LDPC_16_8_FIVE_FAMILY_CONFIG,),
+    "research_results/five_families/16_8_smoke",
+)
+FIVE_FAMILIES_20K_16_8 = _five_family_config(
+    20_000,
+    FOUR_FAMILY_16_8_CODES + (LDPC_16_8_FIVE_FAMILY_CONFIG,),
+    "research_results/five_families/16_8_20k",
+)
+FIVE_FAMILIES_20K_32_16 = _five_family_config(
+    20_000,
+    FOUR_FAMILY_32_16_CODES + (LDPC_32_16_FIVE_FAMILY_CONFIG,),
+    "research_results/five_families/32_16_20k",
+)
+FIVE_FAMILIES_20K_64_32 = replace(
+    _five_family_config(
+        20_000,
+        FOUR_FAMILY_64_32_CODES + (LDPC_64_32_FIVE_FAMILY_CONFIG,),
+        "research_results/five_families/64_32_20k",
+    ),
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=False,
+        run_soft_mld=False,
+        run_chase=False,
+        syndrome_max_error_weight=3,
+        chase_inner_decoder_max_error_weight=3,
+        chase_unreliable_positions_count=8,
+        max_k_for_mld=16,
+    ),
+)
+
+
+def _five_family_full_decoder_config(
+    base: ResearchConfig, results_dir: str
+) -> ResearchConfig:
+    return replace(
+        base,
+        decoders=replace(
+            base.decoders,
+            run_syndrome=True,
+            run_chase=True,
+            run_hard_mld=True,
+            run_soft_mld=True,
+            max_k_for_mld=16,
+        ),
+        results_dir=results_dir,
+    )
+
+
+FIVE_FAMILIES_20K_FULL_DECODERS_16_8 = _five_family_full_decoder_config(
+    FIVE_FAMILIES_20K_16_8,
+    "research_results/five_families/full_decoders/16_8_20k",
+)
+FIVE_FAMILIES_20K_FULL_DECODERS_32_16 = _five_family_full_decoder_config(
+    FIVE_FAMILIES_20K_32_16,
+    "research_results/five_families/full_decoders/32_16_20k",
+)
+FIVE_FAMILIES_20K_FULL_DECODERS_64_32 = _five_family_full_decoder_config(
+    FIVE_FAMILIES_20K_64_32,
+    "research_results/five_families/full_decoders/64_32_20k",
 )

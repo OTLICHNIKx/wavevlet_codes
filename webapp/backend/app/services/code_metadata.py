@@ -12,12 +12,20 @@ from typing import Any
 
 from goppa.derived import GoppaDerivedCode
 from goppa.presets import GOPPA_16_8_CODE, GOPPA_32_16_CODE, GOPPA_64_32_CODE
+from ldpc.code import LDPCCode
+from ldpc.presets import LDPC_16_8, LDPC_32_16, LDPC_64_32
 
 
 _GOPPA_PRESETS_BY_NK: dict[tuple[int, int], GoppaDerivedCode] = {
     (16, 8): GOPPA_16_8_CODE,
     (32, 16): GOPPA_32_16_CODE,
     (64, 32): GOPPA_64_32_CODE,
+}
+
+_LDPC_PRESETS_BY_NK: dict[tuple[int, int], LDPCCode] = {
+    (16, 8): LDPC_16_8,
+    (32, 16): LDPC_32_16,
+    (64, 32): LDPC_64_32,
 }
 
 _WAVELET_FIELDS = ("h", "g", "a", "b", "shift")
@@ -134,6 +142,18 @@ def build_code_metadata_list(codes: list[dict[str, Any]]) -> list[dict[str, Any]
             for field in _REED_SOLOMON_FIELDS:
                 if field in code:
                     entry[field] = code.get(field)
+
+        if family == "ldpc":
+            preset: LDPCCode | None = None
+            if isinstance(n, int) and isinstance(k, int):
+                preset = _LDPC_PRESETS_BY_NK.get((n, k))
+            if preset is not None:
+                profile = preset.parity_check_weight_profile
+                entry["ldpc_h_min_row_weight"] = profile["min_row_weight"]
+                entry["ldpc_h_max_row_weight"] = profile["max_row_weight"]
+                entry["ldpc_h_min_column_weight"] = profile["min_column_weight"]
+                entry["ldpc_h_max_column_weight"] = profile["max_column_weight"]
+                entry["ldpc_h_density"] = round(profile["density"], 6)
         result.append(entry)
 
     return result

@@ -1,0 +1,36 @@
+{
+  "n": 32,
+  "k": 16,
+  "seed": 20260908,
+  "d_min_exact": 6,
+  "target": 8,
+  "evaluated": 94789,
+  "profile": {
+    "min_row_weight": 3,
+    "max_row_weight": 6,
+    "avg_row_weight": 5.125,
+    "min_column_weight": 2,
+    "max_column_weight": 3,
+    "avg_column_weight": 2.5625,
+    "density": 0.16015625
+  },
+  "h_hex_rows": [
+    "00014400",
+    "00078110",
+    "20306020",
+    "2a030004",
+    "02100803",
+    "42003400",
+    "90000082",
+    "01580800",
+    "000800c9",
+    "8080000c",
+    "9c009000",
+    "40082340",
+    "4084040a",
+    "00440030",
+    "31220000",
+    "04404310"
+  ]
+}
+saved: research_results\ldpc_search\ldpc_32_16_main.json
