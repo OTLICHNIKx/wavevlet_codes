@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 
 from bch import BCHCode, BCHDerivedCode
@@ -91,7 +93,15 @@ def build_code_from_config(
     """
     Строит WaveletCode, BCHCode или BCHDerivedCode
     по общей конфигурации.
+
+    Результат кэшируется по содержимому конфига: возвращаемый объект
+    разделяется между вызовами, мутировать его матрицы нельзя.
     """
+    cache_key = json.dumps(code_config.to_json_dict(), sort_keys=True)
+    cached = _CODE_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
+
     if code_config.family == "wavelet":
         if code_config.h is None:
             raise ValueError(
@@ -322,4 +332,8 @@ def build_code_from_config(
         config=code_config,
     )
 
+    _CODE_CACHE[cache_key] = code
     return code
+
+
+_CODE_CACHE: dict[str, ResearchCode] = {}

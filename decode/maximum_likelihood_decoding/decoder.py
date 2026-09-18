@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from itertools import product
 from typing import Optional
 
 import numpy as np
@@ -45,10 +44,13 @@ def generate_all_binary_messages(k: int, max_candidates: int = 1_000_000) -> np.
             f"Текущий предел: {max_candidates}."
         )
 
-    return np.asarray(
-        list(product([0, 1], repeat=k)),
-        dtype=np.uint8,
-    )
+    # Все 2^k слов через битовое разложение чисел 0..2^k-1.
+    # Порядок совпадает с itertools.product([0,1], repeat=k):
+    # последний разряд меняется быстрее всех.
+    indices = np.arange(candidates_count, dtype=np.uint64)
+    bit_positions = np.arange(k - 1, -1, -1, dtype=np.uint64)
+    bits = ((indices[:, None] >> bit_positions) & 1).astype(np.uint8)
+    return np.ascontiguousarray(bits)
 
 
 def build_codebook(generator_matrix: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -105,10 +107,8 @@ def euclidean_metric_batch(codewords: np.ndarray, received_symbols: np.ndarray) 
             "Длина принятого сигнального вектора должна совпадать с длиной кодовых слов"
         )
 
-    modulated_codewords = np.asarray(
-        [bpsk_modulate(codeword) for codeword in codewords],
-        dtype=float,
-    )
+    # BPSK: 0 -> +1, 1 -> -1, векторизовано по всем кодовым словам.
+    modulated_codewords = 1.0 - 2.0 * codewords.astype(float)
 
     differences = modulated_codewords - received_symbols
 

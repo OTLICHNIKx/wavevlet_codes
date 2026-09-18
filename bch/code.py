@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from codes.gf2 import to_binary_vector
+
 from .generator import (
     BCHGeneratorResult,
     build_bch_generator_polynomial,
@@ -21,28 +23,6 @@ from .polynomial import (
 )
 
 
-def to_binary_vector(
-    values: Iterable[int],
-    name: str = "vector",
-) -> np.ndarray:
-    """
-    Преобразует вход в одномерный бинарный вектор.
-    """
-    vector = np.asarray(list(values))
-
-    if vector.ndim != 1:
-        raise ValueError(
-            f"{name} должен быть одномерным вектором"
-        )
-
-    if not np.all(
-        (vector == 0) | (vector == 1)
-    ):
-        raise ValueError(
-            f"{name} должен содержать только 0 и 1"
-        )
-
-    return vector.astype(np.uint8)
 
 
 @dataclass

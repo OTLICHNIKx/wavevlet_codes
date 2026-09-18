@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field as dataclass_field
 
+import numpy as np
+
 
 DEFAULT_PRIMITIVE_POLYNOMIALS: dict[int, int] = {
     2: 0b111,        # x^2 + x + 1
@@ -180,6 +182,37 @@ class GF2m:
         )
 
         return self._exp_table[exponent]
+
+    def multiply_arrays(self, left: "np.ndarray", right: "np.ndarray") -> "np.ndarray":
+        """
+        Поэлементное умножение массивов элементов поля.
+
+        Без валидации отдельных элементов: вызов должен получать
+        значения уже в диапазоне [0, 2^m). Нули обрабатываются
+        через маску, так как log(0) не определён.
+        """
+        left = np.asarray(left, dtype=np.int64)
+        right = np.asarray(right, dtype=np.int64)
+        exp = np.asarray(self._exp_table, dtype=np.int64)
+        log = np.asarray(self._log_table, dtype=np.int64)
+
+        nonzero = (left != 0) & (right != 0)
+        result = np.zeros(np.broadcast(left, right).shape, dtype=np.int64)
+        exponent = log[left[nonzero]] + log[right[nonzero]]
+        result[nonzero] = exp[exponent % self.order]
+        return result
+
+    def inverse_array(self, values: "np.ndarray") -> "np.ndarray":
+        """
+        Поэлементное обращение массива ненулевых элементов поля.
+        """
+        values = np.asarray(values, dtype=np.int64)
+        if np.any(values == 0):
+            raise ZeroDivisionError("Нулевой элемент не имеет обратного")
+
+        exp = np.asarray(self._exp_table, dtype=np.int64)
+        log = np.asarray(self._log_table, dtype=np.int64)
+        return exp[(self.order - log[values]) % self.order]
 
     def divide(self, numerator: int, denominator: int) -> int:
         """

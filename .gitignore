@@ -6,5 +6,12 @@ webapp_data/
 webapp/frontend/node_modules/
 webapp/frontend/dist/
 research_results/web/
+four_families_full_decoder_20k_results/
+research_results/**/err_*.txt
+research_results/**/log_*.txt
+research_results/code_optimization/_patch_*.py
+research_results/code_optimization/_phase1_*.py
+research_results/code_optimization/_finalize_*.py
 
 *.tsbuildinfo
+.env

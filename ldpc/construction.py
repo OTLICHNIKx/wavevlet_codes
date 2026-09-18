@@ -7,6 +7,7 @@ from typing import Iterable, Sequence
 import numpy as np
 
 from bch import gf2_matrix_rank, to_binary_matrix
+from codes.gf2 import gf2_nullspace_basis
 
 
 def matrix_to_hex_rows(matrix: object) -> tuple[str, ...]:
@@ -55,34 +56,7 @@ def trim_matrix_to_width(matrix: object, width: int, name: str = "matrix") -> np
     return binary[:, offset:].copy()
 
 
-def parity_check_from_generator(generator_matrix: object) -> np.ndarray:
-    """Строит H полного ранга ((n-k) x n) как базис ядра G над GF(2)."""
-    generator = to_binary_matrix(generator_matrix, name="generator_matrix")
-    rows, columns = generator.shape
-    reduced = generator.copy()
-    pivots: list[int] = []
-    pivot_row = 0
-    for column in range(columns):
-        if pivot_row >= rows:
-            break
-        candidates = np.flatnonzero(reduced[pivot_row:, column])
-        if candidates.size == 0:
-            continue
-        selected = pivot_row + int(candidates[0])
-        if selected != pivot_row:
-            reduced[[pivot_row, selected]] = reduced[[selected, pivot_row]]
-        for row in range(rows):
-            if row != pivot_row and reduced[row, column] == 1:
-                reduced[row] ^= reduced[pivot_row]
-        pivots.append(column)
-        pivot_row += 1
-    free_columns = [column for column in range(columns) if column not in set(pivots)]
-    basis = np.zeros((len(free_columns), columns), dtype=np.uint8)
-    for basis_row, free_column in enumerate(free_columns):
-        basis[basis_row, free_column] = 1
-        for row, pivot_column in enumerate(pivots):
-            basis[basis_row, pivot_column] = reduced[row, free_column]
-    return basis
+parity_check_from_generator = gf2_nullspace_basis
 
 
 def generator_from_parity_check(parity_check_matrix: object) -> np.ndarray:

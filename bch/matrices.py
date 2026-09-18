@@ -2,6 +2,12 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from codes.gf2 import (
+    gf2_matrix_rank,
+    gf2_row_reduce,
+    to_binary_matrix,
+)
+
 from .generator import BCHGeneratorResult
 
 from .polynomial import (
@@ -11,99 +17,6 @@ from .polynomial import (
 )
 
 
-def to_binary_matrix(
-    values: object,
-    name: str = "matrix",
-) -> np.ndarray:
-    """
-    Преобразует вход в бинарную матрицу numpy.
-
-    Функция не исправляет значения по модулю 2 автоматически:
-    вход должен уже содержать только 0 и 1.
-    """
-    matrix = np.asarray(values)
-
-    if matrix.ndim != 2:
-        raise ValueError(
-            f"{name} должна быть двумерной матрицей"
-        )
-
-    if not np.all(
-        (matrix == 0) | (matrix == 1)
-    ):
-        raise ValueError(
-            f"{name} должна содержать только 0 и 1"
-        )
-
-    return matrix.astype(np.uint8)
-
-
-def gf2_row_reduce(
-    matrix: object,
-) -> tuple[np.ndarray, tuple[int, ...]]:
-    """
-    Приводит бинарную матрицу к приведённому ступенчатому виду
-    над GF(2).
-
-    Возвращает:
-
-        reduced_matrix
-        pivot_columns
-    """
-    reduced = to_binary_matrix(
-        matrix,
-        name="matrix",
-    ).copy()
-
-    row_count, column_count = reduced.shape
-
-    pivot_columns: list[int] = []
-    pivot_row = 0
-
-    for column in range(column_count):
-        if pivot_row >= row_count:
-            break
-
-        candidates = np.flatnonzero(
-            reduced[pivot_row:, column]
-        )
-
-        if candidates.size == 0:
-            continue
-
-        selected_row = (
-            pivot_row + int(candidates[0])
-        )
-
-        if selected_row != pivot_row:
-            reduced[
-                [pivot_row, selected_row]
-            ] = reduced[
-                [selected_row, pivot_row]
-            ]
-
-        for row in range(row_count):
-            if row == pivot_row:
-                continue
-
-            if reduced[row, column] == 1:
-                reduced[row] ^= reduced[pivot_row]
-
-        pivot_columns.append(column)
-        pivot_row += 1
-
-    return reduced, tuple(pivot_columns)
-
-
-def gf2_matrix_rank(
-    matrix: object,
-) -> int:
-    """
-    Вычисляет ранг бинарной матрицы над GF(2).
-    """
-    _, pivot_columns = gf2_row_reduce(matrix)
-
-    return len(pivot_columns)
 
 
 def integer_polynomial_to_vector(

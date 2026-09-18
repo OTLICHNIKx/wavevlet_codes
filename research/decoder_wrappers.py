@@ -273,7 +273,8 @@ def chase_decode_batch(
     inner_decoder_max_error_weight: int,
     syndrome_table: Optional[Mapping[tuple[int, ...], np.ndarray]] = None,
 ) -> DecoderBatchResult:
-    """Векторизованный Chase: все test patterns декодируются одним syndrome batch."""
+    """Векторизованный Chase: test patterns декодируются чанками, чтобы не
+    держать весь массив message_count x 2^p x n в памяти."""
     received_words = _validate_received_words(received_words)
     received_symbols = _validate_received_symbols(received_symbols)
     reliability = _validate_reliability(reliability)
@@ -298,44 +299,61 @@ def chase_decode_batch(
         np.arange(patterns_count, dtype=np.uint32)[:, None]
         >> np.arange(unreliable_positions_count, dtype=np.uint32)[None, :]
     ) & 1).astype(np.uint8)
-    trial_words = np.broadcast_to(
-        received_words[:, None, :], (message_count, patterns_count, n)
-    ).copy()
-    rows = np.arange(message_count)[:, None]
-    pattern_indices = np.arange(patterns_count)[None, :]
-    for local_index in range(unreliable_positions_count):
-        trial_words[rows, pattern_indices, positions[:, local_index, None]] ^= local_patterns[None, :, local_index]
 
-    syndrome_result = syndrome_decode_batch(
-        received_words=trial_words.reshape(-1, n),
-        parity_check_matrix=parity_check_matrix,
-        generator_matrix=generator_matrix,
-        max_error_weight=inner_decoder_max_error_weight,
-        syndrome_table=syndrome_table,
-    )
-    candidate_success = syndrome_result.success_flags.reshape(message_count, patterns_count)
-    candidate_codewords = syndrome_result.decoded_codewords.reshape(message_count, patterns_count, n)
-    candidate_messages = syndrome_result.decoded_messages.reshape(message_count, patterns_count, k)
-    modulated = 1.0 - 2.0 * candidate_codewords
-    metrics = np.sum((received_symbols[:, None, :] - modulated) ** 2, axis=2)
-    metrics[~candidate_success] = np.inf
-    best_indices = np.argmin(metrics, axis=1)
-    success_flags = np.isfinite(metrics[np.arange(message_count), best_indices])
+    # ~1 ГБ на чанк при uint8; 2^p x n строк синдромного батча за раз.
+    chunk_rows = max(1, (1 << 30) // (patterns_count * n))
     decoded_codewords = _empty_decoded_codewords(message_count, n)
     decoded_messages = _empty_decoded_messages(message_count, k)
-    decoded_codewords[success_flags] = candidate_codewords[
-        np.arange(message_count)[success_flags], best_indices[success_flags]
-    ]
-    decoded_messages[success_flags] = candidate_messages[
-        np.arange(message_count)[success_flags], best_indices[success_flags]
-    ]
+    success_flags = np.zeros(message_count, dtype=bool)
+    ambiguous_flags_local = np.zeros(message_count, dtype=bool)
 
-    ambiguous_flags = np.zeros(message_count, dtype=bool)
-    for index in np.flatnonzero(success_flags):
-        best_metric = metrics[index, best_indices[index]]
-        tied = np.flatnonzero(np.isclose(metrics[index], best_metric))
-        unique_codewords = {candidate_codewords[index, candidate].tobytes() for candidate in tied}
-        ambiguous_flags[index] = len(unique_codewords) > 1
+    for chunk_start in range(0, message_count, chunk_rows):
+        chunk_stop = min(chunk_start + chunk_rows, message_count)
+        chunk_size = chunk_stop - chunk_start
+
+        trial_words = np.broadcast_to(
+            received_words[chunk_start:chunk_stop, None, :],
+            (chunk_size, patterns_count, n),
+        ).copy()
+        rows = np.arange(chunk_size)[:, None]
+        pattern_indices = np.arange(patterns_count)[None, :]
+        chunk_positions = positions[chunk_start:chunk_stop]
+        for local_index in range(unreliable_positions_count):
+            trial_words[rows, pattern_indices, chunk_positions[:, local_index, None]] ^= local_patterns[None, :, local_index]
+
+        syndrome_result = syndrome_decode_batch(
+            received_words=trial_words.reshape(-1, n),
+            parity_check_matrix=parity_check_matrix,
+            generator_matrix=generator_matrix,
+            max_error_weight=inner_decoder_max_error_weight,
+            syndrome_table=syndrome_table,
+        )
+        del trial_words
+
+        candidate_success = syndrome_result.success_flags.reshape(chunk_size, patterns_count)
+        candidate_codewords = syndrome_result.decoded_codewords.reshape(chunk_size, patterns_count, n)
+        candidate_messages = syndrome_result.decoded_messages.reshape(chunk_size, patterns_count, k)
+        modulated = 1.0 - 2.0 * candidate_codewords
+        chunk_metrics = np.sum((received_symbols[chunk_start:chunk_stop, None, :] - modulated) ** 2, axis=2)
+        chunk_metrics[~candidate_success] = np.inf
+        best_indices = np.argmin(chunk_metrics, axis=1)
+        chunk_success = np.isfinite(chunk_metrics[np.arange(chunk_size), best_indices])
+        success_flags[chunk_start:chunk_stop] = chunk_success
+        chunk_rows_success = np.arange(chunk_size)[chunk_success]
+        decoded_messages[chunk_start:chunk_stop][chunk_success] = candidate_messages[
+            chunk_rows_success, best_indices[chunk_success]
+        ]
+        # Неоднозначность: несколько разных кодовых слов с одинаковой метрикой.
+        for local_index in chunk_rows_success:
+            tied = np.flatnonzero(np.isclose(chunk_metrics[local_index], chunk_metrics[local_index, best_indices[local_index]]))
+            unique_codewords = {candidate_codewords[local_index, candidate].tobytes() for candidate in tied}
+            ambiguous_flags_local[chunk_start + local_index] = len(unique_codewords) > 1
+        del modulated, candidate_codewords, candidate_messages
+        for local_index in range(chunk_size):
+            if chunk_success[local_index]:
+                row = chunk_start + local_index
+                message = decoded_messages[row]
+                decoded_codewords[row] = (message @ generator_matrix) % 2
 
     total_time_sec = perf_counter() - start_time
     return DecoderBatchResult(
@@ -343,6 +361,6 @@ def chase_decode_batch(
         decoded_messages=decoded_messages,
         decoded_codewords=decoded_codewords,
         success_flags=success_flags,
-        ambiguous_flags=ambiguous_flags,
+        ambiguous_flags=ambiguous_flags_local,
         total_time_sec=total_time_sec,
     )

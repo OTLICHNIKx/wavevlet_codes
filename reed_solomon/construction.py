@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Iterable
 import numpy as np
 from bch import GF2m, create_gf2m
+from codes.gf2 import gf2_nullspace_basis
 
 def _bits(values: Iterable[int], length: int, name: str) -> np.ndarray:
     vector = np.asarray(list(values), dtype=np.uint8)
@@ -80,13 +81,16 @@ class ReedSolomonConstruction:
         message = [self.field.validate_element(int(value), name="message_symbol") for value in message_symbols]
         if len(message) != self.symbol_k:
             raise ValueError(f"Число информационных символов должно быть K={self.symbol_k}")
-        codeword = np.zeros(self.symbol_n, dtype=np.int64)
-        for index, point in enumerate(self.evaluation_points):
-            value = 0
-            for coefficient in reversed(message):
-                value = self.field.add(self.field.multiply(value, point), coefficient)
-            codeword[index] = self.field.multiply(self.column_multipliers[index], value)
-        return codeword
+        # Схема Горнера, векторизованная по всем точкам оценки сразу:
+        # result = ((c_K-1 * p + c_K-2) * p + ...) * m_multiplier
+        points = np.asarray(self.evaluation_points, dtype=np.int64)
+        result = np.full(self.symbol_n, message[-1], dtype=np.int64)
+        for coefficient in reversed(message[:-1]):
+            result = self.field.multiply_arrays(result, points)
+            result = result ^ coefficient
+        return self.field.multiply_arrays(
+            result, np.asarray(self.column_multipliers, dtype=np.int64)
+        )
 
     def encode_bits(self, message_bits: Iterable[int]) -> np.ndarray:
         message = _bits(message_bits, self.binary_k, "message_bits")
@@ -100,34 +104,6 @@ class ReedSolomonConstruction:
             generator[row] = self.encode_bits(message)
         return generator
 
-def gf2_nullspace_basis(matrix: object) -> np.ndarray:
-    reduced = np.asarray(matrix, dtype=np.uint8).copy()
-    if reduced.ndim != 2 or not np.all((reduced == 0) | (reduced == 1)):
-        raise ValueError("matrix должна быть бинарной двумерной матрицей")
-    rows, columns = reduced.shape
-    pivots: list[int] = []
-    pivot_row = 0
-    for column in range(columns):
-        if pivot_row >= rows:
-            break
-        candidates = np.flatnonzero(reduced[pivot_row:, column])
-        if candidates.size == 0:
-            continue
-        selected = pivot_row + int(candidates[0])
-        if selected != pivot_row:
-            reduced[[pivot_row, selected]] = reduced[[selected, pivot_row]]
-        for row in range(rows):
-            if row != pivot_row and reduced[row, column] == 1:
-                reduced[row] ^= reduced[pivot_row]
-        pivots.append(column)
-        pivot_row += 1
-    free_columns = [column for column in range(columns) if column not in set(pivots)]
-    basis = np.zeros((len(free_columns), columns), dtype=np.uint8)
-    for basis_row, free_column in enumerate(free_columns):
-        basis[basis_row, free_column] = 1
-        for row, pivot_column in enumerate(pivots):
-            basis[basis_row, pivot_column] = reduced[row, free_column]
-    return basis
 
 def build_binary_parity_check_matrix(generator_matrix: object) -> np.ndarray:
     return gf2_nullspace_basis(generator_matrix)

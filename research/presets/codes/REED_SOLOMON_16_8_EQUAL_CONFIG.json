@@ -1,0 +1,52 @@
+{
+  "preset": "REED_SOLOMON_16_8_EQUAL_CONFIG",
+  "code": {
+    "name": "reed_solomon_binary_16_8_four_family",
+    "n": 16,
+    "k": 8,
+    "family": "reed_solomon_binary",
+    "h": null,
+    "g": null,
+    "a": 1,
+    "b": 1,
+    "shift": 1,
+    "bch_m": null,
+    "bch_designed_distance": null,
+    "bch_primitive_polynomial": null,
+    "bch_first_root": 1,
+    "bch_shortening_count": null,
+    "bch_puncture_count": null,
+    "bch_puncture_coordinates": null,
+    "goppa_m": null,
+    "goppa_degree": null,
+    "goppa_support_size": null,
+    "goppa_seed": 42,
+    "goppa_primitive_polynomial": null,
+    "goppa_subcode_functional": null,
+    "reed_solomon_m": 4,
+    "reed_solomon_symbol_n": 4,
+    "reed_solomon_symbol_k": 2,
+    "reed_solomon_primitive_polynomial": 19,
+    "reed_solomon_evaluation_points": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "reed_solomon_column_multipliers": [
+      1,
+      3,
+      1,
+      3
+    ],
+    "expected_min_distance": null,
+    "minimum_distance_exact": 5,
+    "minimum_distance_lower_bound": 5,
+    "minimum_distance_upper_bound": 5,
+    "distance_evidence": "Exhaustive enumeration of all 255 non-zero GRS binary codewords",
+    "verified_error_correction_radius": 2,
+    "syndrome_max_error_weight": 2,
+    "chase_inner_decoder_max_error_weight": 2,
+    "chase_unreliable_positions_count": 4
+  }
+}

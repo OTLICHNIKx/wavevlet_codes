@@ -9,6 +9,8 @@ from research.config import (
 )
 from research.runner import run_research
 
+pytestmark = pytest.mark.slow
+
 
 ALL_DECODERS = {"syndrome", "chase", "hard_mld", "soft_mld"}
 

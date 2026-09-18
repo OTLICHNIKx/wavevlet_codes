@@ -47,8 +47,10 @@ def resolve_results_dir(stored_path: str) -> Path:
     direct = Path(stored_path).resolve()
     if direct.is_relative_to(RESULTS_ROOT):
         return direct
-    # Внутренние reader-тесты и локальные аналитические вызовы могут
-    # передавать уже существующий временный каталог напрямую.
+    # Импорт CSV/пакетов и локальные аналитические вызовы передают
+    # уже существующие каталоги с результатами напрямую. Путь из БД
+    # всегда создаётся через make_results_dir (внутри RESULTS_ROOT),
+    # так что произвольные пути сюда не попадают.
     if direct.is_dir() and (direct / "summary.csv").is_file():
         return direct
 

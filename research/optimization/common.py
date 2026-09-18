@@ -23,6 +23,7 @@ import numpy as np
 
 from bch import gf2_matrix_rank, to_binary_matrix
 from ldpc.construction import combination_index, syndromes_for_combinations
+from codes.gf2 import gf2_row_reduce
 
 OUTPUT_DIR = Path("research_results") / "code_optimization"
 
@@ -34,23 +35,8 @@ def ensure_output_dir() -> Path:
 
 def rref(matrix: np.ndarray) -> np.ndarray:
     """Приведение бинарной матрицы к каноническому ступенчатому виду."""
-    m = np.asarray(matrix, dtype=np.uint8).copy()
-    rows, cols = m.shape
-    pivot_row = 0
-    for col in range(cols):
-        if pivot_row >= rows:
-            break
-        candidates = np.flatnonzero(m[pivot_row:, col])
-        if candidates.size == 0:
-            continue
-        selected = pivot_row + int(candidates[0])
-        if selected != pivot_row:
-            m[[pivot_row, selected]] = m[[selected, pivot_row]]
-        for row in range(rows):
-            if row != pivot_row and m[row, col] == 1:
-                m[row] ^= m[pivot_row]
-        pivot_row += 1
-    return m[:pivot_row]
+    reduced, pivot_columns = gf2_row_reduce(matrix)
+    return reduced[: len(pivot_columns)]
 
 
 def code_fingerprint(generator_matrix: np.ndarray) -> str:

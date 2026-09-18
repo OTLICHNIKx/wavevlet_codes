@@ -13,6 +13,8 @@ from research.config import (
 )
 from research.runner import run_research
 
+pytestmark = pytest.mark.slow
+
 
 def _ldpc_base_config():
     return replace(
