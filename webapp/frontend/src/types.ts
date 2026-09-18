@@ -2,9 +2,26 @@ export type ExperimentStatus =
   | "queued" | "validating" | "running" | "completed"
   | "failed" | "cancelling" | "cancelled" | "interrupted";
 
+export type ChannelType = "awgn" | "rayleigh" | "sinusoidal" | "rayleigh_awgn";
+
+export interface ChannelParams {
+  mode?: string;
+  amplitude?: number;
+  frequency?: number;
+  phase?: number;
+  num_interferers?: number;
+  amplitude_distribution?: string;
+  amplitude_range?: number[];
+  frequency_range?: number[];
+  drift?: boolean | number;
+  drift_amplitude_step?: number;
+  drift_frequency_step?: number;
+  drift_phase_step?: number;
+}
+
 export interface CodeConfig {
   name: string;
-  family: "wavelet" | "bch" | "bch_derived" | "goppa_derived" | "reed_solomon_binary";
+  family: "wavelet" | "bch" | "bch_derived" | "goppa_derived" | "reed_solomon_binary" | "ldpc";
   n: number;
   k: number;
   h?: number[] | null;
@@ -24,6 +41,7 @@ export interface CodeConfig {
   goppa_support_size?: number | null;
   goppa_seed?: number;
   goppa_primitive_polynomial?: number | null;
+  goppa_subcode_functional?: number[] | null;
   reed_solomon_m?: number | null;
   reed_solomon_symbol_n?: number | null;
   reed_solomon_symbol_k?: number | null;
@@ -58,9 +76,47 @@ export interface ResearchConfig {
     max_k_for_mld: number;
   };
   results_dir: string;
+  channel_type?: ChannelType;
+  channel_params?: ChannelParams;
 }
 
 export type ExperimentSource = "local" | "imported_csv" | "imported_package";
+
+export interface McStatsSeries {
+  code: string;
+  decoder: string;
+  x: number[];
+  y: number[];
+  std: number[];
+  ci_low: number[];
+  ci_high: number[];
+  seeds: number;
+  words: number;
+}
+
+export interface McStatsFileItem {
+  name: string;
+  source: "results" | "uploaded";
+}
+
+export interface McStatsFilesResponse {
+  files: string[];
+  items: McStatsFileItem[];
+  dir: string;
+  uploads_dir: string;
+}
+
+export interface McStatsResponse {
+  file: string;
+  selected: { code: string | null; channel: string | null; metric: string | null };
+  universe: {
+    codes: string[];
+    channels: string[];
+    decoders: string[];
+    metrics: string[];
+  };
+  series: McStatsSeries[];
+}
 
 export interface Experiment {
   id: string;

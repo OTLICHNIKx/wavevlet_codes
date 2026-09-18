@@ -13,6 +13,8 @@ const emptyConfig: ResearchConfig = {
   noise_seed: 54321,
   ebn0_db_values: [2],
   results_dir: "",
+  channel_type: "awgn",
+  channel_params: {},
   codes: [],
   decoders: {
     run_syndrome: true,
@@ -289,6 +291,149 @@ export function NewExperimentPage() {
                   Seed шума
                   <input type="number" value={config.noise_seed} onChange={event => update({ noise_seed: Number(event.target.value) })} />
                 </label>
+                <label>
+                  Канал
+                  <select
+                    value={config.channel_type ?? "awgn"}
+                    onChange={event => {
+                      const channel_type = event.target.value as ResearchConfig["channel_type"];
+                      const params = { ...(config.channel_params ?? {}) };
+                      if (channel_type === "sinusoidal") {
+                        params.amplitude ??= 0.5;
+                        params.frequency ??= 0.125;
+                        params.phase ??= 0;
+                      }
+                      update({ channel_type, channel_params: channel_type === "awgn" ? {} : params });
+                    }}
+                  >
+                    <option value="awgn">AWGN</option>
+                    <option value="rayleigh">Rayleigh</option>
+                    <option value="sinusoidal">Sinusoidal</option>
+                    <option value="rayleigh_awgn">Rayleigh + AWGN</option>
+                  </select>
+                </label>
+                {(config.channel_type ?? "awgn") === "sinusoidal" && (
+                  <>
+                    <label>
+                      Режим помехи
+                      <select
+                        value={String(config.channel_params?.mode ?? "fixed")}
+                        onChange={event => {
+                          const mode = event.target.value;
+                          const params = { ...(config.channel_params ?? {}) };
+                          params.mode = mode;
+                          if (mode === "realistic") {
+                            params.num_interferers ??= 3;
+                            params.amplitude_range ??= [0.1, 0.5];
+                            params.frequency_range ??= [0.01, 0.5];
+                            params.drift ??= 1;
+                          }
+                          update({ channel_params: params });
+                        }}
+                      >
+                        <option value="fixed">Фиксированная (старая)</option>
+                        <option value="realistic">Реалистичная (несколько тона)</option>
+                      </select>
+                    </label>
+                    {(config.channel_params?.mode ?? "fixed") === "fixed" ? (
+                      <>
+                        <label>
+                          Амплитуда
+                          <input
+                            type="number" step="0.05" min="0"
+                            value={config.channel_params?.amplitude ?? 0.5}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), amplitude: Number(event.target.value) } })
+                            }
+                          />
+                        </label>
+                        <label>
+                          Частота (циклов/символ)
+                          <input
+                            type="number" step="0.005" min="0.001" max="0.5"
+                            value={config.channel_params?.frequency ?? 0.125}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), frequency: Number(event.target.value) } })
+                            }
+                          />
+                        </label>
+                        <label>
+                          Фаза (рад)
+                          <input
+                            type="number" step="0.1"
+                            value={config.channel_params?.phase ?? 0}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), phase: Number(event.target.value) } })
+                            }
+                          />
+                        </label>
+                      </>
+                    ) : (
+                      <>
+                        <label>
+                          Число интерфереров
+                          <input
+                            type="number" min="1" max="8" step="1"
+                            value={config.channel_params?.num_interferers ?? 3}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), num_interferers: Number(event.target.value) } })
+                            }
+                          />
+                        </label>
+                        <label>
+                          Амплитуда min
+                          <input
+                            type="number" step="0.05" min="0"
+                            value={config.channel_params?.amplitude_range?.[0] ?? 0.1}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), amplitude_range: [Number(event.target.value), (config.channel_params?.amplitude_range ?? [0.1, 0.5])[1]] } })
+                            }
+                          />
+                        </label>
+                        <label>
+                          Амплитуда max
+                          <input
+                            type="number" step="0.05" min="0"
+                            value={config.channel_params?.amplitude_range?.[1] ?? 0.5}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), amplitude_range: [(config.channel_params?.amplitude_range ?? [0.1, 0.5])[0], Number(event.target.value)] } })
+                            }
+                          />
+                        </label>
+                        <label>
+                          Частота min
+                          <input
+                            type="number" step="0.005" min="0.001"
+                            value={config.channel_params?.frequency_range?.[0] ?? 0.01}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), frequency_range: [Number(event.target.value), (config.channel_params?.frequency_range ?? [0.01, 0.5])[1]] } })
+                            }
+                          />
+                        </label>
+                        <label>
+                          Частота max
+                          <input
+                            type="number" step="0.005" max="0.5"
+                            value={config.channel_params?.frequency_range?.[1] ?? 0.5}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), frequency_range: [(config.channel_params?.frequency_range ?? [0.01, 0.5])[0], Number(event.target.value)] } })
+                            }
+                          />
+                        </label>
+                        <label className="check">
+                          <input
+                            type="checkbox"
+                            checked={Boolean(config.channel_params?.drift ?? 1)}
+                            onChange={event =>
+                              update({ channel_params: { ...(config.channel_params ?? {}), drift: event.target.checked ? 1 : 0 } })
+                            }
+                          />
+                          Медленный дрейф параметров
+                        </label>
+                      </>
+                    )}
+                  </>
+                )}
                 <div className="span-two">
                   <EbN0Editor
                     values={config.ebn0_db_values}

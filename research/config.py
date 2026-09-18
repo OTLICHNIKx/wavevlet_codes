@@ -1,7 +1,9 @@
 import json
-from dataclasses import asdict, dataclass, replace
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 from typing import Any, Literal
+
+from channel import CHANNEL_TYPES
 
 
 CodeFamily = Literal[
@@ -454,6 +456,18 @@ class ResearchConfig:
     decoders: DecoderResearchConfig
 
     results_dir: str
+
+    # Модель канала: awgn (историческое поведение по умолчанию),
+    # rayleigh, sinusoidal, rayleigh_awgn (см. пакет channel/).
+    channel_type: str = "awgn"
+    channel_params: dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if self.channel_type not in CHANNEL_TYPES:
+            raise ValueError(
+                f"Неизвестный канал: {self.channel_type!r}; "
+                f"допустимы: {', '.join(CHANNEL_TYPES)}"
+            )
 
     def to_json_dict(self) -> dict[str, Any]:
         """Сериализует конфиг в JSON-совместимый словарь."""
@@ -1857,4 +1871,110 @@ FIVE_FAMILIES_20K_FULL_DECODERS_32_16 = _five_family_full_decoder_config(
 FIVE_FAMILIES_20K_FULL_DECODERS_64_32 = _five_family_full_decoder_config(
     FIVE_FAMILIES_20K_64_32,
     "research_results/five_families/full_decoders/64_32_20k",
+)
+
+
+# ============================================================
+# Канальные эксперименты (CHANNEL_NOISE_EXTENSION v2): сравнение
+# пяти семейств (32,16) по новым моделям канала. AWGN остаётся
+# каналом по умолчанию во всех существующих конфигах.
+# ============================================================
+
+NEW_CHANNELS_SNR_DB = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0)
+NEW_CHANNELS_MESSAGE_COUNT = 100
+NEW_CHANNELS_SINUSOIDAL_PARAMS = {
+    "amplitude": 0.5,
+    "frequency": 0.125,
+    "phase": 0.0,
+}
+
+
+def _new_channels_config(
+    channel_type: str,
+    results_dir: str,
+    channel_params: dict[str, Any] | None = None,
+) -> ResearchConfig:
+    return ResearchConfig(
+        message_count=NEW_CHANNELS_MESSAGE_COUNT,
+        message_seed=12345,
+        noise_seed=54321,
+        ebn0_db_values=NEW_CHANNELS_SNR_DB,
+        codes=FIVE_FAMILIES_20K_32_16.codes,
+        decoders=DecoderResearchConfig(
+            run_syndrome=True,
+            run_hard_mld=True,
+            run_soft_mld=True,
+            run_chase=True,
+            syndrome_max_error_weight=2,
+            chase_inner_decoder_max_error_weight=2,
+            chase_unreliable_positions_count=6,
+            max_k_for_mld=16,
+        ),
+        results_dir=results_dir,
+        channel_type=channel_type,
+        channel_params=dict(channel_params or {}),
+    )
+
+
+NEW_CHANNELS_RAYLEIGH_CONFIG = _new_channels_config(
+    "rayleigh", "research_results/channel_comparison/rayleigh"
+)
+NEW_CHANNELS_SINUSOIDAL_CONFIG = _new_channels_config(
+    "sinusoidal",
+    "research_results/channel_comparison/sinusoidal",
+    NEW_CHANNELS_SINUSOIDAL_PARAMS,
+)
+NEW_CHANNELS_RAYLEIGH_AWGN_CONFIG = _new_channels_config(
+    "rayleigh_awgn", "research_results/channel_comparison/rayleigh_awgn"
+)
+NEW_CHANNELS_AWGN_BASELINE_CONFIG = _new_channels_config(
+    "awgn", "research_results/channel_comparison/awgn_baseline"
+)
+
+# Единый пресет "new_channels_comparison": 5 семейств x 3 новых канала
+# x SNR 0..5 dB (AWGN — опциональный baseline).
+NEW_CHANNELS_COMPARISON = {
+    "rayleigh": NEW_CHANNELS_RAYLEIGH_CONFIG,
+    "sinusoidal": NEW_CHANNELS_SINUSOIDAL_CONFIG,
+    "rayleigh_awgn": NEW_CHANNELS_RAYLEIGH_AWGN_CONFIG,
+}
+
+
+# ============================================================
+# Реалистичная синусоидальная интерференция
+# (SINUSOIDAL_CHANNEL_REALISTIC_MODEL_TASK): N случайных тона,
+# случайные амплитуда/частота/фаза + медленный дрейф.
+# ============================================================
+
+REALISTIC_SINUSOIDAL_TEST_PARAMS = {
+    "mode": "realistic",
+    "num_interferers": 3,
+    "amplitude_distribution": "uniform",
+    "amplitude_range": [0.1, 0.5],
+    "frequency_range": [0.01, 0.5],
+    "drift": True,
+    "drift_amplitude_step": 0.002,
+    "drift_frequency_step": 0.00015,
+    "drift_phase_step": 0.004,
+}
+
+REALISTIC_SINUSOIDAL_TEST_CONFIG = ResearchConfig(
+    message_count=NEW_CHANNELS_MESSAGE_COUNT,
+    message_seed=12345,
+    noise_seed=54321,
+    ebn0_db_values=NEW_CHANNELS_SNR_DB,
+    codes=FIVE_FAMILIES_20K_32_16.codes,
+    decoders=DecoderResearchConfig(
+        run_syndrome=True,
+        run_hard_mld=True,
+        run_soft_mld=True,
+        run_chase=True,
+        syndrome_max_error_weight=2,
+        chase_inner_decoder_max_error_weight=2,
+        chase_unreliable_positions_count=6,
+        max_k_for_mld=16,
+    ),
+    results_dir="research_results/channel_comparison/realistic_sinusoidal",
+    channel_type="sinusoidal",
+    channel_params=dict(REALISTIC_SINUSOIDAL_TEST_PARAMS),
 )

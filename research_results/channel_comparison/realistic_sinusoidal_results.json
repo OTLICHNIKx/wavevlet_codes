@@ -1,0 +1,4749 @@
+{
+  "preset": "realistic_sinusoidal_channel_test",
+  "channel_model": "received = signal + sum_k Ai(t)*sin(2*pi*fi(t)*t + phase_i) + gaussian_noise; mode=realistic, drift=True",
+  "request_channel_parameters": {
+    "mode": "realistic",
+    "num_interferers": 3,
+    "amplitude_distribution": "uniform",
+    "amplitude_range": [
+      0.1,
+      0.5
+    ],
+    "frequency_range": [
+      0.01,
+      0.5
+    ],
+    "drift": true,
+    "drift_amplitude_step": 0.002,
+    "drift_frequency_step": 0.00015,
+    "drift_phase_step": 0.004
+  },
+  "realized_interference_parameters": {
+    "mode": "realistic",
+    "num_interferers": 3,
+    "amplitude_distribution": "uniform",
+    "amplitudes": [
+      0.4492584464846645,
+      0.3510597386682156,
+      0.3092181370752352
+    ],
+    "frequencies": [
+      0.43132596866649914,
+      0.016641976122029778,
+      0.27449292953761784
+    ],
+    "phases": [
+      0.08025395030088057,
+      6.184890021127841,
+      2.8440518534454227
+    ]
+  },
+  "design": {
+    "families": [
+      "bch_derived",
+      "goppa_derived",
+      "ldpc",
+      "reed_solomon_binary",
+      "wavelet"
+    ],
+    "size": "(32,16)",
+    "decoders": [
+      "chase",
+      "hard_mld",
+      "soft_mld",
+      "syndrome"
+    ],
+    "snr_db": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+    ],
+    "message_count": 100,
+    "points": 120
+  },
+  "results": [
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.954375,
+      "errors": 1527,
+      "total_bits": 1600,
+      "frame_errors": 96,
+      "failure_rate": 0.95,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.36625,
+      "errors": 586,
+      "total_bits": 1600,
+      "frame_errors": 76,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.21125,
+      "errors": 338,
+      "total_bits": 1600,
+      "frame_errors": 44,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.5925,
+      "errors": 948,
+      "total_bits": 1600,
+      "frame_errors": 71,
+      "failure_rate": 0.48,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.914375,
+      "errors": 1463,
+      "total_bits": 1600,
+      "frame_errors": 92,
+      "failure_rate": 0.91,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.345625,
+      "errors": 553,
+      "total_bits": 1600,
+      "frame_errors": 69,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.155,
+      "errors": 248,
+      "total_bits": 1600,
+      "frame_errors": 32,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.435,
+      "errors": 696,
+      "total_bits": 1600,
+      "frame_errors": 53,
+      "failure_rate": 0.34,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.884375,
+      "errors": 1415,
+      "total_bits": 1600,
+      "frame_errors": 89,
+      "failure_rate": 0.88,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.280625,
+      "errors": 449,
+      "total_bits": 1600,
+      "frame_errors": 56,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.086875,
+      "errors": 139,
+      "total_bits": 1600,
+      "frame_errors": 17,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.345625,
+      "errors": 553,
+      "total_bits": 1600,
+      "frame_errors": 41,
+      "failure_rate": 0.28,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.83,
+      "errors": 1328,
+      "total_bits": 1600,
+      "frame_errors": 83,
+      "failure_rate": 0.83,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.209375,
+      "errors": 335,
+      "total_bits": 1600,
+      "frame_errors": 42,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.0525,
+      "errors": 84,
+      "total_bits": 1600,
+      "frame_errors": 10,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.21,
+      "errors": 336,
+      "total_bits": 1600,
+      "frame_errors": 26,
+      "failure_rate": 0.16,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.68,
+      "errors": 1088,
+      "total_bits": 1600,
+      "frame_errors": 68,
+      "failure_rate": 0.68,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.13875,
+      "errors": 222,
+      "total_bits": 1600,
+      "frame_errors": 27,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.0175,
+      "errors": 28,
+      "total_bits": 1600,
+      "frame_errors": 4,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.1275,
+      "errors": 204,
+      "total_bits": 1600,
+      "frame_errors": 15,
+      "failure_rate": 0.11,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.53,
+      "errors": 848,
+      "total_bits": 1600,
+      "frame_errors": 53,
+      "failure_rate": 0.53,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.098125,
+      "errors": 157,
+      "total_bits": 1600,
+      "frame_errors": 19,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.005,
+      "errors": 8,
+      "total_bits": 1600,
+      "frame_errors": 1,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "wavelet",
+      "code_name": "wavelet_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.05375,
+      "errors": 86,
+      "total_bits": 1600,
+      "frame_errors": 6,
+      "failure_rate": 0.05,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.934375,
+      "errors": 1495,
+      "total_bits": 1600,
+      "frame_errors": 95,
+      "failure_rate": 0.93,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.234375,
+      "errors": 375,
+      "total_bits": 1600,
+      "frame_errors": 74,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.159375,
+      "errors": 255,
+      "total_bits": 1600,
+      "frame_errors": 52,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.600625,
+      "errors": 961,
+      "total_bits": 1600,
+      "frame_errors": 71,
+      "failure_rate": 0.55,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.8825,
+      "errors": 1412,
+      "total_bits": 1600,
+      "frame_errors": 89,
+      "failure_rate": 0.88,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.203125,
+      "errors": 325,
+      "total_bits": 1600,
+      "frame_errors": 64,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.1175,
+      "errors": 188,
+      "total_bits": 1600,
+      "frame_errors": 38,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.534375,
+      "errors": 855,
+      "total_bits": 1600,
+      "frame_errors": 59,
+      "failure_rate": 0.51,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.8625,
+      "errors": 1380,
+      "total_bits": 1600,
+      "frame_errors": 87,
+      "failure_rate": 0.86,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.17125,
+      "errors": 274,
+      "total_bits": 1600,
+      "frame_errors": 59,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.053125,
+      "errors": 85,
+      "total_bits": 1600,
+      "frame_errors": 20,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.38,
+      "errors": 608,
+      "total_bits": 1600,
+      "frame_errors": 44,
+      "failure_rate": 0.36,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.78,
+      "errors": 1248,
+      "total_bits": 1600,
+      "frame_errors": 78,
+      "failure_rate": 0.78,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.131875,
+      "errors": 211,
+      "total_bits": 1600,
+      "frame_errors": 45,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.023125,
+      "errors": 37,
+      "total_bits": 1600,
+      "frame_errors": 9,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.245625,
+      "errors": 393,
+      "total_bits": 1600,
+      "frame_errors": 27,
+      "failure_rate": 0.24,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.66,
+      "errors": 1056,
+      "total_bits": 1600,
+      "frame_errors": 66,
+      "failure_rate": 0.66,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.1,
+      "errors": 160,
+      "total_bits": 1600,
+      "frame_errors": 33,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.004375,
+      "errors": 7,
+      "total_bits": 1600,
+      "frame_errors": 2,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.169375,
+      "errors": 271,
+      "total_bits": 1600,
+      "frame_errors": 20,
+      "failure_rate": 0.16,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.56,
+      "errors": 896,
+      "total_bits": 1600,
+      "frame_errors": 56,
+      "failure_rate": 0.56,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.051875,
+      "errors": 83,
+      "total_bits": 1600,
+      "frame_errors": 17,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.001875,
+      "errors": 3,
+      "total_bits": 1600,
+      "frame_errors": 1,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "bch_derived",
+      "code_name": "bch_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.081875,
+      "errors": 131,
+      "total_bits": 1600,
+      "frame_errors": 9,
+      "failure_rate": 0.08,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.963125,
+      "errors": 1541,
+      "total_bits": 1600,
+      "frame_errors": 97,
+      "failure_rate": 0.96,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.235625,
+      "errors": 377,
+      "total_bits": 1600,
+      "frame_errors": 74,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.16375,
+      "errors": 262,
+      "total_bits": 1600,
+      "frame_errors": 54,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.61375,
+      "errors": 982,
+      "total_bits": 1600,
+      "frame_errors": 75,
+      "failure_rate": 0.56,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.913125,
+      "errors": 1461,
+      "total_bits": 1600,
+      "frame_errors": 92,
+      "failure_rate": 0.91,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.205,
+      "errors": 328,
+      "total_bits": 1600,
+      "frame_errors": 65,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.12125,
+      "errors": 194,
+      "total_bits": 1600,
+      "frame_errors": 40,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.47375,
+      "errors": 758,
+      "total_bits": 1600,
+      "frame_errors": 59,
+      "failure_rate": 0.43,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.87,
+      "errors": 1392,
+      "total_bits": 1600,
+      "frame_errors": 87,
+      "failure_rate": 0.87,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.1775,
+      "errors": 284,
+      "total_bits": 1600,
+      "frame_errors": 58,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.05875,
+      "errors": 94,
+      "total_bits": 1600,
+      "frame_errors": 20,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.32375,
+      "errors": 518,
+      "total_bits": 1600,
+      "frame_errors": 42,
+      "failure_rate": 0.29,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.82,
+      "errors": 1312,
+      "total_bits": 1600,
+      "frame_errors": 82,
+      "failure_rate": 0.82,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.134375,
+      "errors": 215,
+      "total_bits": 1600,
+      "frame_errors": 45,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.018125,
+      "errors": 29,
+      "total_bits": 1600,
+      "frame_errors": 7,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.205,
+      "errors": 328,
+      "total_bits": 1600,
+      "frame_errors": 28,
+      "failure_rate": 0.18,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.67,
+      "errors": 1072,
+      "total_bits": 1600,
+      "frame_errors": 67,
+      "failure_rate": 0.67,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.0975,
+      "errors": 156,
+      "total_bits": 1600,
+      "frame_errors": 35,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.01,
+      "errors": 16,
+      "total_bits": 1600,
+      "frame_errors": 4,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.1025,
+      "errors": 164,
+      "total_bits": 1600,
+      "frame_errors": 17,
+      "failure_rate": 0.08,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.55,
+      "errors": 880,
+      "total_bits": 1600,
+      "frame_errors": 55,
+      "failure_rate": 0.55,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.06125,
+      "errors": 98,
+      "total_bits": 1600,
+      "frame_errors": 22,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.003125,
+      "errors": 5,
+      "total_bits": 1600,
+      "frame_errors": 1,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "goppa_derived",
+      "code_name": "goppa_derived_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.04,
+      "errors": 64,
+      "total_bits": 1600,
+      "frame_errors": 7,
+      "failure_rate": 0.03,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.96,
+      "errors": 1536,
+      "total_bits": 1600,
+      "frame_errors": 96,
+      "failure_rate": 0.96,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.325,
+      "errors": 520,
+      "total_bits": 1600,
+      "frame_errors": 68,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.1725,
+      "errors": 276,
+      "total_bits": 1600,
+      "frame_errors": 39,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.580625,
+      "errors": 929,
+      "total_bits": 1600,
+      "frame_errors": 66,
+      "failure_rate": 0.52,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.935625,
+      "errors": 1497,
+      "total_bits": 1600,
+      "frame_errors": 94,
+      "failure_rate": 0.93,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.289375,
+      "errors": 463,
+      "total_bits": 1600,
+      "frame_errors": 60,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.105625,
+      "errors": 169,
+      "total_bits": 1600,
+      "frame_errors": 23,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.424375,
+      "errors": 679,
+      "total_bits": 1600,
+      "frame_errors": 50,
+      "failure_rate": 0.38,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.895625,
+      "errors": 1433,
+      "total_bits": 1600,
+      "frame_errors": 90,
+      "failure_rate": 0.89,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.235,
+      "errors": 376,
+      "total_bits": 1600,
+      "frame_errors": 50,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.078125,
+      "errors": 125,
+      "total_bits": 1600,
+      "frame_errors": 18,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.251875,
+      "errors": 403,
+      "total_bits": 1600,
+      "frame_errors": 30,
+      "failure_rate": 0.22,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.755625,
+      "errors": 1209,
+      "total_bits": 1600,
+      "frame_errors": 76,
+      "failure_rate": 0.75,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.17375,
+      "errors": 278,
+      "total_bits": 1600,
+      "frame_errors": 38,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.0325,
+      "errors": 52,
+      "total_bits": 1600,
+      "frame_errors": 7,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.184375,
+      "errors": 295,
+      "total_bits": 1600,
+      "frame_errors": 21,
+      "failure_rate": 0.16,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.615625,
+      "errors": 985,
+      "total_bits": 1600,
+      "frame_errors": 62,
+      "failure_rate": 0.61,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.130625,
+      "errors": 209,
+      "total_bits": 1600,
+      "frame_errors": 29,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.01375,
+      "errors": 22,
+      "total_bits": 1600,
+      "frame_errors": 3,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.115,
+      "errors": 184,
+      "total_bits": 1600,
+      "frame_errors": 14,
+      "failure_rate": 0.09,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.515625,
+      "errors": 825,
+      "total_bits": 1600,
+      "frame_errors": 52,
+      "failure_rate": 0.51,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.084375,
+      "errors": 135,
+      "total_bits": 1600,
+      "frame_errors": 19,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.0,
+      "errors": 0,
+      "total_bits": 1600,
+      "frame_errors": 0,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "reed_solomon_binary",
+      "code_name": "reed_solomon_binary_32_16_four_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.07,
+      "errors": 112,
+      "total_bits": 1600,
+      "frame_errors": 9,
+      "failure_rate": 0.05,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.91,
+      "errors": 1456,
+      "total_bits": 1600,
+      "frame_errors": 91,
+      "failure_rate": 0.91,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.206875,
+      "errors": 331,
+      "total_bits": 1600,
+      "frame_errors": 70,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.116875,
+      "errors": 187,
+      "total_bits": 1600,
+      "frame_errors": 44,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 0.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.494375,
+      "errors": 791,
+      "total_bits": 1600,
+      "frame_errors": 63,
+      "failure_rate": 0.44,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.85,
+      "errors": 1360,
+      "total_bits": 1600,
+      "frame_errors": 85,
+      "failure_rate": 0.85,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.166875,
+      "errors": 267,
+      "total_bits": 1600,
+      "frame_errors": 57,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.08375,
+      "errors": 134,
+      "total_bits": 1600,
+      "frame_errors": 30,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 1.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.40625,
+      "errors": 650,
+      "total_bits": 1600,
+      "frame_errors": 48,
+      "failure_rate": 0.38,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.75,
+      "errors": 1200,
+      "total_bits": 1600,
+      "frame_errors": 75,
+      "failure_rate": 0.75,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.140625,
+      "errors": 225,
+      "total_bits": 1600,
+      "frame_errors": 50,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.049375,
+      "errors": 79,
+      "total_bits": 1600,
+      "frame_errors": 18,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 2.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.314375,
+      "errors": 503,
+      "total_bits": 1600,
+      "frame_errors": 33,
+      "failure_rate": 0.31,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.68,
+      "errors": 1088,
+      "total_bits": 1600,
+      "frame_errors": 68,
+      "failure_rate": 0.68,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.10625,
+      "errors": 170,
+      "total_bits": 1600,
+      "frame_errors": 38,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.02125,
+      "errors": 34,
+      "total_bits": 1600,
+      "frame_errors": 7,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 3.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.2125,
+      "errors": 340,
+      "total_bits": 1600,
+      "frame_errors": 22,
+      "failure_rate": 0.21,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.63,
+      "errors": 1008,
+      "total_bits": 1600,
+      "frame_errors": 63,
+      "failure_rate": 0.63,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.075,
+      "errors": 120,
+      "total_bits": 1600,
+      "frame_errors": 26,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.0125,
+      "errors": 20,
+      "total_bits": 1600,
+      "frame_errors": 4,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 4.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.115625,
+      "errors": 185,
+      "total_bits": 1600,
+      "frame_errors": 13,
+      "failure_rate": 0.11,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "syndrome",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.48,
+      "errors": 768,
+      "total_bits": 1600,
+      "frame_errors": 48,
+      "failure_rate": 0.48,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "hard_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.054375,
+      "errors": 87,
+      "total_bits": 1600,
+      "frame_errors": 19,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "soft_mld",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.00875,
+      "errors": 14,
+      "total_bits": 1600,
+      "frame_errors": 3,
+      "failure_rate": 0.0,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    },
+    {
+      "code_family": "ldpc",
+      "code_name": "ldpc_32_16_five_family",
+      "decoder": "chase",
+      "channel": "sinusoidal",
+      "snr": 5.0,
+      "seed": {
+        "message_seed": 12345,
+        "noise_seed": 54321,
+        "channel_seed": 3374337
+      },
+      "message_count": 100,
+      "ber": 0.085,
+      "errors": 136,
+      "total_bits": 1600,
+      "frame_errors": 10,
+      "failure_rate": 0.08,
+      "skipped": false,
+      "channel_parameters": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitudes": [
+          0.4492584464846645,
+          0.3510597386682156,
+          0.3092181370752352
+        ],
+        "frequencies": [
+          0.43132596866649914,
+          0.016641976122029778,
+          0.27449292953761784
+        ],
+        "phases": [
+          0.08025395030088057,
+          6.184890021127841,
+          2.8440518534454227
+        ]
+      }
+    }
+  ]
+}

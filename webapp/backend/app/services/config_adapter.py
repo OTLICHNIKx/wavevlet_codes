@@ -105,6 +105,8 @@ def schema_to_research(
         codes=codes,
         decoders=decoders,
         results_dir=results_dir or data.get("results_dir") or "research_results",
+        channel_type=data.get("channel_type") or "awgn",
+        channel_params=dict(data.get("channel_params") or {}),
     )
 
 
@@ -240,4 +242,19 @@ RESEARCH_PRESETS.update({
     "FIVE_FAMILIES_20K_16_8": FIVE_FAMILIES_20K_16_8,
     "FIVE_FAMILIES_20K_32_16": FIVE_FAMILIES_20K_32_16,
     "FIVE_FAMILIES_20K_64_32": FIVE_FAMILIES_20K_64_32,
+})
+
+from research.config import (
+    NEW_CHANNELS_AWGN_BASELINE_CONFIG,
+    NEW_CHANNELS_RAYLEIGH_AWGN_CONFIG,
+    NEW_CHANNELS_RAYLEIGH_CONFIG,
+    NEW_CHANNELS_SINUSOIDAL_CONFIG,
+    REALISTIC_SINUSOIDAL_TEST_CONFIG,
+)
+RESEARCH_PRESETS.update({
+    "NEW_CHANNELS_RAYLEIGH": NEW_CHANNELS_RAYLEIGH_CONFIG,
+    "NEW_CHANNELS_SINUSOIDAL": NEW_CHANNELS_SINUSOIDAL_CONFIG,
+    "NEW_CHANNELS_RAYLEIGH_AWGN": NEW_CHANNELS_RAYLEIGH_AWGN_CONFIG,
+    "NEW_CHANNELS_AWGN_BASELINE": NEW_CHANNELS_AWGN_BASELINE_CONFIG,
+    "REALISTIC_SINUSOIDAL_TEST": REALISTIC_SINUSOIDAL_TEST_CONFIG,
 })

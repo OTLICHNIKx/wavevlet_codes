@@ -5,6 +5,7 @@ from typing import Any, Callable
 
 import numpy as np
 
+from channel import apply_channel
 from decode.syndrome_decoding import (
     CompactSyndromeTable,
     build_compact_syndrome_table,
@@ -582,15 +583,22 @@ def run_code_research(
     decoder_config: DecoderResearchConfig,
     ebn0_db_values: tuple[float, ...],
     progress_callback: Callable[[dict], None] | None = None,
+    channel_type: str = "awgn",
+    channel_params: dict | None = None,
 ) -> list[dict[str, Any]]:
     """
     Запускает исследование для одного кода на всех Eb/N0.
+
+    channel_type="awgn" (default) воспроизводит исторический путь
+    apply_awgn_from_base_noise побайтово; новые каналы добавляются
+    поверх того же base_noise (common random numbers сохранены).
     """
     print()
     print(
         f"Код {code_config.name} "
         f"[{code_config.family}]: "
-        f"n={code_config.n}, k={code_config.k}"
+        f"n={code_config.n}, k={code_config.k}, "
+        f"канал={channel_type}"
     )
 
     decoders_planned = sum(
@@ -661,11 +669,24 @@ def run_code_research(
 
         print(f"  Eb/N0 = {ebn0_db} dB, sigma = {sigma:.6f}")
 
-        received_symbols = apply_awgn_from_base_noise(
-            transmitted_symbols=transmitted_symbols,
-            base_noise=base_noise,
-            sigma=sigma,
-        )
+        if channel_type == "awgn":
+            received_symbols = apply_awgn_from_base_noise(
+                transmitted_symbols=transmitted_symbols,
+                base_noise=base_noise,
+                sigma=sigma,
+            )
+        else:
+            # общий seed канала на (форму кодов, канал): один и тот же
+            # fade/реализация для всех семейств одной размерности и всех
+            # точек Eb/N0 (common random numbers).
+            received_symbols = apply_channel(
+                channel_type,
+                transmitted_symbols,
+                base_noise,
+                sigma,
+                noise_seed=dataset.noise_seed + 2_000_000,
+                channel_params=channel_params,
+            )
 
         llr = bpsk_llr(
             received_symbols=received_symbols,
@@ -837,6 +858,7 @@ def run_research(
     print("-" * 70)
     print("Количество сообщений:", config.message_count)
     print("Eb/N0 values:", config.ebn0_db_values)
+    print("Канал:", config.channel_type, config.channel_params or "")
     print("Результаты:", config.results_dir)
 
     total_units = (
@@ -907,6 +929,8 @@ def run_research(
             decoder_config=config.decoders,
             ebn0_db_values=config.ebn0_db_values,
             progress_callback=_tracking_callback,
+            channel_type=config.channel_type,
+            channel_params=config.channel_params,
         )
 
         all_rows.extend(rows)

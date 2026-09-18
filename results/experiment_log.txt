@@ -1,0 +1,30 @@
+[2026-09-15 00:44:18] старт: mode=quick seeds=5 words=100 ebn0=(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+[2026-09-15 00:44:18] коды: wavelet_16_8, bch_derived_16_8, goppa_derived_16_8, reed_solomon_binary_16_8, ldpc_16_8, wavelet_32_16, bch_derived_32_16, goppa_derived_32_16, reed_solomon_binary_32_16, ldpc_32_16, wavelet_64_32, bch_derived_64_32, goppa_derived_64_32, reed_solomon_binary_64_32, ldpc_64_32; каналы: rayleigh_awgn, rayleigh, sinusoidal; декодеры: syndrome, chase, hard_mld, soft_mld; комбинаций код-канал-декодер: 180
+[2026-09-15 00:46:52] reproducibility check (channel=rayleigh_awgn, seed=0, 350 результат-строк): OK
+[2026-09-15 00:47:53] run 1/15 channel=rayleigh_awgn seed=0 words=100 codes=15 (61.1s)
+[2026-09-15 00:49:10] run 2/15 channel=rayleigh_awgn seed=1 words=100 codes=15 (77.6s)
+[2026-09-15 00:50:28] run 3/15 channel=rayleigh_awgn seed=2 words=100 codes=15 (77.6s)
+[2026-09-15 00:51:42] run 4/15 channel=rayleigh_awgn seed=3 words=100 codes=15 (74.5s)
+[2026-09-15 00:53:01] run 5/15 channel=rayleigh_awgn seed=4 words=100 codes=15 (78.3s)
+[2026-09-15 00:54:19] run 6/15 channel=rayleigh seed=0 words=100 codes=15 (77.9s)
+[2026-09-15 00:55:31] run 7/15 channel=rayleigh seed=1 words=100 codes=15 (72.2s)
+[2026-09-15 00:56:31] run 8/15 channel=rayleigh seed=2 words=100 codes=15 (60.1s)
+[2026-09-15 00:57:49] run 9/15 channel=rayleigh seed=3 words=100 codes=15 (78.3s)
+[2026-09-15 00:59:07] run 10/15 channel=rayleigh seed=4 words=100 codes=15 (78.1s)
+[2026-09-15 01:00:25] run 11/15 channel=sinusoidal seed=0 words=100 codes=15 (77.7s)
+[2026-09-15 01:01:44] run 12/15 channel=sinusoidal seed=1 words=100 codes=15 (78.6s)
+[2026-09-15 01:03:02] run 13/15 channel=sinusoidal seed=2 words=100 codes=15 (78.2s)
+[2026-09-15 01:04:20] run 14/15 channel=sinusoidal seed=3 words=100 codes=15 (78.6s)
+[2026-09-15 01:05:39] run 15/15 channel=sinusoidal seed=4 words=100 codes=15 (78.2s)
+[2026-09-15 01:05:39] skipped: bch_derived_64_32: hard_mld, soft_mld (k=32 > max_k_for_mld=16)
+[2026-09-15 01:05:39] skipped: goppa_derived_64_32: hard_mld, soft_mld (k=32 > max_k_for_mld=16)
+[2026-09-15 01:05:39] skipped: ldpc_64_32: hard_mld, soft_mld (k=32 > max_k_for_mld=16)
+[2026-09-15 01:05:39] skipped: reed_solomon_binary_64_32: hard_mld, soft_mld (k=32 > max_k_for_mld=16)
+[2026-09-15 01:05:39] skipped: wavelet_64_32: hard_mld, soft_mld (k=32 > max_k_for_mld=16)
+[2026-09-15 01:05:39] CSV: results\wavelet_channel_decoder_statistics.csv (1050 строк)
+[2026-09-15 01:05:39] CSV (все метрики): results\wavelet_channel_decoder_statistics_all_metrics.csv (7335 строк)
+[2026-09-15 01:05:39] статистическая устойчивость (CI half-width, худшая кривая):
+[2026-09-15 01:05:39]   N=5: ci_half=0.042298
+[2026-09-15 01:06:11] графиков построено: 150 (максимум 180, без MLD-кривых для кодов (64,32) — skipped)
+[2026-09-15 01:07:26] графиков по всем метрикам: 315
+[2026-09-15 01:07:26] всего времени: 1388.3s

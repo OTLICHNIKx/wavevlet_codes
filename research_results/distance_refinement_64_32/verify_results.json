@@ -1,0 +1,25 @@
+{
+  "all_ok": true,
+  "errors": [],
+  "reports": [
+    {
+      "family": "bch_derived_64_32",
+      "fingerprint": "c77ee48d98603561",
+      "certificate_d_ge_9": true,
+      "status": "exact",
+      "min_word_verified": true,
+      "min_word_weight": 9,
+      "A_dmin_recorded": 1
+    },
+    {
+      "family": "ldpc_64_32",
+      "fingerprint": "8eedecae51a47d3f",
+      "certificate_d_ge_9": true,
+      "status": "exact",
+      "min_word_verified": true,
+      "min_word_weight": 9,
+      "A_dmin_recorded": 54
+    }
+  ],
+  "note": "fingerprint + certificate d>=9 + точная проверка заявленного минимального слова (m·G, вес, синдром)"
+}

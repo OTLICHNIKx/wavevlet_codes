@@ -1,0 +1,177 @@
+{
+  "started_utc": "2026-09-14T21:44:18+00:00",
+  "codes": {
+    "wavelet_16_8": {
+      "n": 16,
+      "k": 8,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 4
+    },
+    "bch_derived_16_8": {
+      "n": 16,
+      "k": 8,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 4
+    },
+    "goppa_derived_16_8": {
+      "n": 16,
+      "k": 8,
+      "syndrome_max_error_weight": 1,
+      "chase_inner_decoder_max_error_weight": 1,
+      "chase_unreliable_positions_count": 4
+    },
+    "reed_solomon_binary_16_8": {
+      "n": 16,
+      "k": 8,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 4
+    },
+    "ldpc_16_8": {
+      "n": 16,
+      "k": 8,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 4
+    },
+    "wavelet_32_16": {
+      "n": 32,
+      "k": 16,
+      "syndrome_max_error_weight": 3,
+      "chase_inner_decoder_max_error_weight": 3,
+      "chase_unreliable_positions_count": 6
+    },
+    "bch_derived_32_16": {
+      "n": 32,
+      "k": 16,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 5
+    },
+    "goppa_derived_32_16": {
+      "n": 32,
+      "k": 16,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 6
+    },
+    "reed_solomon_binary_32_16": {
+      "n": 32,
+      "k": 16,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 6
+    },
+    "ldpc_32_16": {
+      "n": 32,
+      "k": 16,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 6
+    },
+    "wavelet_64_32": {
+      "n": 64,
+      "k": 32,
+      "syndrome_max_error_weight": 3,
+      "chase_inner_decoder_max_error_weight": 3,
+      "chase_unreliable_positions_count": 8
+    },
+    "bch_derived_64_32": {
+      "n": 64,
+      "k": 32,
+      "syndrome_max_error_weight": 3,
+      "chase_inner_decoder_max_error_weight": 3,
+      "chase_unreliable_positions_count": 6
+    },
+    "goppa_derived_64_32": {
+      "n": 64,
+      "k": 32,
+      "syndrome_max_error_weight": 3,
+      "chase_inner_decoder_max_error_weight": 3,
+      "chase_unreliable_positions_count": 8
+    },
+    "reed_solomon_binary_64_32": {
+      "n": 64,
+      "k": 32,
+      "syndrome_max_error_weight": 2,
+      "chase_inner_decoder_max_error_weight": 2,
+      "chase_unreliable_positions_count": 8
+    },
+    "ldpc_64_32": {
+      "n": 64,
+      "k": 32,
+      "syndrome_max_error_weight": 3,
+      "chase_inner_decoder_max_error_weight": 3,
+      "chase_unreliable_positions_count": 8
+    }
+  },
+  "settings": {
+    "mode": "quick",
+    "num_seeds": 5,
+    "words_per_seed": 100,
+    "ebn0_db_values": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0
+    ],
+    "channels": [
+      "rayleigh_awgn",
+      "rayleigh",
+      "sinusoidal"
+    ],
+    "decoders": [
+      "syndrome",
+      "chase",
+      "hard_mld",
+      "soft_mld"
+    ],
+    "codes": [
+      "wavelet_16_8",
+      "bch_derived_16_8",
+      "goppa_derived_16_8",
+      "reed_solomon_binary_16_8",
+      "ldpc_16_8",
+      "wavelet_32_16",
+      "bch_derived_32_16",
+      "goppa_derived_32_16",
+      "reed_solomon_binary_32_16",
+      "ldpc_32_16",
+      "wavelet_64_32",
+      "bch_derived_64_32",
+      "goppa_derived_64_32",
+      "reed_solomon_binary_64_32",
+      "ldpc_64_32"
+    ]
+  },
+  "channels": [
+    "rayleigh_awgn",
+    "rayleigh",
+    "sinusoidal"
+  ],
+  "decoders": [
+    "syndrome",
+    "chase",
+    "hard_mld",
+    "soft_mld"
+  ],
+  "channel_params": {
+    "rayleigh_awgn": "i.i.d. Rayleigh h (E[h^2]=1) + gaussian noise",
+    "rayleigh": "quasi-static Rayleigh h (E[h^2]=1) + scaled noise",
+    "sinusoidal": {
+      "mode": "fixed",
+      "amplitude": 0.5,
+      "frequency": 0.125,
+      "phase": 0.0
+    }
+  },
+  "statistics": "mean, sample std (ddof=1), 95% CI Student t (df=N-1)",
+  "seed_scheme": "message_seed=seed, noise_seed=10000+seed, seed 0..N-1",
+  "combinations": 180,
+  "note_mld": "hard/soft MLD для всех кодов (64,32) skipped: k=32 > max_k_for_mld=16 (2^32 перебор неприменим)"
+}

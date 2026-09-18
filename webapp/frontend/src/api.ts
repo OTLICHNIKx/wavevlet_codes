@@ -1,4 +1,10 @@
-import type { CustomPreset, Experiment, ExperimentPreview, ResearchConfig } from "./types";
+import type {
+  CustomPreset,
+  Experiment,
+  ExperimentPreview,
+  McStatsResponse,
+  ResearchConfig,
+} from "./types";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(path, {
@@ -34,6 +40,34 @@ export const api = {
   resultSchema: (id: string) => request<{ columns: string[]; numeric_metrics: string[]; codes: string[]; decoders: string[] }>(`/api/experiments/${id}/results/schema`),
   resultData: (id: string) => request<{ columns: string[]; rows: Record<string, unknown>[]; total: number }>(`/api/experiments/${id}/results/data?limit=5000`),
   plot: (payload: unknown) => request<{ series: Array<{ name: string; x: number[]; y: number[] }> }>("/api/plots/preview", { method: "POST", body: JSON.stringify(payload) }),
+  mcFiles: () => request<import("./types").McStatsFilesResponse>("/api/mc-stats"),
+  mcSeries: (params: { file?: string; code?: string; codes?: string[]; channel?: string; metric?: string; decoders?: string[] }) => {
+    const query = new URLSearchParams();
+    if (params.file) query.set("file", params.file);
+    if (params.code) query.set("code", params.code);
+    if (params.codes && params.codes.length) query.set("codes", params.codes.join(","));
+    if (params.channel) query.set("channel", params.channel);
+    if (params.metric) query.set("metric", params.metric);
+    if (params.decoders && params.decoders.length) query.set("decoders", params.decoders.join(","));
+    return request<McStatsResponse>(`/api/mc-stats/series?${query.toString()}`);
+  },
+  mcUpload: async (file: File, name: string): Promise<{ name: string; source: string }> => {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("name", name);
+    const response = await fetch("/api/mc-stats/upload", { method: "POST", body: form });
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({ detail: response.statusText }));
+      const detail = body.detail;
+      const message = detail && typeof detail === "object" && Array.isArray(detail.errors)
+        ? (detail.errors as string[]).join("; ")
+        : typeof detail === "string" ? detail : response.statusText;
+      throw new Error(message);
+    }
+    return response.json();
+  },
+  mcDelete: (name: string) =>
+    request<{ deleted: boolean }>(`/api/mc-stats/files/${encodeURIComponent(name)}`, { method: "DELETE" }),
   importCsv: (file: File, name: string, description: string) =>
     uploadForImport("/api/experiments/import/csv", file, name, description),
   importPackage: (file: File, name: string, description: string) =>

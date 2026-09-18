@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import configs, experiments, health, plots
+from app.api import configs, experiments, health, mc_stats, plots
 from app.db.database import init_db
 
 
@@ -30,3 +30,4 @@ app.include_router(health.router)
 app.include_router(configs.router)
 app.include_router(experiments.router)
 app.include_router(plots.router)
+app.include_router(mc_stats.router)

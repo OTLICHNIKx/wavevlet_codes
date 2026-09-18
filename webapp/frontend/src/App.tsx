@@ -2,6 +2,7 @@ import { NavLink, Route, Routes } from "react-router-dom";
 import { ExperimentPage } from "./pages/ExperimentPage";
 import { ExperimentsPage } from "./pages/ExperimentsPage";
 import { ImportExperimentPage } from "./pages/ImportExperimentPage";
+import { McStatsPage } from "./pages/McStatsPage";
 import { NewExperimentPage } from "./pages/NewExperimentPage";
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
         <NavLink to="/">Эксперименты</NavLink>
         <NavLink to="/new">Новый эксперимент</NavLink>
         <NavLink to="/import">Импорт эксперимента</NavLink>
+        <NavLink to="/mc-stats">Монте-Карло статистика</NavLink>
       </nav>
       <div className="sidebar-note">Локальная лаборатория кодов и декодеров</div>
     </aside>
@@ -20,6 +22,7 @@ export default function App() {
         <Route path="/" element={<ExperimentsPage />} />
         <Route path="/new" element={<NewExperimentPage />} />
         <Route path="/import" element={<ImportExperimentPage />} />
+        <Route path="/mc-stats" element={<McStatsPage />} />
         <Route path="/experiments/:id" element={<ExperimentPage />} />
       </Routes>
     </main>

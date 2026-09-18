@@ -163,6 +163,10 @@ class ResearchConfigSchema(BaseModel):
 
     results_dir: str = ""  # заполняется backend'ом
 
+    # Модель канала; старые конфиги без поля = awgn.
+    channel_type: Literal["awgn", "rayleigh", "sinusoidal", "rayleigh_awgn"] = "awgn"
+    channel_params: dict = Field(default_factory=dict)
+
     @field_validator("ebn0_db_values")
     @classmethod
     def ebn0_finite(cls, v: list[float]) -> list[float]:
