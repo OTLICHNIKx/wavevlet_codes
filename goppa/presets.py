@@ -66,6 +66,24 @@ GOPPA_64_32_CODE = GoppaDerivedCode.from_parent(
 )
 
 
+# [64,32]: m=6, deg=5, seed=9 — вариант A «честный t=5».
+# d_min=11 по MITM-перебору всех 2^32 слов (A_11=549, A_12=2413),
+# goppa polynomial (20, 61, 50, 3, 0, 1); deg=5 даёт 2*5+1=11.
+GOPPA_64_32_DEG5_CONSTRUCTION = build_goppa_construction(
+    m=6,
+    degree=5,
+    seed=9,
+)
+GOPPA_64_32_DEG5_PARENT = GoppaCode.from_construction(
+    GOPPA_64_32_DEG5_CONSTRUCTION
+)
+GOPPA_64_32_DEG5_CODE = GoppaDerivedCode.from_parent(
+    GOPPA_64_32_DEG5_PARENT,
+    target_k=32,
+    name="goppa_derived_64_32_deg5",
+)
+
+
 __all__ = [
     "GOPPA_16_8_CONSTRUCTION",
     "GOPPA_16_8_PARENT",
@@ -76,4 +94,7 @@ __all__ = [
     "GOPPA_64_32_CONSTRUCTION",
     "GOPPA_64_32_PARENT",
     "GOPPA_64_32_CODE",
+    "GOPPA_64_32_DEG5_CONSTRUCTION",
+    "GOPPA_64_32_DEG5_PARENT",
+    "GOPPA_64_32_DEG5_CODE",
 ]

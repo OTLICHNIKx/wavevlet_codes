@@ -53,8 +53,8 @@
     "minimum_distance_upper_bound": 8,
     "distance_evidence": "exact enumeration of all 2^16 codewords: d_min=8, A_8=400; hyperplane (message functional) derivation proven by affine system f.w=1 over all 128 parent weight-7 words (research/optimization/phase2/optimize_goppa_phase2.py)",
     "verified_error_correction_radius": null,
-    "syndrome_max_error_weight": 2,
-    "chase_inner_decoder_max_error_weight": 2,
-    "chase_unreliable_positions_count": 6
+    "syndrome_max_error_weight": 3,
+    "chase_inner_decoder_max_error_weight": 3,
+    "chase_unreliable_positions_count": 4
   }
 }

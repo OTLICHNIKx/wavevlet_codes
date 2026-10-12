@@ -35,8 +35,8 @@
     "minimum_distance_upper_bound": 5,
     "distance_evidence": "exact enumeration of all 2^8 codewords",
     "verified_error_correction_radius": null,
-    "syndrome_max_error_weight": 1,
-    "chase_inner_decoder_max_error_weight": 1,
-    "chase_unreliable_positions_count": 4
+    "syndrome_max_error_weight": 2,
+    "chase_inner_decoder_max_error_weight": 2,
+    "chase_unreliable_positions_count": 3
   }
 }

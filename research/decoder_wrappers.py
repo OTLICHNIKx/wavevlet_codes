@@ -10,6 +10,7 @@ from decode.maximum_likelihood_decoding import build_codebook
 from decode.syndrome_decoding import build_syndrome_table, syndrome_decode
 from decode.syndrome_decoding.gf2 import solve_gf2, to_binary_matrix
 from modulation.modulator import bpsk_modulate
+from wavelet.code import gf_rank
 
 
 @dataclass(frozen=True)
@@ -67,15 +68,63 @@ def _validate_reliability(reliability: np.ndarray) -> np.ndarray:
 
 
 def _build_message_recovery_matrix(generator_matrix: np.ndarray) -> np.ndarray:
-    """Precompute a GF(2) right inverse that maps codewords back to messages."""
-    generator_matrix = to_binary_matrix(generator_matrix, name="generator_matrix")
-    k, n = generator_matrix.shape
+    """
+    Precompute a GF(2) right inverse that maps codewords back to messages.
+
+    Берём k линейно независимых столбцов G (опорные) и строим решение,
+    поддержанное ТОЛЬКО на них. Тогда recovery = A^{-1} на опорных
+    координатах и 0 на остальных — ошибка в кодовом слове затрагивает
+    не более len(A^{-1}) информационных битов, а не k/2 как при
+    произвольном solve_gf2.
+    """
+    G = to_binary_matrix(generator_matrix, name="generator_matrix")
+    k, n = G.shape
+
+    # Жадный поиск k независимых столбцов
+    pivot_cols: list[int] = []
+    for col in range(n):
+        if len(pivot_cols) == k:
+            break
+        trial = pivot_cols + [col]
+        if gf_rank(G[:, trial], 2) == len(trial):
+            pivot_cols.append(col)
+    if len(pivot_cols) != k:
+        # Вырожденный случай: падаем на общий solve_gf2
+        recovery = np.zeros((n, k), dtype=np.uint8)
+        for message_index in range(k):
+            target = np.zeros(k, dtype=np.uint8)
+            target[message_index] = 1
+            recovery[:, message_index] = solve_gf2(G, target)
+        if not np.array_equal((G @ recovery) % 2, np.eye(k, dtype=np.uint8)):
+            raise ValueError("generator_matrix не имеет корректного GF(2) recovery matrix")
+        return recovery
+
+    A = G[:, pivot_cols]  # k x k, невырожденная
+    # A^{-1} построением Гаусса
+    A_inv = np.eye(k, dtype=np.uint8)
+    W = A.copy()
+    for i in range(k):
+        piv = None
+        for r in range(i, k):
+            if W[r, i] == 1:
+                piv = r
+                break
+        if piv is None:
+            raise ValueError("опорная подматрица не невырождена")
+        if piv != i:
+            W[[i, piv]] = W[[piv, i]]
+            A_inv[[i, piv]] = A_inv[[piv, i]]
+        for r in range(k):
+            if r != i and W[r, i] == 1:
+                W[r] ^= W[i]
+                A_inv[r] ^= A_inv[i]
+    assert np.array_equal((A @ A_inv) % 2, np.eye(k, dtype=np.uint8))
+
+    # c = m @ G, тогда c[pivot] = m @ A => m = c[pivot] @ A^{-1}
     recovery = np.zeros((n, k), dtype=np.uint8)
-    for message_index in range(k):
-        target = np.zeros(k, dtype=np.uint8)
-        target[message_index] = 1
-        recovery[:, message_index] = solve_gf2(generator_matrix, target)
-    if not np.array_equal((generator_matrix @ recovery) % 2, np.eye(k, dtype=np.uint8)):
+    for j, col in enumerate(pivot_cols):
+        recovery[col] = A_inv[j]
+    if not np.array_equal((G @ recovery) % 2, np.eye(k, dtype=np.uint8)):
         raise ValueError("generator_matrix не имеет корректного GF(2) recovery matrix")
     return recovery
 

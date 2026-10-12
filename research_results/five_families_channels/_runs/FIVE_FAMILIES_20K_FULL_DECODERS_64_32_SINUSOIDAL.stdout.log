@@ -1,0 +1,588 @@
+PROGRESS {"stage": "started", "codes": ["wavelet_64_32_four_family", "bch_derived_64_32_four_family", "goppa_derived_64_32_four_family", "reed_solomon_binary_64_32_four_family", "ldpc_64_32_five_family"], "ebn0_db_values": [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0], "message_count": 20000, "code_count": 5, "decoder_count": 4, "ebn0_point_count": 11, "total_series": 220, "total_frames": 4400000, "chase_patterns_total": 1280, "mld_codewords_total": 0}
+Запуск исследования декодеров
+----------------------------------------------------------------------
+Количество сообщений: 20000
+Eb/N0 values: (0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0)
+Канал: sinusoidal {'mode': 'realistic', 'num_interferers': 3, 'amplitude_distribution': 'uniform', 'amplitude_range': [0.1, 0.5], 'frequency_range': [0.01, 0.5], 'drift': True, 'drift_amplitude_step': 0.002, 'drift_frequency_step': 0.00015, 'drift_phase_step': 0.004}
+Результаты: research_results/five_families_channels/sinusoidal/64_32_20k
+PROGRESS {"stage": "validating", "codes": ["wavelet_64_32_four_family", "bch_derived_64_32_four_family", "goppa_derived_64_32_four_family", "reed_solomon_binary_64_32_four_family", "ldpc_64_32_five_family"], "ebn0_db_values": [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0], "message_count": 20000, "completed": 0, "total": 220}
+
+Код wavelet_64_32_four_family [wavelet]: n=64, k=32, канал=sinusoidal
+PROGRESS {"completed": 0, "total": 220, "stage": "code_started", "code": "wavelet_64_32_four_family", "family": "wavelet", "n": 64, "k": 32, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=3: 43745 синдромов / 43745 шаблонов, коллизий 0, ~5.14 MiB, построение 0.027s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.997700, FER=0.997700, failure=0.997700, ambiguous=0.000000, time=0.155s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.9977, "fer": 0.9977, "failure_rate": 0.9977, "completed_decoders": 1, "planned_decoders": 4, "completed": 1, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 2, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 3, "total": 220}
+    chase: BER=0.951908, FER=0.952650, failure=0.951100, ambiguous=0.000000, time=38.793s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.9519078125, "fer": 0.95265, "failure_rate": 0.9511, "completed_decoders": 4, "planned_decoders": 4, "completed": 4, "total": 220}
+PROGRESS {"completed": 4, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.993950, FER=0.993950, failure=0.993950, ambiguous=0.000000, time=0.157s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.99395, "fer": 0.99395, "failure_rate": 0.99395, "completed_decoders": 1, "planned_decoders": 4, "completed": 5, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 6, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 7, "total": 220}
+    chase: BER=0.919748, FER=0.920500, failure=0.918900, ambiguous=0.000000, time=38.786s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.9197484375, "fer": 0.9205, "failure_rate": 0.9189, "completed_decoders": 4, "planned_decoders": 4, "completed": 8, "total": 220}
+PROGRESS {"completed": 8, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.989550, FER=0.989550, failure=0.989550, ambiguous=0.000000, time=0.162s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.98955, "fer": 0.98955, "failure_rate": 0.98955, "completed_decoders": 1, "planned_decoders": 4, "completed": 9, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 10, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 11, "total": 220}
+    chase: BER=0.871884, FER=0.872650, failure=0.871050, ambiguous=0.000000, time=38.956s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.871884375, "fer": 0.87265, "failure_rate": 0.87105, "completed_decoders": 4, "planned_decoders": 4, "completed": 12, "total": 220}
+PROGRESS {"completed": 12, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.980500, FER=0.980500, failure=0.980500, ambiguous=0.000000, time=0.155s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.9805, "fer": 0.9805, "failure_rate": 0.9805, "completed_decoders": 1, "planned_decoders": 4, "completed": 13, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 14, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 15, "total": 220}
+    chase: BER=0.806250, FER=0.807000, failure=0.805400, ambiguous=0.000000, time=38.870s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.80625, "fer": 0.807, "failure_rate": 0.8054, "completed_decoders": 4, "planned_decoders": 4, "completed": 16, "total": 220}
+PROGRESS {"completed": 16, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.964017, FER=0.964050, failure=0.964000, ambiguous=0.000000, time=0.155s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.9640171875, "fer": 0.96405, "failure_rate": 0.964, "completed_decoders": 1, "planned_decoders": 4, "completed": 17, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 18, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 19, "total": 220}
+    chase: BER=0.727155, FER=0.727800, failure=0.726500, ambiguous=0.000000, time=39.253s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.7271546875, "fer": 0.7278, "failure_rate": 0.7265, "completed_decoders": 4, "planned_decoders": 4, "completed": 20, "total": 220}
+PROGRESS {"completed": 20, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.938550, FER=0.938550, failure=0.938550, ambiguous=0.000000, time=0.160s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.93855, "fer": 0.93855, "failure_rate": 0.93855, "completed_decoders": 1, "planned_decoders": 4, "completed": 21, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 22, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 23, "total": 220}
+    chase: BER=0.636164, FER=0.636650, failure=0.635650, ambiguous=0.000000, time=39.620s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.6361640625, "fer": 0.63665, "failure_rate": 0.63565, "completed_decoders": 4, "planned_decoders": 4, "completed": 24, "total": 220}
+PROGRESS {"completed": 24, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.901850, FER=0.901850, failure=0.901850, ambiguous=0.000000, time=0.157s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.90185, "fer": 0.90185, "failure_rate": 0.90185, "completed_decoders": 1, "planned_decoders": 4, "completed": 25, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 26, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 27, "total": 220}
+    chase: BER=0.537086, FER=0.537500, failure=0.536600, ambiguous=0.000000, time=39.353s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.5370859375, "fer": 0.5375, "failure_rate": 0.5366, "completed_decoders": 4, "planned_decoders": 4, "completed": 28, "total": 220}
+PROGRESS {"completed": 28, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.851250, FER=0.851250, failure=0.851250, ambiguous=0.000000, time=0.163s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.85125, "fer": 0.85125, "failure_rate": 0.85125, "completed_decoders": 1, "planned_decoders": 4, "completed": 29, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 30, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 31, "total": 220}
+    chase: BER=0.447178, FER=0.447500, failure=0.446800, ambiguous=0.000000, time=39.661s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.447178125, "fer": 0.4475, "failure_rate": 0.4468, "completed_decoders": 4, "planned_decoders": 4, "completed": 32, "total": 220}
+PROGRESS {"completed": 32, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.785878, FER=0.785900, failure=0.785850, ambiguous=0.000000, time=0.163s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.785878125, "fer": 0.7859, "failure_rate": 0.78585, "completed_decoders": 1, "planned_decoders": 4, "completed": 33, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 34, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 35, "total": 220}
+    chase: BER=0.368556, FER=0.368800, failure=0.368300, ambiguous=0.000000, time=40.001s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.36855625, "fer": 0.3688, "failure_rate": 0.3683, "completed_decoders": 4, "planned_decoders": 4, "completed": 36, "total": 220}
+PROGRESS {"completed": 36, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.713128, FER=0.713150, failure=0.713100, ambiguous=0.000000, time=0.164s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.713128125, "fer": 0.71315, "failure_rate": 0.7131, "completed_decoders": 1, "planned_decoders": 4, "completed": 37, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 38, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 39, "total": 220}
+    chase: BER=0.304930, FER=0.305100, failure=0.304750, ambiguous=0.000000, time=40.664s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.3049296875, "fer": 0.3051, "failure_rate": 0.30475, "completed_decoders": 4, "planned_decoders": 4, "completed": 40, "total": 220}
+PROGRESS {"completed": 40, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.636450, FER=0.636450, failure=0.636450, ambiguous=0.000000, time=0.166s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.63645, "fer": 0.63645, "failure_rate": 0.63645, "completed_decoders": 1, "planned_decoders": 4, "completed": 41, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 42, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 43, "total": 220}
+    chase: BER=0.257398, FER=0.257550, failure=0.257250, ambiguous=0.000000, time=40.742s
+PROGRESS {"stage": "running", "code": "wavelet_64_32_four_family", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.2573984375, "fer": 0.25755, "failure_rate": 0.25725, "completed_decoders": 4, "planned_decoders": 4, "completed": 44, "total": 220}
+PROGRESS {"completed": 44, "total": 220, "stage": "ebn0_finished", "code": "wavelet_64_32_four_family", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 44, "total": 220, "stage": "code_finished", "code": "wavelet_64_32_four_family"}
+
+Код bch_derived_64_32_four_family [bch_derived]: n=64, k=32, канал=sinusoidal
+PROGRESS {"completed": 44, "total": 220, "stage": "code_started", "code": "bch_derived_64_32_four_family", "family": "bch_derived", "n": 64, "k": 32, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=3: 43745 синдромов / 43745 шаблонов, коллизий 0, ~5.13 MiB, построение 0.024s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.997950, FER=0.997950, failure=0.997950, ambiguous=0.000000, time=0.144s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.99795, "fer": 0.99795, "failure_rate": 0.99795, "completed_decoders": 1, "planned_decoders": 4, "completed": 45, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 46, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 47, "total": 220}
+    chase: BER=0.951366, FER=0.952650, failure=0.951000, ambiguous=0.000000, time=38.393s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.951365625, "fer": 0.95265, "failure_rate": 0.951, "completed_decoders": 4, "planned_decoders": 4, "completed": 48, "total": 220}
+PROGRESS {"completed": 48, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.995500, FER=0.995500, failure=0.995500, ambiguous=0.000000, time=0.145s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.9955, "fer": 0.9955, "failure_rate": 0.9955, "completed_decoders": 1, "planned_decoders": 4, "completed": 49, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 50, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 51, "total": 220}
+    chase: BER=0.918519, FER=0.919900, failure=0.918150, ambiguous=0.000000, time=38.598s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.91851875, "fer": 0.9199, "failure_rate": 0.91815, "completed_decoders": 4, "planned_decoders": 4, "completed": 52, "total": 220}
+PROGRESS {"completed": 52, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.989800, FER=0.989800, failure=0.989800, ambiguous=0.000000, time=0.143s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.9898, "fer": 0.9898, "failure_rate": 0.9898, "completed_decoders": 1, "planned_decoders": 4, "completed": 53, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 54, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 55, "total": 220}
+    chase: BER=0.872394, FER=0.873500, failure=0.872100, ambiguous=0.000000, time=38.682s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.87239375, "fer": 0.8735, "failure_rate": 0.8721, "completed_decoders": 4, "planned_decoders": 4, "completed": 56, "total": 220}
+PROGRESS {"completed": 56, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.980100, FER=0.980100, failure=0.980100, ambiguous=0.000000, time=0.145s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.9801, "fer": 0.9801, "failure_rate": 0.9801, "completed_decoders": 1, "planned_decoders": 4, "completed": 57, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 58, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 59, "total": 220}
+    chase: BER=0.808630, FER=0.809450, failure=0.808400, ambiguous=0.000000, time=39.154s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.8086296875, "fer": 0.80945, "failure_rate": 0.8084, "completed_decoders": 4, "planned_decoders": 4, "completed": 60, "total": 220}
+PROGRESS {"completed": 60, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.964400, FER=0.964400, failure=0.964400, ambiguous=0.000000, time=0.149s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.9644, "fer": 0.9644, "failure_rate": 0.9644, "completed_decoders": 1, "planned_decoders": 4, "completed": 61, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 62, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 63, "total": 220}
+    chase: BER=0.726850, FER=0.727650, failure=0.726650, ambiguous=0.000000, time=38.865s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.72685, "fer": 0.72765, "failure_rate": 0.72665, "completed_decoders": 4, "planned_decoders": 4, "completed": 64, "total": 220}
+PROGRESS {"completed": 64, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.940000, FER=0.940000, failure=0.940000, ambiguous=0.000000, time=0.147s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.94, "fer": 0.94, "failure_rate": 0.94, "completed_decoders": 1, "planned_decoders": 4, "completed": 65, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 66, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 67, "total": 220}
+    chase: BER=0.634986, FER=0.635900, failure=0.634750, ambiguous=0.000000, time=38.953s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.6349859375, "fer": 0.6359, "failure_rate": 0.63475, "completed_decoders": 4, "planned_decoders": 4, "completed": 68, "total": 220}
+PROGRESS {"completed": 68, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.903500, FER=0.903500, failure=0.903500, ambiguous=0.000000, time=0.149s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.9035, "fer": 0.9035, "failure_rate": 0.9035, "completed_decoders": 1, "planned_decoders": 4, "completed": 69, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 70, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 71, "total": 220}
+    chase: BER=0.538014, FER=0.538800, failure=0.537800, ambiguous=0.000000, time=39.048s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.5380140625, "fer": 0.5388, "failure_rate": 0.5378, "completed_decoders": 4, "planned_decoders": 4, "completed": 72, "total": 220}
+PROGRESS {"completed": 72, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.851850, FER=0.851850, failure=0.851850, ambiguous=0.000000, time=0.153s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.85185, "fer": 0.85185, "failure_rate": 0.85185, "completed_decoders": 1, "planned_decoders": 4, "completed": 73, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 74, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 75, "total": 220}
+    chase: BER=0.447519, FER=0.448150, failure=0.447350, ambiguous=0.000000, time=39.531s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.44751875, "fer": 0.44815, "failure_rate": 0.44735, "completed_decoders": 4, "planned_decoders": 4, "completed": 76, "total": 220}
+PROGRESS {"completed": 76, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.789500, FER=0.789500, failure=0.789500, ambiguous=0.000000, time=0.152s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.7895, "fer": 0.7895, "failure_rate": 0.7895, "completed_decoders": 1, "planned_decoders": 4, "completed": 77, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 78, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 79, "total": 220}
+    chase: BER=0.367836, FER=0.368100, failure=0.367750, ambiguous=0.000000, time=39.794s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.3678359375, "fer": 0.3681, "failure_rate": 0.36775, "completed_decoders": 4, "planned_decoders": 4, "completed": 80, "total": 220}
+PROGRESS {"completed": 80, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.716150, FER=0.716150, failure=0.716150, ambiguous=0.000000, time=0.154s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.71615, "fer": 0.71615, "failure_rate": 0.71615, "completed_decoders": 1, "planned_decoders": 4, "completed": 81, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 82, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 83, "total": 220}
+    chase: BER=0.304881, FER=0.305300, failure=0.304750, ambiguous=0.000000, time=39.820s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.30488125, "fer": 0.3053, "failure_rate": 0.30475, "completed_decoders": 4, "planned_decoders": 4, "completed": 84, "total": 220}
+PROGRESS {"completed": 84, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.639150, FER=0.639150, failure=0.639150, ambiguous=0.000000, time=0.157s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.63915, "fer": 0.63915, "failure_rate": 0.63915, "completed_decoders": 1, "planned_decoders": 4, "completed": 85, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 86, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 87, "total": 220}
+    chase: BER=0.258605, FER=0.258950, failure=0.258500, ambiguous=0.000000, time=40.260s
+PROGRESS {"stage": "running", "code": "bch_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.2586046875, "fer": 0.25895, "failure_rate": 0.2585, "completed_decoders": 4, "planned_decoders": 4, "completed": 88, "total": 220}
+PROGRESS {"completed": 88, "total": 220, "stage": "ebn0_finished", "code": "bch_derived_64_32_four_family", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 88, "total": 220, "stage": "code_finished", "code": "bch_derived_64_32_four_family"}
+
+Код goppa_derived_64_32_four_family [goppa_derived]: n=64, k=32, канал=sinusoidal
+PROGRESS {"completed": 88, "total": 220, "stage": "code_started", "code": "goppa_derived_64_32_four_family", "family": "goppa_derived", "n": 64, "k": 32, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=3: 43745 синдромов / 43745 шаблонов, коллизий 0, ~5.12 MiB, построение 0.024s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.996786, FER=0.997100, failure=0.996700, ambiguous=0.000000, time=0.142s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.9967859375, "fer": 0.9971, "failure_rate": 0.9967, "completed_decoders": 1, "planned_decoders": 4, "completed": 89, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 90, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 91, "total": 220}
+    chase: BER=0.916733, FER=0.952950, failure=0.905700, ambiguous=0.000000, time=38.265s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.9167328125, "fer": 0.95295, "failure_rate": 0.9057, "completed_decoders": 4, "planned_decoders": 4, "completed": 92, "total": 220}
+PROGRESS {"completed": 92, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.993694, FER=0.994100, failure=0.993600, ambiguous=0.000000, time=0.149s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.99369375, "fer": 0.9941, "failure_rate": 0.9936, "completed_decoders": 1, "planned_decoders": 4, "completed": 93, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 94, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 95, "total": 220}
+    chase: BER=0.883387, FER=0.921200, failure=0.872150, ambiguous=0.000000, time=38.538s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.8833875, "fer": 0.9212, "failure_rate": 0.87215, "completed_decoders": 4, "planned_decoders": 4, "completed": 96, "total": 220}
+PROGRESS {"completed": 96, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.988750, FER=0.989000, failure=0.988700, ambiguous=0.000000, time=0.142s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.98875, "fer": 0.989, "failure_rate": 0.9887, "completed_decoders": 1, "planned_decoders": 4, "completed": 97, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 98, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 99, "total": 220}
+    chase: BER=0.836259, FER=0.873750, failure=0.825500, ambiguous=0.000000, time=38.225s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.836259375, "fer": 0.87375, "failure_rate": 0.8255, "completed_decoders": 4, "planned_decoders": 4, "completed": 100, "total": 220}
+PROGRESS {"completed": 100, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.979053, FER=0.979300, failure=0.979000, ambiguous=0.000000, time=0.144s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.979053125, "fer": 0.9793, "failure_rate": 0.979, "completed_decoders": 1, "planned_decoders": 4, "completed": 101, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 102, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 103, "total": 220}
+    chase: BER=0.776355, FER=0.814000, failure=0.765950, ambiguous=0.000000, time=38.139s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.7763546875, "fer": 0.814, "failure_rate": 0.76595, "completed_decoders": 4, "planned_decoders": 4, "completed": 104, "total": 220}
+PROGRESS {"completed": 104, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.963462, FER=0.963700, failure=0.963400, ambiguous=0.000000, time=0.145s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.9634625, "fer": 0.9637, "failure_rate": 0.9634, "completed_decoders": 1, "planned_decoders": 4, "completed": 105, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 106, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 107, "total": 220}
+    chase: BER=0.694730, FER=0.730800, failure=0.685050, ambiguous=0.000000, time=38.621s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.6947296875, "fer": 0.7308, "failure_rate": 0.68505, "completed_decoders": 4, "planned_decoders": 4, "completed": 108, "total": 220}
+PROGRESS {"completed": 108, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.939778, FER=0.939900, failure=0.939750, ambiguous=0.000000, time=0.149s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.939778125, "fer": 0.9399, "failure_rate": 0.93975, "completed_decoders": 1, "planned_decoders": 4, "completed": 109, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 110, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 111, "total": 220}
+    chase: BER=0.602548, FER=0.634600, failure=0.594000, ambiguous=0.000000, time=38.656s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.6025484375, "fer": 0.6346, "failure_rate": 0.594, "completed_decoders": 4, "planned_decoders": 4, "completed": 112, "total": 220}
+PROGRESS {"completed": 112, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.901892, FER=0.902100, failure=0.901850, ambiguous=0.000000, time=0.145s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.9018921875, "fer": 0.9021, "failure_rate": 0.90185, "completed_decoders": 1, "planned_decoders": 4, "completed": 113, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 114, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 115, "total": 220}
+    chase: BER=0.509836, FER=0.536600, failure=0.502700, ambiguous=0.000000, time=38.650s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.5098359375, "fer": 0.5366, "failure_rate": 0.5027, "completed_decoders": 4, "planned_decoders": 4, "completed": 116, "total": 220}
+PROGRESS {"completed": 116, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.851672, FER=0.851800, failure=0.851650, ambiguous=0.000000, time=0.147s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.851671875, "fer": 0.8518, "failure_rate": 0.85165, "completed_decoders": 1, "planned_decoders": 4, "completed": 117, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 118, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 119, "total": 220}
+    chase: BER=0.427331, FER=0.450700, failure=0.421050, ambiguous=0.000000, time=38.783s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.42733125, "fer": 0.4507, "failure_rate": 0.42105, "completed_decoders": 4, "planned_decoders": 4, "completed": 120, "total": 220}
+PROGRESS {"completed": 120, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.785944, FER=0.786150, failure=0.785900, ambiguous=0.000000, time=0.149s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.78594375, "fer": 0.78615, "failure_rate": 0.7859, "completed_decoders": 1, "planned_decoders": 4, "completed": 121, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 122, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 123, "total": 220}
+    chase: BER=0.353417, FER=0.372450, failure=0.348200, ambiguous=0.000000, time=39.032s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.3534171875, "fer": 0.37245, "failure_rate": 0.3482, "completed_decoders": 4, "planned_decoders": 4, "completed": 124, "total": 220}
+PROGRESS {"completed": 124, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.716234, FER=0.716400, failure=0.716200, ambiguous=0.000000, time=0.153s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.716234375, "fer": 0.7164, "failure_rate": 0.7162, "completed_decoders": 1, "planned_decoders": 4, "completed": 125, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 126, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 127, "total": 220}
+    chase: BER=0.294356, FER=0.308900, failure=0.290400, ambiguous=0.000000, time=39.390s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.29435625, "fer": 0.3089, "failure_rate": 0.2904, "completed_decoders": 4, "planned_decoders": 4, "completed": 128, "total": 220}
+PROGRESS {"completed": 128, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.639772, FER=0.639850, failure=0.639750, ambiguous=0.000000, time=0.154s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.639771875, "fer": 0.63985, "failure_rate": 0.63975, "completed_decoders": 1, "planned_decoders": 4, "completed": 129, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 130, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 131, "total": 220}
+    chase: BER=0.248900, FER=0.261150, failure=0.245450, ambiguous=0.000000, time=39.586s
+PROGRESS {"stage": "running", "code": "goppa_derived_64_32_four_family", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.2489, "fer": 0.26115, "failure_rate": 0.24545, "completed_decoders": 4, "planned_decoders": 4, "completed": 132, "total": 220}
+PROGRESS {"completed": 132, "total": 220, "stage": "ebn0_finished", "code": "goppa_derived_64_32_four_family", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 132, "total": 220, "stage": "code_finished", "code": "goppa_derived_64_32_four_family"}
+
+Код reed_solomon_binary_64_32_four_family [reed_solomon_binary]: n=64, k=32, канал=sinusoidal
+PROGRESS {"completed": 132, "total": 220, "stage": "code_started", "code": "reed_solomon_binary_64_32_four_family", "family": "reed_solomon_binary", "n": 64, "k": 32, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=3: 43745 синдромов / 43745 шаблонов, коллизий 0, ~5.13 MiB, построение 0.024s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.997831, FER=0.997850, failure=0.997800, ambiguous=0.000000, time=0.152s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.99783125, "fer": 0.99785, "failure_rate": 0.9978, "completed_decoders": 1, "planned_decoders": 4, "completed": 133, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 134, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 135, "total": 220}
+    chase: BER=0.952170, FER=0.953100, failure=0.951350, ambiguous=0.000000, time=38.669s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.9521703125, "fer": 0.9531, "failure_rate": 0.95135, "completed_decoders": 4, "planned_decoders": 4, "completed": 136, "total": 220}
+PROGRESS {"completed": 136, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.994950, FER=0.994950, failure=0.994950, ambiguous=0.000000, time=0.153s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.99495, "fer": 0.99495, "failure_rate": 0.99495, "completed_decoders": 1, "planned_decoders": 4, "completed": 137, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 138, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 139, "total": 220}
+    chase: BER=0.919075, FER=0.920200, failure=0.918100, ambiguous=0.000000, time=39.069s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.919075, "fer": 0.9202, "failure_rate": 0.9181, "completed_decoders": 4, "planned_decoders": 4, "completed": 140, "total": 220}
+PROGRESS {"completed": 140, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.989000, FER=0.989000, failure=0.989000, ambiguous=0.000000, time=0.157s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.989, "fer": 0.989, "failure_rate": 0.989, "completed_decoders": 1, "planned_decoders": 4, "completed": 141, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 142, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 143, "total": 220}
+    chase: BER=0.871952, FER=0.873000, failure=0.870950, ambiguous=0.000000, time=38.615s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.8719515625, "fer": 0.873, "failure_rate": 0.87095, "completed_decoders": 4, "planned_decoders": 4, "completed": 144, "total": 220}
+PROGRESS {"completed": 144, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.979800, FER=0.979800, failure=0.979800, ambiguous=0.000000, time=0.155s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.9798, "fer": 0.9798, "failure_rate": 0.9798, "completed_decoders": 1, "planned_decoders": 4, "completed": 145, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 146, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 147, "total": 220}
+    chase: BER=0.804297, FER=0.805450, failure=0.803250, ambiguous=0.000000, time=38.777s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.804296875, "fer": 0.80545, "failure_rate": 0.80325, "completed_decoders": 4, "planned_decoders": 4, "completed": 148, "total": 220}
+PROGRESS {"completed": 148, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.963200, FER=0.963200, failure=0.963200, ambiguous=0.000000, time=0.157s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.9632, "fer": 0.9632, "failure_rate": 0.9632, "completed_decoders": 1, "planned_decoders": 4, "completed": 149, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 150, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 151, "total": 220}
+    chase: BER=0.723139, FER=0.724150, failure=0.722250, ambiguous=0.000000, time=39.320s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.7231390625, "fer": 0.72415, "failure_rate": 0.72225, "completed_decoders": 4, "planned_decoders": 4, "completed": 152, "total": 220}
+PROGRESS {"completed": 152, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.938100, FER=0.938100, failure=0.938100, ambiguous=0.000000, time=0.157s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.9381, "fer": 0.9381, "failure_rate": 0.9381, "completed_decoders": 1, "planned_decoders": 4, "completed": 153, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 154, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 155, "total": 220}
+    chase: BER=0.625770, FER=0.626650, failure=0.625000, ambiguous=0.000000, time=38.956s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.6257703125, "fer": 0.62665, "failure_rate": 0.625, "completed_decoders": 4, "planned_decoders": 4, "completed": 156, "total": 220}
+PROGRESS {"completed": 156, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.901266, FER=0.901300, failure=0.901250, ambiguous=0.000000, time=0.158s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.901265625, "fer": 0.9013, "failure_rate": 0.90125, "completed_decoders": 1, "planned_decoders": 4, "completed": 157, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 158, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 159, "total": 220}
+    chase: BER=0.529775, FER=0.530600, failure=0.529100, ambiguous=0.000000, time=39.111s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.529775, "fer": 0.5306, "failure_rate": 0.5291, "completed_decoders": 4, "planned_decoders": 4, "completed": 160, "total": 220}
+PROGRESS {"completed": 160, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.849650, FER=0.849650, failure=0.849650, ambiguous=0.000000, time=0.162s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.84965, "fer": 0.84965, "failure_rate": 0.84965, "completed_decoders": 1, "planned_decoders": 4, "completed": 161, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 162, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 163, "total": 220}
+    chase: BER=0.445133, FER=0.445750, failure=0.444600, ambiguous=0.000000, time=39.183s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.4451328125, "fer": 0.44575, "failure_rate": 0.4446, "completed_decoders": 4, "planned_decoders": 4, "completed": 164, "total": 220}
+PROGRESS {"completed": 164, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.786100, FER=0.786100, failure=0.786100, ambiguous=0.000000, time=0.160s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.7861, "fer": 0.7861, "failure_rate": 0.7861, "completed_decoders": 1, "planned_decoders": 4, "completed": 165, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 166, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 167, "total": 220}
+    chase: BER=0.366045, FER=0.366650, failure=0.365550, ambiguous=0.000000, time=39.550s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.3660453125, "fer": 0.36665, "failure_rate": 0.36555, "completed_decoders": 4, "planned_decoders": 4, "completed": 168, "total": 220}
+PROGRESS {"completed": 168, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.714150, FER=0.714150, failure=0.714150, ambiguous=0.000000, time=0.162s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.71415, "fer": 0.71415, "failure_rate": 0.71415, "completed_decoders": 1, "planned_decoders": 4, "completed": 169, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 170, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 171, "total": 220}
+    chase: BER=0.303827, FER=0.304300, failure=0.303400, ambiguous=0.000000, time=39.971s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.3038265625, "fer": 0.3043, "failure_rate": 0.3034, "completed_decoders": 4, "planned_decoders": 4, "completed": 172, "total": 220}
+PROGRESS {"completed": 172, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.634772, FER=0.634800, failure=0.634750, ambiguous=0.000000, time=0.165s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.634771875, "fer": 0.6348, "failure_rate": 0.63475, "completed_decoders": 1, "planned_decoders": 4, "completed": 173, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 174, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 175, "total": 220}
+    chase: BER=0.257194, FER=0.257650, failure=0.256800, ambiguous=0.000000, time=40.126s
+PROGRESS {"stage": "running", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.25719375, "fer": 0.25765, "failure_rate": 0.2568, "completed_decoders": 4, "planned_decoders": 4, "completed": 176, "total": 220}
+PROGRESS {"completed": 176, "total": 220, "stage": "ebn0_finished", "code": "reed_solomon_binary_64_32_four_family", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 176, "total": 220, "stage": "code_finished", "code": "reed_solomon_binary_64_32_four_family"}
+
+Код ldpc_64_32_five_family [ldpc]: n=64, k=32, канал=sinusoidal
+PROGRESS {"completed": 176, "total": 220, "stage": "code_started", "code": "ldpc_64_32_five_family", "family": "ldpc", "n": 64, "k": 32, "ebn0_point_count": 11, "planned_decoders": 4}
+  Компактная таблица синдромов t=3: 43745 синдромов / 43745 шаблонов, коллизий 0, ~5.09 MiB, построение 0.023s
+  Eb/N0 = 0.0 dB, sigma = 1.000000
+    syndrome: BER=0.998050, FER=0.998050, failure=0.998050, ambiguous=0.000000, time=0.155s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.0, "decoder": "syndrome", "skipped": false, "ber": 0.99805, "fer": 0.99805, "failure_rate": 0.99805, "completed_decoders": 1, "planned_decoders": 4, "completed": 177, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 178, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 179, "total": 220}
+    chase: BER=0.951227, FER=0.953200, failure=0.950700, ambiguous=0.000000, time=38.910s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.0, "decoder": "chase", "skipped": false, "ber": 0.9512265625, "fer": 0.9532, "failure_rate": 0.9507, "completed_decoders": 4, "planned_decoders": 4, "completed": 180, "total": 220}
+PROGRESS {"completed": 180, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 0.0, "decoders_finished": 4}
+  Eb/N0 = 0.5 dB, sigma = 0.944061
+    syndrome: BER=0.995700, FER=0.995700, failure=0.995700, ambiguous=0.000000, time=0.158s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.5, "decoder": "syndrome", "skipped": false, "ber": 0.9957, "fer": 0.9957, "failure_rate": 0.9957, "completed_decoders": 1, "planned_decoders": 4, "completed": 181, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 182, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 183, "total": 220}
+    chase: BER=0.917395, FER=0.919750, failure=0.916800, ambiguous=0.000000, time=38.861s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 0.5, "decoder": "chase", "skipped": false, "ber": 0.9173953125, "fer": 0.91975, "failure_rate": 0.9168, "completed_decoders": 4, "planned_decoders": 4, "completed": 184, "total": 220}
+PROGRESS {"completed": 184, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 0.5, "decoders_finished": 4}
+  Eb/N0 = 1.0 dB, sigma = 0.891251
+    syndrome: BER=0.990600, FER=0.990600, failure=0.990600, ambiguous=0.000000, time=0.156s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.0, "decoder": "syndrome", "skipped": false, "ber": 0.9906, "fer": 0.9906, "failure_rate": 0.9906, "completed_decoders": 1, "planned_decoders": 4, "completed": 185, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 186, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 187, "total": 220}
+    chase: BER=0.868677, FER=0.870900, failure=0.868100, ambiguous=0.000000, time=38.551s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.0, "decoder": "chase", "skipped": false, "ber": 0.8686765625, "fer": 0.8709, "failure_rate": 0.8681, "completed_decoders": 4, "planned_decoders": 4, "completed": 188, "total": 220}
+PROGRESS {"completed": 188, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 1.0, "decoders_finished": 4}
+  Eb/N0 = 1.5 dB, sigma = 0.841395
+    syndrome: BER=0.980650, FER=0.980650, failure=0.980650, ambiguous=0.000000, time=0.157s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.5, "decoder": "syndrome", "skipped": false, "ber": 0.98065, "fer": 0.98065, "failure_rate": 0.98065, "completed_decoders": 1, "planned_decoders": 4, "completed": 189, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 190, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 191, "total": 220}
+    chase: BER=0.802836, FER=0.805300, failure=0.802250, ambiguous=0.000000, time=38.375s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 1.5, "decoder": "chase", "skipped": false, "ber": 0.8028359375, "fer": 0.8053, "failure_rate": 0.80225, "completed_decoders": 4, "planned_decoders": 4, "completed": 192, "total": 220}
+PROGRESS {"completed": 192, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 1.5, "decoders_finished": 4}
+  Eb/N0 = 2.0 dB, sigma = 0.794328
+    syndrome: BER=0.962850, FER=0.962850, failure=0.962850, ambiguous=0.000000, time=0.156s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.0, "decoder": "syndrome", "skipped": false, "ber": 0.96285, "fer": 0.96285, "failure_rate": 0.96285, "completed_decoders": 1, "planned_decoders": 4, "completed": 193, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 194, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 195, "total": 220}
+    chase: BER=0.720192, FER=0.722400, failure=0.719700, ambiguous=0.000000, time=38.465s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.0, "decoder": "chase", "skipped": false, "ber": 0.7201921875, "fer": 0.7224, "failure_rate": 0.7197, "completed_decoders": 4, "planned_decoders": 4, "completed": 196, "total": 220}
+PROGRESS {"completed": 196, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 2.0, "decoders_finished": 4}
+  Eb/N0 = 2.5 dB, sigma = 0.749894
+    syndrome: BER=0.936909, FER=0.936950, failure=0.936900, ambiguous=0.000000, time=0.156s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.5, "decoder": "syndrome", "skipped": false, "ber": 0.936909375, "fer": 0.93695, "failure_rate": 0.9369, "completed_decoders": 1, "planned_decoders": 4, "completed": 197, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 198, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 199, "total": 220}
+    chase: BER=0.628867, FER=0.630950, failure=0.628450, ambiguous=0.000000, time=38.503s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 2.5, "decoder": "chase", "skipped": false, "ber": 0.6288671875, "fer": 0.63095, "failure_rate": 0.62845, "completed_decoders": 4, "planned_decoders": 4, "completed": 200, "total": 220}
+PROGRESS {"completed": 200, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 2.5, "decoders_finished": 4}
+  Eb/N0 = 3.0 dB, sigma = 0.707946
+    syndrome: BER=0.899509, FER=0.899550, failure=0.899500, ambiguous=0.000000, time=0.156s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.0, "decoder": "syndrome", "skipped": false, "ber": 0.899509375, "fer": 0.89955, "failure_rate": 0.8995, "completed_decoders": 1, "planned_decoders": 4, "completed": 201, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 202, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 203, "total": 220}
+    chase: BER=0.537192, FER=0.539000, failure=0.536850, ambiguous=0.000000, time=39.012s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.0, "decoder": "chase", "skipped": false, "ber": 0.5371921875, "fer": 0.539, "failure_rate": 0.53685, "completed_decoders": 4, "planned_decoders": 4, "completed": 204, "total": 220}
+PROGRESS {"completed": 204, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 3.0, "decoders_finished": 4}
+  Eb/N0 = 3.5 dB, sigma = 0.668344
+    syndrome: BER=0.848550, FER=0.848550, failure=0.848550, ambiguous=0.000000, time=0.161s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.5, "decoder": "syndrome", "skipped": false, "ber": 0.84855, "fer": 0.84855, "failure_rate": 0.84855, "completed_decoders": 1, "planned_decoders": 4, "completed": 205, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 206, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 207, "total": 220}
+    chase: BER=0.444631, FER=0.446000, failure=0.444350, ambiguous=0.000000, time=38.848s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 3.5, "decoder": "chase", "skipped": false, "ber": 0.44463125, "fer": 0.446, "failure_rate": 0.44435, "completed_decoders": 4, "planned_decoders": 4, "completed": 208, "total": 220}
+PROGRESS {"completed": 208, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 3.5, "decoders_finished": 4}
+  Eb/N0 = 4.0 dB, sigma = 0.630957
+    syndrome: BER=0.785650, FER=0.785650, failure=0.785650, ambiguous=0.000000, time=0.160s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.0, "decoder": "syndrome", "skipped": false, "ber": 0.78565, "fer": 0.78565, "failure_rate": 0.78565, "completed_decoders": 1, "planned_decoders": 4, "completed": 209, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 210, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 211, "total": 220}
+    chase: BER=0.367278, FER=0.368350, failure=0.367050, ambiguous=0.000000, time=39.059s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.0, "decoder": "chase", "skipped": false, "ber": 0.367278125, "fer": 0.36835, "failure_rate": 0.36705, "completed_decoders": 4, "planned_decoders": 4, "completed": 212, "total": 220}
+PROGRESS {"completed": 212, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 4.0, "decoders_finished": 4}
+  Eb/N0 = 4.5 dB, sigma = 0.595662
+    syndrome: BER=0.712850, FER=0.712850, failure=0.712850, ambiguous=0.000000, time=0.162s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.5, "decoder": "syndrome", "skipped": false, "ber": 0.71285, "fer": 0.71285, "failure_rate": 0.71285, "completed_decoders": 1, "planned_decoders": 4, "completed": 213, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.5, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 214, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.5, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 215, "total": 220}
+    chase: BER=0.305825, FER=0.306600, failure=0.305650, ambiguous=0.000000, time=39.666s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 4.5, "decoder": "chase", "skipped": false, "ber": 0.305825, "fer": 0.3066, "failure_rate": 0.30565, "completed_decoders": 4, "planned_decoders": 4, "completed": 216, "total": 220}
+PROGRESS {"completed": 216, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 4.5, "decoders_finished": 4}
+  Eb/N0 = 5.0 dB, sigma = 0.562341
+    syndrome: BER=0.632750, FER=0.632750, failure=0.632750, ambiguous=0.000000, time=0.164s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 5.0, "decoder": "syndrome", "skipped": false, "ber": 0.63275, "fer": 0.63275, "failure_rate": 0.63275, "completed_decoders": 1, "planned_decoders": 4, "completed": 217, "total": 220}
+    hard_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 5.0, "decoder": "hard_mld", "skipped": true, "completed_decoders": 2, "planned_decoders": 4, "completed": 218, "total": 220}
+    soft_mld: skipped
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 5.0, "decoder": "soft_mld", "skipped": true, "completed_decoders": 3, "planned_decoders": 4, "completed": 219, "total": 220}
+    chase: BER=0.258145, FER=0.259000, failure=0.257950, ambiguous=0.000000, time=39.561s
+PROGRESS {"stage": "running", "code": "ldpc_64_32_five_family", "ebn0_db": 5.0, "decoder": "chase", "skipped": false, "ber": 0.2581453125, "fer": 0.259, "failure_rate": 0.25795, "completed_decoders": 4, "planned_decoders": 4, "completed": 220, "total": 220}
+PROGRESS {"completed": 220, "total": 220, "stage": "ebn0_finished", "code": "ldpc_64_32_five_family", "ebn0_db": 5.0, "decoders_finished": 4}
+PROGRESS {"completed": 220, "total": 220, "stage": "code_finished", "code": "ldpc_64_32_five_family"}
+PROGRESS {"stage": "writing_results", "output_path": "research_results/five_families_channels/sinusoidal/64_32_20k\\summary.csv", "completed": 220, "total": 220}
+
+Исследование завершено.
+Файл результатов: research_results/five_families_channels/sinusoidal/64_32_20k\summary.csv
+PROGRESS {"stage": "completed", "results_dir": "research_results/five_families_channels/sinusoidal/64_32_20k"}

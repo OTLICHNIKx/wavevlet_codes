@@ -45,6 +45,7 @@ class CodeResearchConfig:
     bch_shortening_count: int | None = None
     bch_puncture_count: int | None = None
     bch_puncture_coordinates: tuple[int, ...] | None = None
+    bch_extend_parity: bool = False
 
     # Настройки Goppa-derived кода.
     goppa_m: int | None = None
@@ -107,6 +108,7 @@ class CodeResearchConfig:
                 if self.bch_puncture_coordinates is None
                 else list(self.bch_puncture_coordinates)
             ),
+            "bch_extend_parity": self.bch_extend_parity,
 
             # Параметры Goppa.
             "goppa_m": self.goppa_m,
@@ -336,6 +338,7 @@ class CodeResearchConfig:
                     parent_length
                     - self.bch_shortening_count
                     - self.bch_puncture_count
+                    + (1 if self.bch_extend_parity else 0)
             )
 
             if self.n != expected_length:

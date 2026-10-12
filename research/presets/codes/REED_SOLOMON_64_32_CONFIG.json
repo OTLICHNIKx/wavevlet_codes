@@ -68,9 +68,9 @@
     "minimum_distance_lower_bound": 9,
     "minimum_distance_upper_bound": null,
     "distance_evidence": "GRS(16,8) has 9 non-zero GF(16) symbols per non-zero word; each contributes at least one binary bit",
-    "verified_error_correction_radius": 2,
-    "syndrome_max_error_weight": 2,
-    "chase_inner_decoder_max_error_weight": 2,
-    "chase_unreliable_positions_count": 8
+    "verified_error_correction_radius": 4,
+    "syndrome_max_error_weight": 4,
+    "chase_inner_decoder_max_error_weight": 4,
+    "chase_unreliable_positions_count": 5
   }
 }

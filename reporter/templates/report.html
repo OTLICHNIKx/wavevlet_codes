@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Отчёт: преимущество Wavelet</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+         max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px;
+         color: #1a1a1a; background: #fafafa; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .sub { color: #666; font-size: 14px; margin-bottom: 24px; }
+  h2 { font-size: 19px; margin: 34px 0 12px; padding-bottom: 6px;
+       border-bottom: 2px solid #eee; }
+  a.back { font-size: 13px; color: #d62728; text-decoration: none; }
+  .cards { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px;
+          padding: 14px 18px; min-width: 128px; flex: 1; }
+  .card .v { font-size: 24px; font-weight: 700; }
+  .card .k { font-size: 12px; color: #666; margin-top: 2px; }
+  .card.good .v { color: #2ca02c; }
+  .card.bad  .v { color: #d62728; }
+  table { width: 100%; border-collapse: collapse; background: #fff;
+          font-size: 13px; }
+  th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid #eee; }
+  th { background: #f4f4f4; font-weight: 600; }
+  tr:hover td { background: #fafafa; }
+  .imgbox { background: #fff; border: 1px solid #ddd; border-radius: 8px;
+            padding: 10px; margin-bottom: 14px; text-align: center; }
+  .imgbox img { max-width: 100%; height: auto; }
+  .imgbox .cap { font-size: 12px; color: #666; margin-bottom: 6px; }
+  .concl { background: #fff; border-left: 4px solid #d62728;
+           padding: 12px 16px; margin-bottom: 8px; font-size: 14px; }
+  .win  { color: #2ca02c; font-weight: 600; }
+  .lose { color: #d62728; font-weight: 600; }
+  .file { font-size: 12px; color: #888; margin-top: 26px; }
+  .warn { background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px;
+          padding: 12px 16px; font-size: 13px; margin-bottom: 16px; }
+  .empty { color: #999; font-style: italic; font-size: 13px; }
+</style>
+</head>
+<body>
+  <a class="back" href="{{ url_for('index') }}">&larr; загрузить другой файл</a>
+  <h1>Отчёт: преимущество Wavelet</h1>
+  <div class="sub">{{ filename }}</div>
+
+  {% if warnings %}
+    {% for w in warnings %}
+      <div class="warn">{{ w }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="cards">
+    <div class="card {{ 'good' if summary.win_pct >= 50 else 'bad' }}">
+      <div class="v">{{ '%.1f'|format(summary.win_pct) }}%</div>
+      <div class="k">точек, где Wavelet победил<br>{{ summary.wins }} из {{ summary.comparisons }}</div>
+    </div>
+    <div class="card">
+      <div class="v">{{ '%.2f'|format(summary.mean_gain) if summary.mean_gain else '—' }}&times;</div>
+      <div class="k">средний выигрыш<br>по BER</div>
+    </div>
+    <div class="card">
+      <div class="v">{{ '%.1f'|format(summary.max_gain) if summary.max_gain else '—' }}&times;</div>
+      <div class="k">максимальный выигрыш</div>
+    </div>
+    <div class="card">
+      <div class="v">{{ summary.zones }}</div>
+      <div class="k">зон доминирования<br>по SNR</div>
+    </div>
+    <div class="card {{ 'bad' if summary.loss_points else '' }}">
+      <div class="v">{{ summary.loss_points }}</div>
+      <div class="k">проигрышей Wavelet</div>
+    </div>
+    <div class="card">
+      <div class="v">{{ summary.rows }}</div>
+      <div class="k">строк в данных<br>{{ summary.source_files }} файл(ов)</div>
+    </div>
+  </div>
+
+  {% if conclusions %}
+    <h2>Выводы</h2>
+    {% for c in conclusions %}
+      <div class="concl">{{ c }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% if gain_chart %}
+    <h2>Выигрыш по SNR</h2>
+    <div class="imgbox">
+      <div class="cap">Средний выигрыш Wavelet по всем конкурентам. Выше 1 — Wavelet лучше.</div>
+      <img src="{{ gain_chart }}" alt="выигрыш по SNR">
+    </div>
+  {% endif %}
+
+  {% if family_chart %}
+    <h2>Wavelet против каждого семейства</h2>
+    <div class="imgbox">
+      <div class="cap">Зелёный столбец — средний выигрыш выше 1 (Wavelet выигрывает).</div>
+      <img src="{{ family_chart }}" alt="выигрыш по семействам">
+    </div>
+  {% endif %}
+
+  {% if families %}
+    <h2>Свод по конкурентам</h2>
+    <table>
+      <tr>
+        <th>Семейство</th>
+        <th>Побед</th>
+        <th>Доля побед</th>
+        <th>Средний выигрыш</th>
+        <th>Макс. выигрыш</th>
+        <th>Диапазоны SNR</th>
+      </tr>
+      {% for r in families %}
+        <tr>
+          <td>{{ r.family }}</td>
+          <td class="{{ 'win' if r.wins else '' }}">{{ r.wins }} / {{ r.comparisons }}</td>
+          <td>{{ '%.1f'|format(r.win_pct) }}%</td>
+          <td>{{ '%.2f'|format(r.mean_gain) if r.mean_gain else '—' }}&times;</td>
+          <td>{{ '%.1f'|format(r.max_gain) if r.max_gain else '—' }}&times;</td>
+          <td>{{ r.snr_ranges }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if zones %}
+    <h2>Зоны доминирования</h2>
+    <table>
+      <tr>
+        <th>Канал</th>
+        <th>n/k</th>
+        <th>Декодер</th>
+        <th>Диапазон SNR</th>
+        <th>Средний выигрыш</th>
+        <th>Против кого</th>
+      </tr>
+      {% for z in zones %}
+        <tr>
+          <td>{{ z.channel }}</td>
+          <td>{{ z.size }}</td>
+          <td>{{ z.decoder }}</td>
+          <td>{{ z.snr }}</td>
+          <td class="win">{{ '%.2f'|format(z.gain) if z.gain else '—' }}&times;</td>
+          <td>{{ z.competitors }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if ber_charts %}
+    <h2>BER-кривые</h2>
+    {% for c in ber_charts %}
+      <div class="imgbox">
+        <div class="cap">{{ c.title }}</div>
+        <img src="{{ c.image }}" alt="BER {{ c.title }}">
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if loss_points %}
+    <h2>Где Wavelet проигрывает</h2>
+    <table>
+      <tr>
+        <th>Канал</th><th>n/k</th><th>SNR</th><th>Декодер</th><th>Против</th><th>Выигрыш</th>
+      </tr>
+      {% for p in loss_points[:60] %}
+        <tr>
+          <td>{{ p.channel }}</td>
+          <td>{{ p.code_size }}</td>
+          <td>{{ p.snr }}</td>
+          <td>{{ p.decoder }}</td>
+          <td>{{ p.competitor }}</td>
+          <td class="lose">{{ '%.2f'|format(p.gain) }}&times;</td>
+        </tr>
+      {% endfor %}
+    </table>
+    {% if loss_points|length > 60 %}
+      <div class="empty">Показаны первые 60 из {{ loss_points|length }}.</div>
+    {% endif %}
+  {% endif %}
+
+  <div class="file">Сформировано репортером · файл: {{ filename }}</div>
+</body>
+</html>

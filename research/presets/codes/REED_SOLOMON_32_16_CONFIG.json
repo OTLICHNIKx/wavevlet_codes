@@ -53,8 +53,8 @@
     "minimum_distance_upper_bound": 7,
     "distance_evidence": "Exact binary d_min=7 by exhaustive enumeration of all 65,535 non-zero GRS binary codewords; A_7=28, searched over column multipliers by research/optimization/optimize_rs_32_16.py (seed 420)",
     "verified_error_correction_radius": 2,
-    "syndrome_max_error_weight": 2,
-    "chase_inner_decoder_max_error_weight": 2,
-    "chase_unreliable_positions_count": 6
+    "syndrome_max_error_weight": 3,
+    "chase_inner_decoder_max_error_weight": 3,
+    "chase_unreliable_positions_count": 4
   }
 }

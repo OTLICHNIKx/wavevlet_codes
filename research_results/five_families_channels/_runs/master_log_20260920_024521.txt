@@ -1,0 +1,41 @@
+[2026-09-20 02:45:21] start: 9 experiment(s)
+[2026-09-20 02:45:21] master log: E:\Study\Programming\Github\wavevlet_codes\wavevlet_codes\research_results\five_families_channels\_runs\master_log_20260920_024521.txt
+[2026-09-20 02:45:21] ========================================================================
+[2026-09-20 02:45:21] [1/9] FIVE_FAMILIES_20K_FULL_DECODERS_16_8_RAYLEIGH
+[2026-09-20 02:46:59] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_16_8_RAYLEIGH in 1.6 min
+[2026-09-20 02:46:59] ========================================================================
+[2026-09-20 02:46:59] [2/9] FIVE_FAMILIES_20K_FULL_DECODERS_16_8_SINUSOIDAL
+[2026-09-20 02:48:25] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_16_8_SINUSOIDAL in 1.4 min
+[2026-09-20 02:48:25] ========================================================================
+[2026-09-20 02:48:25] [3/9] FIVE_FAMILIES_20K_FULL_DECODERS_16_8_RAYLEIGH_AWGN
+[2026-09-20 02:49:47] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_16_8_RAYLEIGH_AWGN in 1.4 min
+[2026-09-20 02:49:47] ========================================================================
+[2026-09-20 02:49:47] [4/9] FIVE_FAMILIES_20K_FULL_DECODERS_32_16_RAYLEIGH
+[2026-09-20 03:47:22] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_32_16_RAYLEIGH in 57.6 min
+[2026-09-20 03:47:22] ========================================================================
+[2026-09-20 03:47:22] [5/9] FIVE_FAMILIES_20K_FULL_DECODERS_32_16_SINUSOIDAL
+[2026-09-20 04:44:37] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_32_16_SINUSOIDAL in 57.2 min
+[2026-09-20 04:44:37] ========================================================================
+[2026-09-20 04:44:37] [6/9] FIVE_FAMILIES_20K_FULL_DECODERS_32_16_RAYLEIGH_AWGN
+[2026-09-20 05:41:34] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_32_16_RAYLEIGH_AWGN in 57 min
+[2026-09-20 05:41:34] ========================================================================
+[2026-09-20 05:41:34] [7/9] FIVE_FAMILIES_20K_FULL_DECODERS_64_32_RAYLEIGH
+[2026-09-20 06:18:09] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_64_32_RAYLEIGH in 36.6 min
+[2026-09-20 06:18:09] ========================================================================
+[2026-09-20 06:18:09] [8/9] FIVE_FAMILIES_20K_FULL_DECODERS_64_32_SINUSOIDAL
+[2026-09-20 06:54:27] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_64_32_SINUSOIDAL in 36.3 min
+[2026-09-20 06:54:27] ========================================================================
+[2026-09-20 06:54:27] [9/9] FIVE_FAMILIES_20K_FULL_DECODERS_64_32_RAYLEIGH_AWGN
+[2026-09-20 07:30:14] DONE: FIVE_FAMILIES_20K_FULL_DECODERS_64_32_RAYLEIGH_AWGN in 35.8 min
+[2026-09-20 07:30:14] ========================================================================
+[2026-09-20 07:30:14] SUMMARY:
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_16_8_RAYLEIGH: completed=True, exit=0, 1,6 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_16_8_SINUSOIDAL: completed=True, exit=0, 1,4 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_16_8_RAYLEIGH_AWGN: completed=True, exit=0, 1,4 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_32_16_RAYLEIGH: completed=True, exit=0, 57,6 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_32_16_SINUSOIDAL: completed=True, exit=0, 57,2 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_32_16_RAYLEIGH_AWGN: completed=True, exit=0, 57 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_64_32_RAYLEIGH: completed=True, exit=0, 36,6 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_64_32_SINUSOIDAL: completed=True, exit=0, 36,3 min
+[2026-09-20 07:30:14]   FIVE_FAMILIES_20K_FULL_DECODERS_64_32_RAYLEIGH_AWGN: completed=True, exit=0, 35,8 min
+[2026-09-20 07:30:14] summary: E:\Study\Programming\Github\wavevlet_codes\wavevlet_codes\research_results\five_families_channels\_runs\summary_20260920_024521.csv

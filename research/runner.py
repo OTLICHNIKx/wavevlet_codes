@@ -5,16 +5,18 @@ from typing import Any, Callable
 
 import numpy as np
 
-from channel import apply_channel
+from channel import apply_channel, apply_channel_with_gain
 from decode.syndrome_decoding import (
     CompactSyndromeTable,
     build_compact_syndrome_table,
 )
 from modulation.demodulator import (
     bpsk_llr,
+    bpsk_llr_with_gain,
     hard_decision_from_llr,
     reliability_from_llr,
 )
+from wavelet.code import gf_rank
 
 from research.code_factory import build_code_from_config
 
@@ -630,15 +632,61 @@ def run_code_research(
     messages = dataset.messages
     base_noise = dataset.base_noise
 
-    codewords = encode_messages_batch(
-        messages=messages,
-        generator_matrix=code.generator_matrix,
-    )
+    # Приводим G, H к систематической форме (перестановка столбцов).
+    # Это не меняет код (d_min, A_w, FER те же), но делает recovery
+    # matrix разреженной: одна ошибка в кодовом слове ≤ k/n бит сообщения.
+    G_orig = np.asarray(code.generator_matrix, dtype=np.uint8)
+    H_orig = np.asarray(code.parity_check_matrix, dtype=np.uint8)
+    k_code, n_code = G_orig.shape
+    pivot_cols = []
+    for col in range(n_code):
+        if len(pivot_cols) == k_code:
+            break
+        trial = pivot_cols + [col]
+        if gf_rank(G_orig[:, trial], 2) == len(trial):
+            pivot_cols.append(col)
+    if len(pivot_cols) == k_code:
+        rest = [c for c in range(n_code) if c not in pivot_cols]
+        perm = np.array(pivot_cols + rest, dtype=np.uint8)
+        H_perm = H_orig[:, perm]
+        # Вычисляем T: T @ G_orig[:, perm] = [I | P]
+        G_work = G_orig[:, perm].copy()
+        T = np.eye(k_code, dtype=np.uint8)
+        for i in range(k_code):
+            piv = None
+            for r in range(i, k_code):
+                if G_work[r, i] == 1:
+                    piv = r
+                    break
+            if piv is not None and piv != i:
+                G_work[[i, piv]] = G_work[[piv, i]]
+                T[[i, piv]] = T[[piv, i]]
+            for r in range(k_code):
+                if r != i and G_work[r, i] == 1:
+                    G_work[r] ^= G_work[i]
+                    T[r] ^= T[i]
+        G_perm = (T @ G_orig[:, perm]) % 2
+        H_perm_sys = (T @ H_perm) % 2
+        assert np.array_equal(G_perm[:, :k_code], np.eye(k_code, dtype=np.uint8))
+        check = (G_perm @ H_perm_sys.T) % 2
+        assert np.array_equal(check, np.zeros((k_code, n_code - k_code), dtype=np.uint8))
+
+        generator_matrix = G_perm
+        parity_check_matrix = H_perm_sys
+        codewords = encode_messages_batch(
+            messages=messages,
+            generator_matrix=generator_matrix,
+        )
+    else:
+        # Не удалось привести — используем как есть
+        generator_matrix = G_orig
+        parity_check_matrix = H_orig
+        codewords = encode_messages_batch(
+            messages=messages,
+            generator_matrix=generator_matrix,
+        )
 
     transmitted_symbols = bpsk_modulate_batch(codewords)
-
-    parity_check_matrix = code.parity_check_matrix
-    generator_matrix = code.generator_matrix
 
     syndrome_tables, syndrome_table_build_times = build_syndrome_table_cache(
         parity_check_matrix=parity_check_matrix,
@@ -675,11 +723,10 @@ def run_code_research(
                 base_noise=base_noise,
                 sigma=sigma,
             )
+            gain = np.ones_like(received_symbols, dtype=float)
         else:
-            # общий seed канала на (форму кодов, канал): один и тот же
-            # fade/реализация для всех семейств одной размерности и всех
-            # точек Eb/N0 (common random numbers).
-            received_symbols = apply_channel(
+            # Используем версию с возвратом коэффициента замирания h
+            received_symbols, gain = apply_channel_with_gain(
                 channel_type,
                 transmitted_symbols,
                 base_noise,
@@ -688,9 +735,11 @@ def run_code_research(
                 channel_params=channel_params,
             )
 
-        llr = bpsk_llr(
+        # Корректный LLR для замираний: 2 * h * r / sigma^2
+        llr = bpsk_llr_with_gain(
             received_symbols=received_symbols,
             noise_std=sigma,
+            channel_gain=gain,
         )
 
         received_words = hard_decision_from_llr(llr)

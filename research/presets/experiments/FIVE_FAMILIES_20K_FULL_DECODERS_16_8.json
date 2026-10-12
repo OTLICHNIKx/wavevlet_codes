@@ -64,14 +64,14 @@
         "reed_solomon_evaluation_points": null,
         "reed_solomon_column_multipliers": null,
         "expected_min_distance": 5,
-        "minimum_distance_exact": null,
-        "minimum_distance_lower_bound": null,
+        "minimum_distance_exact": 5,
+        "minimum_distance_lower_bound": 5,
         "minimum_distance_upper_bound": null,
-        "distance_evidence": "",
-        "verified_error_correction_radius": null,
+        "distance_evidence": "exact d_min=5 verified by exhaustive 2^8 enumeration",
+        "verified_error_correction_radius": 2,
         "syndrome_max_error_weight": 2,
         "chase_inner_decoder_max_error_weight": 2,
-        "chase_unreliable_positions_count": 4
+        "chase_unreliable_positions_count": 3
       },
       {
         "name": "bch_derived_16_8_four_family",
@@ -123,7 +123,7 @@
         "verified_error_correction_radius": 2,
         "syndrome_max_error_weight": 2,
         "chase_inner_decoder_max_error_weight": 2,
-        "chase_unreliable_positions_count": 4
+        "chase_unreliable_positions_count": 3
       },
       {
         "name": "goppa_derived_16_8_four_family",
@@ -159,10 +159,10 @@
         "minimum_distance_lower_bound": 5,
         "minimum_distance_upper_bound": 5,
         "distance_evidence": "exact enumeration of all 2^8 codewords",
-        "verified_error_correction_radius": null,
+        "verified_error_correction_radius": 2,
         "syndrome_max_error_weight": 2,
         "chase_inner_decoder_max_error_weight": 2,
-        "chase_unreliable_positions_count": 4
+        "chase_unreliable_positions_count": 3
       },
       {
         "name": "reed_solomon_binary_16_8_four_family",
@@ -211,7 +211,7 @@
         "verified_error_correction_radius": 2,
         "syndrome_max_error_weight": 2,
         "chase_inner_decoder_max_error_weight": 2,
-        "chase_unreliable_positions_count": 4
+        "chase_unreliable_positions_count": 3
       },
       {
         "name": "ldpc_16_8_five_family",
@@ -250,12 +250,12 @@
         "verified_error_correction_radius": 2,
         "syndrome_max_error_weight": 2,
         "chase_inner_decoder_max_error_weight": 2,
-        "chase_unreliable_positions_count": 4
+        "chase_unreliable_positions_count": 3
       }
     ],
     "decoders": {
       "syndrome_max_error_weight": 2,
-      "chase_unreliable_positions_count": 4,
+      "chase_unreliable_positions_count": 3,
       "chase_inner_decoder_max_error_weight": 2,
       "run_syndrome": true,
       "run_hard_mld": true,

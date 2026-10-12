@@ -68,7 +68,7 @@
     "minimum_distance_lower_bound": 10,
     "minimum_distance_upper_bound": 10,
     "distance_evidence": "Exact binary d_min=10 verified for the fixed GRS binary [64,32] construction",
-    "verified_error_correction_radius": 3,
+    "verified_error_correction_radius": 4,
     "syndrome_max_error_weight": 3,
     "chase_inner_decoder_max_error_weight": 3,
     "chase_unreliable_positions_count": 8

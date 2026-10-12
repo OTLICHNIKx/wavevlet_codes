@@ -124,10 +124,15 @@ RATE_METRICS: tuple[str, ...] = STAT_METRICS[:-1]
 ALL_METRICS_CSV_NAME = "wavelet_channel_decoder_statistics_all_metrics.csv"
 
 SINUSOIDAL_PARAMS = {
-    "mode": "fixed",
-    "amplitude": 0.5,
-    "frequency": 0.125,
-    "phase": 0.0,
+    "mode": "realistic",
+    "num_interferers": 3,
+    "amplitude_distribution": "uniform",
+    "amplitude_range": [0.1, 0.5],
+    "frequency_range": [0.01, 0.5],
+    "drift": True,
+    "drift_amplitude_step": 0.002,
+    "drift_frequency_step": 0.00015,
+    "drift_phase_step": 0.004,
 }
 EBN0_GRID: tuple[float, ...] = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
 
@@ -157,8 +162,17 @@ def build_experiment_config(
     Один запуск: выбранные коды (по умолчанию 15 = 5 семейств
     размерности), 4 декодера, выбранный канал, свой seed.
 
-    Каждый код идёт со своими t/p из WAVELET_*_CONFIG; общие message/
-    noise seed'ы обеспечивают сопоставимость и воспроизводимость.
+    Корректирующая способность выровнена по группам размерности
+    (см. research/presets/codes/*_CONFIG.json):
+        16,8  -> t=2, chase(inner_t=2, p=3), ёмкость 5
+        32,16 -> t=3, chase(inner_t=3, p=4), ёмкость 7
+        64,32 -> t=4, chase(inner_t=4, p=5), ёмкость 9
+    Внутри группы все 5 семейств имеют одинаковые t и одинаковую
+    ёмкость chase, поэтому сравнение идёт по кодам, а не по
+    настройке декодера.
+
+    Значения ниже — страховка на случай кода без собственных полей;
+    фактические t/p берутся из per-code конфигов (runner.py).
     """
     code_configs = tuple(CODE_CONFIGS[name] for name in settings.codes)
     decoders = DecoderResearchConfig(
@@ -458,7 +472,11 @@ def write_all_metrics_csv(
     Длинный CSV со статистикой по всем метрикам (для веб-отображения):
     code,channel,decoder,parameter,metric,mean,std,ci_low,ci_high,seeds,words.
     """
-    target = path if path is not None else RESULTS_DIR / ALL_METRICS_CSV_NAME
+    # Рядом с основным CSV: при разбиении на подэксперименты
+    # PLOTS_DIR указывает на <out_dir>/plots, т.е. parent = out_dir.
+    target = (
+        path if path is not None else PLOTS_DIR.parent / ALL_METRICS_CSV_NAME
+    )
     target.parent.mkdir(parents=True, exist_ok=True)
     header = [
         "code", "channel", "decoder", "parameter", "metric", "mean", "std",
@@ -596,11 +614,24 @@ def write_experiment_config(settings: ExperimentSettings) -> None:
     )
 
 
-def main() -> None:
+def settings_from_args() -> ExperimentSettings:
+    """Собирает настройки из аргументов командной строки."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=["quick", "full"], default="quick")
     parser.add_argument("--seeds", type=int, default=None)
     parser.add_argument("--words", type=int, default=None)
+    parser.add_argument(
+        "--channel",
+        choices=list(CHANNELS),
+        default=None,
+        help="один канал (по умолчанию все три)",
+    )
+    parser.add_argument(
+        "--size",
+        choices=["16_8", "32_16", "64_32"],
+        default=None,
+        help="одна размерность (по умолчанию все три)",
+    )
     args = parser.parse_args()
 
     if args.mode == "quick":
@@ -613,6 +644,31 @@ def main() -> None:
         settings = replace(settings, num_seeds=args.seeds)
     if args.words:
         settings = replace(settings, words_per_seed=args.words)
+    if args.channel:
+        settings = replace(settings, channels=(args.channel,))
+    if args.size:
+        settings = replace(
+            settings,
+            codes=tuple(
+                name for name in settings.codes if name.endswith(f"_{args.size}")
+            ),
+        )
+        # Раздельные выходы для подэкспериментов.
+        suffix = f"{args.size}_{args.channel}" if args.channel else args.size
+        out_dir = RESULTS_DIR / f"mc_{suffix}"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        global PLOTS_DIR, CSV_PATH, CONFIG_PATH, LOG_PATH
+        PLOTS_DIR = out_dir / "plots"
+        CSV_PATH = out_dir / "wavelet_channel_decoder_statistics.csv"
+        CONFIG_PATH = out_dir / "experiment_config.json"
+        LOG_PATH = out_dir / "experiment_log.txt"
+
+    return settings
+
+
+def main(settings: ExperimentSettings | None = None) -> None:
+    if settings is None:
+        settings = settings_from_args()
 
     logger = ExperimentLogger()
     logger.log(

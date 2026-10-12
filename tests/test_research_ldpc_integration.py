@@ -53,10 +53,18 @@ def test_ldpc_rejects_unknown_dimensions() -> None:
 
 
 def test_ldpc_decoder_params_match_four_family_presets_per_size() -> None:
+    """Корректирующая способность выровнена по группам размерности.
+
+    t и chase(inner_t, p) одинаковы для всех 5 семейств внутри группы,
+    поэтому ёмкость chase (inner_t + p) тоже одинакова.
+
+    t не превышает min(floor((d_min-1)/2)) по семействам группы, иначе
+    miscorrection_rate кода был бы несопоставим с остальными.
+    """
     expected = {
-        16: (2, 2, 4),
-        32: (2, 2, 6),
-        64: (3, 3, 8),
+        16: (2, 2, 3),
+        32: (3, 3, 4),
+        64: (4, 4, 5),
     }
     for config in (
         LDPC_16_8_CONFIG,

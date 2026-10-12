@@ -52,8 +52,8 @@
     "minimum_distance_upper_bound": 14,
     "distance_evidence": "syndrome certificate up to weight 5 (all subsets <=5 of the frozen H have nonzero pairwise distinct syndromes) proves no codewords of weight <= 10: d_min >= 11; a weight-14 codeword gives d_min <= 14; searched by research/optimization/optimize_wavelet_64_32.py seed 11",
     "verified_error_correction_radius": 5,
-    "syndrome_max_error_weight": 3,
-    "chase_inner_decoder_max_error_weight": 3,
-    "chase_unreliable_positions_count": 8
+    "syndrome_max_error_weight": 4,
+    "chase_inner_decoder_max_error_weight": 4,
+    "chase_unreliable_positions_count": 5
   }
 }

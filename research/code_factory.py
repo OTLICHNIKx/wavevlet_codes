@@ -11,6 +11,7 @@ from goppa.presets import (
     GOPPA_16_8_CODE,
     GOPPA_32_16_CODE,
     GOPPA_64_32_CODE,
+    GOPPA_64_32_DEG5_CODE,
 )
 from wavelet import WaveletCode
 
@@ -187,6 +188,9 @@ def build_code_from_config(
             puncture_coordinates=(
                 code_config.bch_puncture_coordinates
             ),
+            extended=(
+                getattr(code_config, "bch_extend_parity", False)
+            ),
             name=code_config.name,
         )
 
@@ -241,7 +245,12 @@ def build_code_from_config(
         elif code_config.n == 32 and code_config.k == 16:
             code = GOPPA_32_16_CODE
         elif code_config.n == 64 and code_config.k == 32:
-            code = GOPPA_64_32_CODE
+            # degree=5 — замороженный «честный t=5» пресет (d_min=11),
+            # degree=4 — исторический пресет (d_min=9).
+            if code_config.goppa_degree == 5:
+                code = GOPPA_64_32_DEG5_CODE
+            else:
+                code = GOPPA_64_32_CODE
         else:
             raise ValueError(
                 f"Для Goppa-derived нет пресета для ({code_config.n}, {code_config.k}). "

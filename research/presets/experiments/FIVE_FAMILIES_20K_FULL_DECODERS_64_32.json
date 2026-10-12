@@ -70,9 +70,9 @@
         "minimum_distance_upper_bound": 14,
         "distance_evidence": "Syndrome certificate (subsets <=5) proves 11 <= d_min <= 14 for the optimized Wavelet [64,32] construction (h len 16, shift 5, searched by research/optimization/optimize_wavelet_64_32.py seed 11)",
         "verified_error_correction_radius": 5,
-        "syndrome_max_error_weight": 3,
-        "chase_inner_decoder_max_error_weight": 3,
-        "chase_unreliable_positions_count": 8
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
       },
       {
         "name": "bch_derived_64_32_four_family",
@@ -109,9 +109,9 @@
         "minimum_distance_upper_bound": 10,
         "distance_evidence": "Verified binary distance interval 9 <= d_min <= 10 for the fixed BCH-derived [64,32] construction",
         "verified_error_correction_radius": 3,
-        "syndrome_max_error_weight": 3,
-        "chase_inner_decoder_max_error_weight": 3,
-        "chase_unreliable_positions_count": 8
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
       },
       {
         "name": "goppa_derived_64_32_four_family",
@@ -148,9 +148,9 @@
         "minimum_distance_upper_bound": 9,
         "distance_evidence": "Exact binary d_min=9 verified for the fixed Goppa-derived [64,32] construction",
         "verified_error_correction_radius": 3,
-        "syndrome_max_error_weight": 3,
-        "chase_inner_decoder_max_error_weight": 3,
-        "chase_unreliable_positions_count": 8
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
       },
       {
         "name": "reed_solomon_binary_64_32_four_family",
@@ -221,9 +221,9 @@
         "minimum_distance_upper_bound": 10,
         "distance_evidence": "Exact binary d_min=10 verified for the fixed GRS binary [64,32] construction",
         "verified_error_correction_radius": 3,
-        "syndrome_max_error_weight": 3,
-        "chase_inner_decoder_max_error_weight": 3,
-        "chase_unreliable_positions_count": 8
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
       },
       {
         "name": "ldpc_64_32_five_family",
@@ -260,15 +260,15 @@
         "minimum_distance_upper_bound": null,
         "distance_evidence": "d_min >= 9 via syndrome certificate: all subsets of <= 4 columns of the frozen H have nonzero pairwise distinct syndromes (row weights 4-8, column weights 3-4, density 0.107)",
         "verified_error_correction_radius": 3,
-        "syndrome_max_error_weight": 3,
-        "chase_inner_decoder_max_error_weight": 3,
-        "chase_unreliable_positions_count": 8
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
       }
     ],
     "decoders": {
-      "syndrome_max_error_weight": 3,
-      "chase_unreliable_positions_count": 8,
-      "chase_inner_decoder_max_error_weight": 3,
+      "syndrome_max_error_weight": 4,
+      "chase_unreliable_positions_count": 5,
+      "chase_inner_decoder_max_error_weight": 4,
       "run_syndrome": true,
       "run_hard_mld": true,
       "run_soft_mld": true,

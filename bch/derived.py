@@ -484,7 +484,8 @@ class BCHDerivedCode:
 
         1. приведением G к систематическому виду;
         2. укорочением информационных координат;
-        3. выкалыванием проверочных координат.
+        3. выкалыванием проверочных координат;
+        4. опционально — расширением чётностью (extended=True).
 
     Конечная G остаётся систематической:
 
@@ -521,6 +522,7 @@ class BCHDerivedCode:
         ...,
     ]
 
+    extended: bool = False
     name: str = "BCH-derived code"
 
     def __post_init__(self) -> None:
@@ -545,10 +547,12 @@ class BCHDerivedCode:
             - self.shortening_count
         )
 
+        # expected_n учитывает extended=True (+1 бит чётности)
         expected_n = (
             self.parent_code.n
             - self.shortening_count
             - self.puncture_count
+            + (1 if self.extended else 0)
         )
 
         if self.k != expected_k:
@@ -575,9 +579,14 @@ class BCHDerivedCode:
             + self.remaining_parent_coordinates
         )
 
-        if tuple(
-            sorted(all_parent_coordinates)
-        ) != tuple(
+        # При расширении чётностью добавляется координата -1 (parity),
+        # которая не принадлежит родительскому коду. Исключаем её
+        # при проверке полноты покрытия.
+        real_coords = tuple(
+            c for c in all_parent_coordinates if c >= 0
+        )
+
+        if tuple(sorted(real_coords)) != tuple(
             range(self.parent_code.n)
         ):
             raise ValueError(
@@ -596,6 +605,7 @@ class BCHDerivedCode:
         name: str | None = None,
         shortening_coordinates: tuple[int, ...] | None = None,
         puncture_coordinates: tuple[int, ...] | None = None,
+        extended: bool = False,
     ) -> "BCHDerivedCode":
         """
         Строит BCH-производный код из примитивного BCH-кода.
@@ -608,6 +618,9 @@ class BCHDerivedCode:
         Если puncture_coordinates не заданы, выкалываются
         последние puncture_count позиций. Если заданы, выкалываются
         указанные позиции (после укорочения).
+
+        Если extended=True, добавляется бит общей чётности (расширение кода).
+        Это увеличивает длину кода на 1 и, если d нечётное, повышает d на 1.
         """
         parent_code = BCHCode.primitive(
             m=m,
@@ -673,7 +686,17 @@ class BCHDerivedCode:
 
         shortened_n = shortened_generator.shape[1]
 
-        # Определяем выкалываемые координаты (после укорочения).
+        # Расширение чётностью (если нужно).
+        if extended:
+            # Добавляем бит общей чётности: последний столбец = сумма всех столбцов
+            parity_col = shortened_generator.sum(axis=1) % 2
+            shortened_generator = np.hstack([
+                shortened_generator,
+                parity_col.reshape(-1, 1).astype(np.uint8)
+            ])
+            shortened_n = shortened_generator.shape[1]
+
+        # Определяем выкалываемые координаты (после укорочения и расширения).
         if puncture_coordinates is None:
             system_puncturing = tuple(
                 range(shortened_n - puncture_count, shortened_n)
@@ -740,11 +763,19 @@ class BCHDerivedCode:
                 if i not in system_puncturing
             )
 
+        # Расширение чётностью добавляет 1 координату, не имеющую
+        # соответствия в родительском коде. Помечаем её как -1.
+        if extended:
+            remaining_parent_coordinates = (
+                remaining_parent_coordinates + (-1,)
+            )
+
         # Укорочение не уменьшает минимальное расстояние.
         # Каждое выкалывание может уменьшить его максимум на 1.
+        # Расширение чётности: если d нечётное, d увеличивается на 1.
         minimum_distance_lower_bound = max(
             1,
-            designed_distance - puncture_count,
+            designed_distance - puncture_count + (1 if extended and designed_distance % 2 == 1 else 0),
         )
 
         resolved_name = name
@@ -764,6 +795,7 @@ class BCHDerivedCode:
             parity_check_matrix=parity_check_matrix,
             shortening_count=shortening_count,
             puncture_count=puncture_count,
+            extended=extended,
             minimum_distance_lower_bound=(
                 minimum_distance_lower_bound
             ),

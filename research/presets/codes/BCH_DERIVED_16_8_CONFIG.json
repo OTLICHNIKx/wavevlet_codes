@@ -50,6 +50,6 @@
     "verified_error_correction_radius": 2,
     "syndrome_max_error_weight": 2,
     "chase_inner_decoder_max_error_weight": 2,
-    "chase_unreliable_positions_count": 4
+    "chase_unreliable_positions_count": 3
   }
 }

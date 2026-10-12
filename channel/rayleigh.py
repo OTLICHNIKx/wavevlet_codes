@@ -55,3 +55,41 @@ def rayleigh_channel(symbols, noise, *, seed: int = 0):
 
 def rayleigh_awgn_channel(symbols, noise, *, seed: int = 0):
     return rayleigh_fading_channel(symbols, noise, blockwise=False, seed=seed)
+
+
+def rayleigh_fading_channel_with_gain(
+    symbols: np.ndarray,
+    noise: np.ndarray,
+    *,
+    blockwise: bool = True,
+    seed: int = 0,
+) -> tuple[np.ndarray, np.ndarray]:
+    """То же, что ``rayleigh_fading_channel``, но возвращает и коэффициент h.
+
+    Нужен приёмнику для корректного LLR: при r = h*x + n и известном h
+    правдоподобие пропорционально 2*h*r/sigma^2, а не 2*r/sigma^2.
+    Формула AWGN теряет информацию о замирании и считает символ в
+    глубоком провале столь же надёжным, как в хорошем канале.
+    """
+    symbols = np.asarray(symbols, dtype=float)
+    noise = np.asarray(noise, dtype=float)
+    if symbols.shape != noise.shape:
+        raise ValueError("symbols и noise должны иметь одинаковую форму")
+    rng = np.random.default_rng(seed)
+    if blockwise:
+        h = _unit_power_rayleigh(rng, (symbols.shape[0], 1))
+    else:
+        h = _unit_power_rayleigh(rng, symbols.shape)
+    return h * symbols + noise, h
+
+
+def rayleigh_channel_with_gain(symbols, noise, *, seed: int = 0):
+    return rayleigh_fading_channel_with_gain(
+        symbols, noise, blockwise=True, seed=seed
+    )
+
+
+def rayleigh_awgn_channel_with_gain(symbols, noise, *, seed: int = 0):
+    return rayleigh_fading_channel_with_gain(
+        symbols, noise, blockwise=False, seed=seed
+    )

@@ -213,4 +213,46 @@ def sinusoidal_channel(
 __all__ = [
     "realized_sinusoidal_parameters",
     "sinusoidal_channel",
+    "sinusoidal_channel_with_gain",
 ]
+
+
+def sinusoidal_channel_with_gain(
+    symbols: np.ndarray,
+    noise: np.ndarray | None = None,
+    *,
+    mode: str = "fixed",
+    seed: int = 0,
+    amplitude: float = 0.5,
+    frequency: float = 0.125,
+    phase: float = 0.0,
+    num_interferers: int = 3,
+    amplitude_distribution: str = "uniform",
+    amplitude_range: tuple[float, float] = (0.1, 0.5),
+    amplitude_mu: float = 0.3,
+    amplitude_sigma: float = 0.1,
+    frequency_range: tuple[float, float] = (0.01, 0.5),
+    drift: bool = True,
+    drift_amplitude_step: float = 0.002,
+    drift_frequency_step: float = 0.00015,
+    drift_phase_step: float = 0.004,
+    snr_db: float | None = None,
+    gaussian_noise_std: float | None = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Синусоидальный канал, возвращающий (received, gain), где gain=1 (нет замирания).
+
+    Синусоидальная помеха — детерминированное/случайное отклонение, не мультипликативное
+    замирание. Для LLR выгоды нет, gain=1 оставлен для единообразия API.
+    """
+    received = sinusoidal_channel(
+        symbols, noise, mode=mode, seed=seed, amplitude=amplitude,
+        frequency=frequency, phase=phase, num_interferers=num_interferers,
+        amplitude_distribution=amplitude_distribution, amplitude_range=amplitude_range,
+        amplitude_mu=amplitude_mu, amplitude_sigma=amplitude_sigma,
+        frequency_range=frequency_range, drift=drift,
+        drift_amplitude_step=drift_amplitude_step,
+        drift_frequency_step=drift_frequency_step,
+        drift_phase_step=drift_phase_step, snr_db=snr_db,
+        gaussian_noise_std=gaussian_noise_std,
+    )
+    return received, np.ones_like(symbols, dtype=float)

@@ -1,0 +1,26 @@
+{
+  "d": 7,
+  "A_d": 59,
+  "column_multipliers": [
+    1,
+    2,
+    9,
+    15,
+    4,
+    1,
+    15,
+    9
+  ],
+  "evaluation_points": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "evaluations": 196435,
+  "chains": 1
+}

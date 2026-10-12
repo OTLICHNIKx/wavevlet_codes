@@ -34,9 +34,9 @@
     "minimum_distance_lower_bound": 9,
     "minimum_distance_upper_bound": null,
     "distance_evidence": "Goppa-derived from GF(2^6) with deg(g)=4",
-    "verified_error_correction_radius": null,
-    "syndrome_max_error_weight": 3,
-    "chase_inner_decoder_max_error_weight": 3,
-    "chase_unreliable_positions_count": 8
+    "verified_error_correction_radius": 4,
+    "syndrome_max_error_weight": 4,
+    "chase_inner_decoder_max_error_weight": 4,
+    "chase_unreliable_positions_count": 5
   }
 }

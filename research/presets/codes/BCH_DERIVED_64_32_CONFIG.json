@@ -35,8 +35,8 @@
     "minimum_distance_upper_bound": null,
     "distance_evidence": "BCH-derived [127,92,d>=11] -> shorten 60 -> [67,32] -> puncture 3 -> [64,32]; d_min >= 8 via construction, verified >= 9 via syndrome table (no collisions weight <= 4)",
     "verified_error_correction_radius": 4,
-    "syndrome_max_error_weight": 3,
-    "chase_inner_decoder_max_error_weight": 3,
-    "chase_unreliable_positions_count": 6
+    "syndrome_max_error_weight": 4,
+    "chase_inner_decoder_max_error_weight": 4,
+    "chase_unreliable_positions_count": 5
   }
 }
