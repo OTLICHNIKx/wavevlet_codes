@@ -1,0 +1,87 @@
+{
+  "started_utc": "2026-10-02T22:51:02+00:00",
+  "codes": {
+    "wavelet_64_32_fair": {
+      "n": 64,
+      "k": 32,
+      "family": "wavelet",
+      "minimum_distance_exact": 12,
+      "syndrome_max_error_weight": 5,
+      "chase_inner_decoder_max_error_weight": 5,
+      "chase_unreliable_positions_count": 6
+    },
+    "bch_derived_64_32_fair": {
+      "n": 64,
+      "k": 32,
+      "family": "bch_derived",
+      "minimum_distance_exact": 9,
+      "syndrome_max_error_weight": 4,
+      "chase_inner_decoder_max_error_weight": 4,
+      "chase_unreliable_positions_count": 5
+    },
+    "goppa_derived_64_32_deg5_fair": {
+      "n": 64,
+      "k": 32,
+      "family": "goppa_derived",
+      "minimum_distance_exact": 11,
+      "syndrome_max_error_weight": 5,
+      "chase_inner_decoder_max_error_weight": 5,
+      "chase_unreliable_positions_count": 6
+    },
+    "reed_solomon_binary_64_32_fair": {
+      "n": 64,
+      "k": 32,
+      "family": "reed_solomon_binary",
+      "minimum_distance_exact": 10,
+      "syndrome_max_error_weight": 4,
+      "chase_inner_decoder_max_error_weight": 4,
+      "chase_unreliable_positions_count": 5
+    },
+    "ldpc_64_32_fair": {
+      "n": 64,
+      "k": 32,
+      "family": "ldpc",
+      "minimum_distance_exact": 9,
+      "syndrome_max_error_weight": 4,
+      "chase_inner_decoder_max_error_weight": 4,
+      "chase_unreliable_positions_count": 5
+    }
+  },
+  "mode": "full (fair t)",
+  "num_seeds": 50,
+  "words_per_seed": 1000,
+  "ebn0_db_values": [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5,
+    4.0,
+    4.5,
+    5.0,
+    6.0,
+    7.0,
+    8.0,
+    9.0,
+    10.0,
+    11.0,
+    12.0
+  ],
+  "channels": [
+    "rayleigh",
+    "rayleigh_awgn",
+    "sinusoidal"
+  ],
+  "decoders": [
+    "syndrome",
+    "chase",
+    "hard_mld",
+    "soft_mld"
+  ],
+  "note_capacity": "wavelet/goppa t=5 p=6 (d=12/11), rs/bch/ldpc t=4 p=5 (d=10/9/9) — честный полный t по своему d_min",
+  "note_mld": "hard/soft MLD для всех (64,32) skipped: k=32 > max_k_for_mld=16",
+  "seed_scheme": "message_seed=seed, noise_seed=10000+seed, seed 0..N-1"
+}

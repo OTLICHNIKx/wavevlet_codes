@@ -1,0 +1,4349 @@
+{
+  "created_utc": "2026-10-12T23:47:52+00:00",
+  "environment": {
+    "python": "3.12.10",
+    "numpy": "2.5.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_commit": "ae79378c894f76e64af3df4b1815ccfff2e23ceb",
+    "git_branch": "feat/optimize_code",
+    "git_status_short": "?? make_v1_manifest.py\n?? research_results/legacy_100k/\n?? research_results/legacy_mc/"
+  },
+  "legacy_dirs": {
+    "legacy_100k": [
+      {
+        "path": "research_results\\legacy_100k\\rayleigh\\16_8_100k\\summary.csv",
+        "size_bytes": 100550,
+        "sha256": "25448b3edf3a90af966fef773b7571f12a717188d5f8a74ee4c48cd2b80a6542"
+      },
+      {
+        "path": "research_results\\legacy_100k\\rayleigh\\32_16_100k\\summary.csv",
+        "size_bytes": 121872,
+        "sha256": "65172837492ee68d5f0807d5e011bc33522e51461224fe532e928916f591b68c"
+      },
+      {
+        "path": "research_results\\legacy_100k\\rayleigh\\64_32_100k\\summary.csv",
+        "size_bytes": 152464,
+        "sha256": "9d8296ccdb0df569eef9e1cf503d29b5032d674ca0f7f36df63d4c659c2c976f"
+      },
+      {
+        "path": "research_results\\legacy_100k\\rayleigh\\64_32_100k_t4_backup\\summary.csv",
+        "size_bytes": 99960,
+        "sha256": "fdcc9313ebd3f74a21d158de2b41a0c51fc26612aa2ee3929c3274e3a168880b"
+      },
+      {
+        "path": "research_results\\legacy_100k\\rayleigh_awgn\\16_8_100k\\summary.csv",
+        "size_bytes": 100377,
+        "sha256": "736c82d37bf1f73d28ea8aa546454316fee516b43a48f66d958d6f63c4a3f678"
+      },
+      {
+        "path": "research_results\\legacy_100k\\rayleigh_awgn\\32_16_100k\\summary.csv",
+        "size_bytes": 121685,
+        "sha256": "5b3c46eea2a29af79676db59dfc0181b83774de8b4be2f7ae50053313dffed15"
+      },
+      {
+        "path": "research_results\\legacy_100k\\rayleigh_awgn\\64_32_100k\\summary.csv",
+        "size_bytes": 151428,
+        "sha256": "b6d25a521e114bd2f758e581966c3433370fb84eb1af3d023892237adc39e660"
+      },
+      {
+        "path": "research_results\\legacy_100k\\rayleigh_awgn\\64_32_100k_t4_backup\\summary.csv",
+        "size_bytes": 99507,
+        "sha256": "591ccce49bbd75885432b5e53389b396b2745a20a65027dc71c04d53990ba46d"
+      },
+      {
+        "path": "research_results\\legacy_100k\\sinusoidal\\16_8_100k\\summary.csv",
+        "size_bytes": 100193,
+        "sha256": "fb0b36cfff8efb1de5487522854888432fabb0eeb81516396d4807d52e9e5ce0"
+      },
+      {
+        "path": "research_results\\legacy_100k\\sinusoidal\\32_16_100k\\summary.csv",
+        "size_bytes": 121910,
+        "sha256": "7521d7a713cc59bc78d3413f909878bcf34c71ec2c2f20f19e1f80c7b0ec61ef"
+      },
+      {
+        "path": "research_results\\legacy_100k\\sinusoidal\\64_32_100k\\summary.csv",
+        "size_bytes": 152330,
+        "sha256": "61e1eafd42a9d20aea70000fd35a13a5d181bf59fd1c30d168a0eb6deb549d82"
+      },
+      {
+        "path": "research_results\\legacy_100k\\sinusoidal\\64_32_100k_t4_backup\\summary.csv",
+        "size_bytes": 99737,
+        "sha256": "b7ef51d93df75a71555efd743607034508fb45ab9d5f90da067dfc2109c9a110"
+      }
+    ],
+    "legacy_mc/mc_full_50seeds": [
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\_scratch\\summary.csv",
+        "size_bytes": 190657,
+        "sha256": "c5a53d91923d9f18a2216b134516de7415ddbf0fdd598dc6735a429feb1d3a8c"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\experiment_config.json",
+        "size_bytes": 4965,
+        "sha256": "cd2121dda7185f9c0e7c546e835a905c55d1788702da342e458f6c4446eb4910"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\experiment_log.txt",
+        "size_bytes": 15717,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 44409,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 39877,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 43362,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 41101,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_chase_ber.png",
+        "size_bytes": 40087,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_hard_mld_ber.png",
+        "size_bytes": 40799,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_soft_mld_ber.png",
+        "size_bytes": 41451,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_rayleigh_syndrome_ber.png",
+        "size_bytes": 43529,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_sinusoidal_chase_ber.png",
+        "size_bytes": 41689,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 46068,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 42284,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_16_8_sinusoidal_syndrome_ber.png",
+        "size_bytes": 44770,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 44665,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 37933,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 37806,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 37751,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_chase_ber.png",
+        "size_bytes": 39379,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_hard_mld_ber.png",
+        "size_bytes": 40352,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_soft_mld_ber.png",
+        "size_bytes": 41928,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_rayleigh_syndrome_ber.png",
+        "size_bytes": 42584,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_sinusoidal_chase_ber.png",
+        "size_bytes": 49514,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 46646,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 43543,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_32_16_sinusoidal_syndrome_ber.png",
+        "size_bytes": 44980,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_64_32_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 36835,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_64_32_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 37909,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_64_32_rayleigh_chase_ber.png",
+        "size_bytes": 39063,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_64_32_rayleigh_syndrome_ber.png",
+        "size_bytes": 42828,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_64_32_sinusoidal_chase_ber.png",
+        "size_bytes": 42675,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\bch_derived_64_32_sinusoidal_syndrome_ber.png",
+        "size_bytes": 44287,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 44718,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 40361,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 44011,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 41198,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_chase_ber.png",
+        "size_bytes": 40756,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_hard_mld_ber.png",
+        "size_bytes": 39863,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_soft_mld_ber.png",
+        "size_bytes": 40800,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_rayleigh_syndrome_ber.png",
+        "size_bytes": 40533,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_sinusoidal_chase_ber.png",
+        "size_bytes": 41784,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 47320,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 41430,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_16_8_sinusoidal_syndrome_ber.png",
+        "size_bytes": 46947,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 45089,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 38450,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 37602,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 37510,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_chase_ber.png",
+        "size_bytes": 41680,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_hard_mld_ber.png",
+        "size_bytes": 40522,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_soft_mld_ber.png",
+        "size_bytes": 41394,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_rayleigh_syndrome_ber.png",
+        "size_bytes": 42799,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_sinusoidal_chase_ber.png",
+        "size_bytes": 47963,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 46799,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 42913,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_32_16_sinusoidal_syndrome_ber.png",
+        "size_bytes": 45540,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_64_32_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 37216,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_64_32_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 38634,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_64_32_rayleigh_chase_ber.png",
+        "size_bytes": 40837,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_64_32_rayleigh_syndrome_ber.png",
+        "size_bytes": 43255,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_64_32_sinusoidal_chase_ber.png",
+        "size_bytes": 41775,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\goppa_derived_64_32_sinusoidal_syndrome_ber.png",
+        "size_bytes": 45207,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 43751,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 40155,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 43646,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 40170,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_chase_ber.png",
+        "size_bytes": 39739,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_hard_mld_ber.png",
+        "size_bytes": 39557,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_soft_mld_ber.png",
+        "size_bytes": 41099,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_rayleigh_syndrome_ber.png",
+        "size_bytes": 41872,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_sinusoidal_chase_ber.png",
+        "size_bytes": 40680,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 45105,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 41654,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_16_8_sinusoidal_syndrome_ber.png",
+        "size_bytes": 44747,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 44454,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 38171,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 37585,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 38478,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_chase_ber.png",
+        "size_bytes": 40451,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_hard_mld_ber.png",
+        "size_bytes": 39047,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_soft_mld_ber.png",
+        "size_bytes": 39882,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_rayleigh_syndrome_ber.png",
+        "size_bytes": 40908,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_sinusoidal_chase_ber.png",
+        "size_bytes": 48545,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 45010,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 42846,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_32_16_sinusoidal_syndrome_ber.png",
+        "size_bytes": 43246,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_64_32_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 35921,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_64_32_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 38062,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_64_32_rayleigh_chase_ber.png",
+        "size_bytes": 38486,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_64_32_rayleigh_syndrome_ber.png",
+        "size_bytes": 40807,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_64_32_sinusoidal_chase_ber.png",
+        "size_bytes": 40930,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\ldpc_64_32_sinusoidal_syndrome_ber.png",
+        "size_bytes": 43559,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_ambiguous_rate.png",
+        "size_bytes": 58956,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 49509,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 69177,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 48804,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_awgn_ber.png",
+        "size_bytes": 73537,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 98744,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 47213,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 90190,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 93938,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_ber.png",
+        "size_bytes": 83102,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 99540,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_failure_rate.png",
+        "size_bytes": 42686,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_frame_error_rate.png",
+        "size_bytes": 96016,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_rayleigh_miscorrection_rate.png",
+        "size_bytes": 91946,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 68759,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 48782,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_sinusoidal_ber.png",
+        "size_bytes": 86503,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 110401,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_sinusoidal_failure_rate.png",
+        "size_bytes": 51281,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_sinusoidal_frame_error_rate.png",
+        "size_bytes": 104638,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_16_8_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 106106,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_ambiguous_rate.png",
+        "size_bytes": 53544,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 44960,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 62123,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 45615,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_awgn_ber.png",
+        "size_bytes": 68728,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 91350,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 43878,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 74684,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 82411,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_ber.png",
+        "size_bytes": 79854,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 89577,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_failure_rate.png",
+        "size_bytes": 41968,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_frame_error_rate.png",
+        "size_bytes": 97555,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_rayleigh_miscorrection_rate.png",
+        "size_bytes": 80667,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 65841,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 44374,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_sinusoidal_ber.png",
+        "size_bytes": 81934,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 109271,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_sinusoidal_failure_rate.png",
+        "size_bytes": 44550,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_sinusoidal_frame_error_rate.png",
+        "size_bytes": 89045,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_32_16_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 94768,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_ambiguous_rate.png",
+        "size_bytes": 30728,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 39368,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 31262,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 39405,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_awgn_ber.png",
+        "size_bytes": 45954,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 60308,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 48664,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 50638,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 46064,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_ber.png",
+        "size_bytes": 56823,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 52084,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_failure_rate.png",
+        "size_bytes": 59574,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_frame_error_rate.png",
+        "size_bytes": 61462,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_rayleigh_miscorrection_rate.png",
+        "size_bytes": 46881,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 30573,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 40974,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_sinusoidal_ber.png",
+        "size_bytes": 58142,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 49256,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_sinusoidal_failure_rate.png",
+        "size_bytes": 60943,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_sinusoidal_frame_error_rate.png",
+        "size_bytes": 62964,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_bch_derived_64_32_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 42999,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_ambiguous_rate.png",
+        "size_bytes": 73128,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 49443,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 63611,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 49917,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_awgn_ber.png",
+        "size_bytes": 74399,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 100484,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 47866,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 91445,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 92455,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_ber.png",
+        "size_bytes": 83674,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 98714,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_failure_rate.png",
+        "size_bytes": 45311,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_frame_error_rate.png",
+        "size_bytes": 96967,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_rayleigh_miscorrection_rate.png",
+        "size_bytes": 91979,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 61275,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 49385,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_sinusoidal_ber.png",
+        "size_bytes": 87283,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 111545,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_sinusoidal_failure_rate.png",
+        "size_bytes": 52128,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_sinusoidal_frame_error_rate.png",
+        "size_bytes": 104791,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_16_8_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 105728,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_ambiguous_rate.png",
+        "size_bytes": 77691,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 44584,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 63754,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 45235,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_awgn_ber.png",
+        "size_bytes": 69591,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 93111,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 43589,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 75641,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 82464,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_ber.png",
+        "size_bytes": 79727,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 90975,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_failure_rate.png",
+        "size_bytes": 42080,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_frame_error_rate.png",
+        "size_bytes": 96757,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_rayleigh_miscorrection_rate.png",
+        "size_bytes": 80013,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 65044,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 45003,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_sinusoidal_ber.png",
+        "size_bytes": 82573,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 100878,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_sinusoidal_failure_rate.png",
+        "size_bytes": 44617,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_sinusoidal_frame_error_rate.png",
+        "size_bytes": 89927,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_32_16_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 89865,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_ambiguous_rate.png",
+        "size_bytes": 52121,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 39699,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 31240,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 39543,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_awgn_ber.png",
+        "size_bytes": 46749,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 68860,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 48749,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 48914,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 45986,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_ber.png",
+        "size_bytes": 56746,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 61304,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_failure_rate.png",
+        "size_bytes": 59500,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_frame_error_rate.png",
+        "size_bytes": 61340,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_rayleigh_miscorrection_rate.png",
+        "size_bytes": 54942,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 30615,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 40864,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_sinusoidal_ber.png",
+        "size_bytes": 57324,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 71246,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_sinusoidal_failure_rate.png",
+        "size_bytes": 59960,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_sinusoidal_frame_error_rate.png",
+        "size_bytes": 62667,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_goppa_derived_64_32_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 47250,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_ambiguous_rate.png",
+        "size_bytes": 76406,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 49322,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 61754,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 49005,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_awgn_ber.png",
+        "size_bytes": 73359,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 97785,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 47314,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 89969,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 93727,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_ber.png",
+        "size_bytes": 83628,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 97045,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_failure_rate.png",
+        "size_bytes": 42300,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_frame_error_rate.png",
+        "size_bytes": 95627,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_rayleigh_miscorrection_rate.png",
+        "size_bytes": 91217,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 72955,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 47995,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_sinusoidal_ber.png",
+        "size_bytes": 84188,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 110226,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_sinusoidal_failure_rate.png",
+        "size_bytes": 46780,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_sinusoidal_frame_error_rate.png",
+        "size_bytes": 104977,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_16_8_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 105476,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_ambiguous_rate.png",
+        "size_bytes": 53212,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 44225,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 53424,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 44450,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_awgn_ber.png",
+        "size_bytes": 69603,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 89485,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 43058,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 72580,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 81316,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_ber.png",
+        "size_bytes": 78382,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 90252,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_failure_rate.png",
+        "size_bytes": 41525,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_frame_error_rate.png",
+        "size_bytes": 97176,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_rayleigh_miscorrection_rate.png",
+        "size_bytes": 80597,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 61678,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 43204,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_sinusoidal_ber.png",
+        "size_bytes": 81790,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 108028,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_sinusoidal_failure_rate.png",
+        "size_bytes": 43851,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_sinusoidal_frame_error_rate.png",
+        "size_bytes": 90069,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_32_16_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 92277,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_ambiguous_rate.png",
+        "size_bytes": 30276,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 39233,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 30802,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 38894,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_awgn_ber.png",
+        "size_bytes": 46232,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 70071,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 48939,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 48951,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 50897,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_ber.png",
+        "size_bytes": 56139,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 60770,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_failure_rate.png",
+        "size_bytes": 58602,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_frame_error_rate.png",
+        "size_bytes": 60539,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_rayleigh_miscorrection_rate.png",
+        "size_bytes": 47953,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 30089,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 40818,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_sinusoidal_ber.png",
+        "size_bytes": 57641,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 66841,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_sinusoidal_failure_rate.png",
+        "size_bytes": 60602,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_sinusoidal_frame_error_rate.png",
+        "size_bytes": 62097,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_ldpc_64_32_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 59124,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_ambiguous_rate.png",
+        "size_bytes": 67135,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 49419,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 60537,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 49983,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_awgn_ber.png",
+        "size_bytes": 74528,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 101910,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 54064,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 91864,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 96298,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_ber.png",
+        "size_bytes": 85655,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 99500,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_failure_rate.png",
+        "size_bytes": 44348,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_frame_error_rate.png",
+        "size_bytes": 98713,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_rayleigh_miscorrection_rate.png",
+        "size_bytes": 93998,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 64021,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 49583,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_sinusoidal_ber.png",
+        "size_bytes": 87549,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 111878,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_sinusoidal_failure_rate.png",
+        "size_bytes": 47863,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_sinusoidal_frame_error_rate.png",
+        "size_bytes": 104935,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_16_8_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 105849,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_ambiguous_rate.png",
+        "size_bytes": 49748,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 45231,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 69855,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 45685,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_awgn_ber.png",
+        "size_bytes": 70766,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 94645,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 43823,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 76176,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 84245,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_ber.png",
+        "size_bytes": 79669,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 92013,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_failure_rate.png",
+        "size_bytes": 42527,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_frame_error_rate.png",
+        "size_bytes": 98742,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_rayleigh_miscorrection_rate.png",
+        "size_bytes": 80800,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 74511,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 44875,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_sinusoidal_ber.png",
+        "size_bytes": 82651,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 104189,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_sinusoidal_failure_rate.png",
+        "size_bytes": 44753,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_sinusoidal_frame_error_rate.png",
+        "size_bytes": 91071,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_32_16_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 91856,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_ambiguous_rate.png",
+        "size_bytes": 30776,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 40158,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 31242,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 40237,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_awgn_ber.png",
+        "size_bytes": 47661,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 73512,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 50162,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 51368,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 48528,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_ber.png",
+        "size_bytes": 56952,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 52139,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_failure_rate.png",
+        "size_bytes": 59586,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_frame_error_rate.png",
+        "size_bytes": 62174,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_rayleigh_miscorrection_rate.png",
+        "size_bytes": 47124,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 30747,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 41626,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_sinusoidal_ber.png",
+        "size_bytes": 59154,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 51497,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_sinusoidal_failure_rate.png",
+        "size_bytes": 61546,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_sinusoidal_frame_error_rate.png",
+        "size_bytes": 62418,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_reed_solomon_binary_64_32_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 43003,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_ambiguous_rate.png",
+        "size_bytes": 59666,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 49521,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 74468,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 45817,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_awgn_ber.png",
+        "size_bytes": 72881,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 97214,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 47524,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 89896,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 93979,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_ber.png",
+        "size_bytes": 83681,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 97018,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_failure_rate.png",
+        "size_bytes": 43181,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_frame_error_rate.png",
+        "size_bytes": 96843,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_rayleigh_miscorrection_rate.png",
+        "size_bytes": 91864,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 73812,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 49893,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_sinusoidal_ber.png",
+        "size_bytes": 86168,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 108788,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_sinusoidal_failure_rate.png",
+        "size_bytes": 50271,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_sinusoidal_frame_error_rate.png",
+        "size_bytes": 103792,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_16_8_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 104254,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_ambiguous_rate.png",
+        "size_bytes": 66993,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 45485,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 61114,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 45165,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_awgn_ber.png",
+        "size_bytes": 69287,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 93798,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 42829,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 75468,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 83569,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_ber.png",
+        "size_bytes": 80047,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 89464,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_failure_rate.png",
+        "size_bytes": 41762,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_frame_error_rate.png",
+        "size_bytes": 97687,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_rayleigh_miscorrection_rate.png",
+        "size_bytes": 78999,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 71365,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 44853,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_sinusoidal_ber.png",
+        "size_bytes": 83022,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 99797,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_sinusoidal_failure_rate.png",
+        "size_bytes": 44350,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_sinusoidal_frame_error_rate.png",
+        "size_bytes": 90651,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_32_16_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 91381,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_ambiguous_rate.png",
+        "size_bytes": 30581,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 39918,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 30780,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 38980,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_awgn_ber.png",
+        "size_bytes": 45974,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 54440,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 48021,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 48179,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 42523,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_ber.png",
+        "size_bytes": 54906,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 49622,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_failure_rate.png",
+        "size_bytes": 57396,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_frame_error_rate.png",
+        "size_bytes": 60112,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_rayleigh_miscorrection_rate.png",
+        "size_bytes": 43215,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 30619,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 40819,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_sinusoidal_ber.png",
+        "size_bytes": 58048,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 53225,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_sinusoidal_failure_rate.png",
+        "size_bytes": 61233,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_sinusoidal_frame_error_rate.png",
+        "size_bytes": 63012,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\mc_wavelet_64_32_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 42406,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 45380,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 39660,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 39182,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 40646,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_chase_ber.png",
+        "size_bytes": 41752,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_hard_mld_ber.png",
+        "size_bytes": 40739,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_soft_mld_ber.png",
+        "size_bytes": 42355,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_rayleigh_syndrome_ber.png",
+        "size_bytes": 42787,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_sinusoidal_chase_ber.png",
+        "size_bytes": 41578,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 46262,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 42430,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_16_8_sinusoidal_syndrome_ber.png",
+        "size_bytes": 45898,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 45115,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 39048,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 38069,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 37700,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_chase_ber.png",
+        "size_bytes": 41531,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_hard_mld_ber.png",
+        "size_bytes": 41214,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_soft_mld_ber.png",
+        "size_bytes": 41091,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_rayleigh_syndrome_ber.png",
+        "size_bytes": 42816,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_sinusoidal_chase_ber.png",
+        "size_bytes": 49630,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 47466,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 43398,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_32_16_sinusoidal_syndrome_ber.png",
+        "size_bytes": 44462,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_64_32_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 37807,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_64_32_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 39239,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_64_32_rayleigh_chase_ber.png",
+        "size_bytes": 39578,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_64_32_rayleigh_syndrome_ber.png",
+        "size_bytes": 44017,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_64_32_sinusoidal_chase_ber.png",
+        "size_bytes": 43272,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\reed_solomon_binary_64_32_sinusoidal_syndrome_ber.png",
+        "size_bytes": 45054,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 43030,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 39324,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 43028,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 39980,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_chase_ber.png",
+        "size_bytes": 41339,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_hard_mld_ber.png",
+        "size_bytes": 40322,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_soft_mld_ber.png",
+        "size_bytes": 41859,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_rayleigh_syndrome_ber.png",
+        "size_bytes": 42096,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_sinusoidal_chase_ber.png",
+        "size_bytes": 41971,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 46118,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 41798,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_16_8_sinusoidal_syndrome_ber.png",
+        "size_bytes": 45091,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 44147,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_awgn_hard_mld_ber.png",
+        "size_bytes": 38483,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_awgn_soft_mld_ber.png",
+        "size_bytes": 37038,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 37995,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_chase_ber.png",
+        "size_bytes": 41001,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_hard_mld_ber.png",
+        "size_bytes": 40162,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_soft_mld_ber.png",
+        "size_bytes": 40882,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_rayleigh_syndrome_ber.png",
+        "size_bytes": 42051,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_sinusoidal_chase_ber.png",
+        "size_bytes": 48676,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_sinusoidal_hard_mld_ber.png",
+        "size_bytes": 46801,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_sinusoidal_soft_mld_ber.png",
+        "size_bytes": 43312,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_32_16_sinusoidal_syndrome_ber.png",
+        "size_bytes": 45441,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_64_32_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 35893,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_64_32_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 35564,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_64_32_rayleigh_chase_ber.png",
+        "size_bytes": 38848,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_64_32_rayleigh_syndrome_ber.png",
+        "size_bytes": 41320,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_64_32_sinusoidal_chase_ber.png",
+        "size_bytes": 42984,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\plots\\wavelet_64_32_sinusoidal_syndrome_ber.png",
+        "size_bytes": 44772,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\wavelet_channel_decoder_statistics.csv",
+        "size_bytes": 105963,
+        "sha256": "f8c5ea30b2efa4b543db768078a518500ae3112804a705657b73aaab40d9cd6e"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_full_50seeds\\wavelet_channel_decoder_statistics_all_metrics.csv",
+        "size_bytes": 819950,
+        "sha256": "eea847d6a60c71057f63dee4f75174ec7f76072180eec1e6130d4b56913c45f9"
+      }
+    ],
+    "legacy_mc/mc_fair_t_64_32": [
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\_scratch\\summary.csv",
+        "size_bytes": 136932,
+        "sha256": "0b6d7c5326ff0230b59209c445b29bc388c4cc2a50559d4c6df2c64746be16ea"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\experiment_config.json",
+        "size_bytes": 2212,
+        "sha256": "72285ba8668cd97aff7311295aa334e639cf9807b7d8ee97f29be46bf5525786"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\experiment_log.txt",
+        "size_bytes": 15281,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\bch_derived_64_32_fair_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 40333,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\bch_derived_64_32_fair_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 36133,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\bch_derived_64_32_fair_rayleigh_chase_ber.png",
+        "size_bytes": 42222,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\bch_derived_64_32_fair_rayleigh_syndrome_ber.png",
+        "size_bytes": 41621,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\bch_derived_64_32_fair_sinusoidal_chase_ber.png",
+        "size_bytes": 45738,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\bch_derived_64_32_fair_sinusoidal_syndrome_ber.png",
+        "size_bytes": 46043,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\goppa_derived_64_32_deg5_fair_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 38372,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\goppa_derived_64_32_deg5_fair_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 38599,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\goppa_derived_64_32_deg5_fair_rayleigh_chase_ber.png",
+        "size_bytes": 44000,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\goppa_derived_64_32_deg5_fair_rayleigh_syndrome_ber.png",
+        "size_bytes": 43060,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\goppa_derived_64_32_deg5_fair_sinusoidal_chase_ber.png",
+        "size_bytes": 46504,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\goppa_derived_64_32_deg5_fair_sinusoidal_syndrome_ber.png",
+        "size_bytes": 46830,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\ldpc_64_32_fair_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 39656,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\ldpc_64_32_fair_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 35544,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\ldpc_64_32_fair_rayleigh_chase_ber.png",
+        "size_bytes": 41481,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\ldpc_64_32_fair_rayleigh_syndrome_ber.png",
+        "size_bytes": 40381,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\ldpc_64_32_fair_sinusoidal_chase_ber.png",
+        "size_bytes": 45078,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\ldpc_64_32_fair_sinusoidal_syndrome_ber.png",
+        "size_bytes": 45566,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_ambiguous_rate.png",
+        "size_bytes": 32380,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 43666,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 32868,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 45333,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_awgn_ber.png",
+        "size_bytes": 52119,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 69806,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 54291,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 55868,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 60339,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_ber.png",
+        "size_bytes": 59325,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 65154,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_failure_rate.png",
+        "size_bytes": 61788,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_frame_error_rate.png",
+        "size_bytes": 63201,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_rayleigh_miscorrection_rate.png",
+        "size_bytes": 60705,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 32368,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 44453,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_sinusoidal_ber.png",
+        "size_bytes": 65571,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 57634,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_sinusoidal_failure_rate.png",
+        "size_bytes": 67475,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_sinusoidal_frame_error_rate.png",
+        "size_bytes": 69624,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_bch_derived_64_32_fair_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 49251,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_ambiguous_rate.png",
+        "size_bytes": 33093,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 43294,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 33680,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 45117,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_awgn_ber.png",
+        "size_bytes": 47311,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 65114,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 49517,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 51414,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 57204,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_ber.png",
+        "size_bytes": 60269,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 67820,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_failure_rate.png",
+        "size_bytes": 63930,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_frame_error_rate.png",
+        "size_bytes": 64290,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_rayleigh_miscorrection_rate.png",
+        "size_bytes": 60450,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 55037,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 44345,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_sinusoidal_ber.png",
+        "size_bytes": 60492,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 70524,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_sinusoidal_failure_rate.png",
+        "size_bytes": 62846,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_sinusoidal_frame_error_rate.png",
+        "size_bytes": 65455,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_goppa_derived_64_32_deg5_fair_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 58124,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_ambiguous_rate.png",
+        "size_bytes": 31720,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 42754,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 32100,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 44271,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_awgn_ber.png",
+        "size_bytes": 51208,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 67199,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 53698,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 55364,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 60155,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_ber.png",
+        "size_bytes": 57962,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 58190,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_failure_rate.png",
+        "size_bytes": 60568,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_frame_error_rate.png",
+        "size_bytes": 62100,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_rayleigh_miscorrection_rate.png",
+        "size_bytes": 53201,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 31691,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 44032,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_sinusoidal_ber.png",
+        "size_bytes": 65258,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 54820,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_sinusoidal_failure_rate.png",
+        "size_bytes": 67076,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_sinusoidal_frame_error_rate.png",
+        "size_bytes": 69373,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_ldpc_64_32_fair_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 57554,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_ambiguous_rate.png",
+        "size_bytes": 33036,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 44597,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 33668,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 47146,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_awgn_ber.png",
+        "size_bytes": 52390,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 71750,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 54944,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 56772,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 63938,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_ber.png",
+        "size_bytes": 59758,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 62169,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_failure_rate.png",
+        "size_bytes": 62256,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_frame_error_rate.png",
+        "size_bytes": 64016,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_rayleigh_miscorrection_rate.png",
+        "size_bytes": 56886,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 33002,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 45750,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_sinusoidal_ber.png",
+        "size_bytes": 65920,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 60837,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_sinusoidal_failure_rate.png",
+        "size_bytes": 67954,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_sinusoidal_frame_error_rate.png",
+        "size_bytes": 70504,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_reed_solomon_binary_64_32_fair_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 53149,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_ambiguous_rate.png",
+        "size_bytes": 32072,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_average_decoding_time_ms.png",
+        "size_bytes": 42102,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_awgn_ambiguous_rate.png",
+        "size_bytes": 32488,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_awgn_average_decoding_time_ms.png",
+        "size_bytes": 44199,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_awgn_ber.png",
+        "size_bytes": 45884,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_awgn_conditional_miscorrection_rate.png",
+        "size_bytes": 64203,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_awgn_failure_rate.png",
+        "size_bytes": 48006,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_awgn_frame_error_rate.png",
+        "size_bytes": 49720,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_awgn_miscorrection_rate.png",
+        "size_bytes": 56605,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_ber.png",
+        "size_bytes": 58945,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_conditional_miscorrection_rate.png",
+        "size_bytes": 65354,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_failure_rate.png",
+        "size_bytes": 61005,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_frame_error_rate.png",
+        "size_bytes": 62851,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_rayleigh_miscorrection_rate.png",
+        "size_bytes": 58748,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_sinusoidal_ambiguous_rate.png",
+        "size_bytes": 32029,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_sinusoidal_average_decoding_time_ms.png",
+        "size_bytes": 43082,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_sinusoidal_ber.png",
+        "size_bytes": 60138,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_sinusoidal_conditional_miscorrection_rate.png",
+        "size_bytes": 69207,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_sinusoidal_failure_rate.png",
+        "size_bytes": 62052,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_sinusoidal_frame_error_rate.png",
+        "size_bytes": 64430,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\mc_wavelet_64_32_fair_sinusoidal_miscorrection_rate.png",
+        "size_bytes": 55551,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\reed_solomon_binary_64_32_fair_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 41151,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\reed_solomon_binary_64_32_fair_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 36891,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\reed_solomon_binary_64_32_fair_rayleigh_chase_ber.png",
+        "size_bytes": 42831,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\reed_solomon_binary_64_32_fair_rayleigh_syndrome_ber.png",
+        "size_bytes": 42228,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\reed_solomon_binary_64_32_fair_sinusoidal_chase_ber.png",
+        "size_bytes": 46729,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\reed_solomon_binary_64_32_fair_sinusoidal_syndrome_ber.png",
+        "size_bytes": 47371,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\wavelet_64_32_fair_rayleigh_awgn_chase_ber.png",
+        "size_bytes": 35937,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\wavelet_64_32_fair_rayleigh_awgn_syndrome_ber.png",
+        "size_bytes": 37296,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\wavelet_64_32_fair_rayleigh_chase_ber.png",
+        "size_bytes": 42388,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\wavelet_64_32_fair_rayleigh_syndrome_ber.png",
+        "size_bytes": 42216,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\wavelet_64_32_fair_sinusoidal_chase_ber.png",
+        "size_bytes": 45569,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\plots\\wavelet_64_32_fair_sinusoidal_syndrome_ber.png",
+        "size_bytes": 46163,
+        "sha256": "<not hashed>"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\wavelet_channel_decoder_statistics.csv",
+        "size_bytes": 57760,
+        "sha256": "3c0b21b8973b52cc51e5ae29c77a170d7c568027b038ad7818677816f8fd0737"
+      },
+      {
+        "path": "research_results\\legacy_mc\\mc_fair_t_64_32\\wavelet_channel_decoder_statistics_all_metrics.csv",
+        "size_bytes": 444279,
+        "sha256": "a288639da5baa1d7be978268bc35bc45f678a3b6d0dbdfb6c6267dc638cf6f83"
+      }
+    ]
+  },
+  "code_matrix_checksums": {
+    "WAVELET_16_8_CONFIG": {
+      "name": "wavelet_16_8",
+      "family": "wavelet",
+      "n": 16,
+      "k": 8,
+      "syndrome_t": 2,
+      "chase_inner_t": 2,
+      "chase_p": 3,
+      "d_exact": 5,
+      "G_sha256": "a095490f8b2aadf78a083860b14009638b3c047d5ec2bc4c67306f475823a04d",
+      "H_sha256": "1175ba7d87fb993a6f033db5015d2e61fb6820208ad786e677517d88c83a328d",
+      "G_shape": [
+        8,
+        16
+      ],
+      "H_shape": [
+        8,
+        16
+      ],
+      "G_weight": 40,
+      "H_weight": 88
+    },
+    "BCH_DERIVED_16_8_CONFIG": {
+      "name": "bch_derived_16_8",
+      "family": "bch_derived",
+      "n": 16,
+      "k": 8,
+      "syndrome_t": 2,
+      "chase_inner_t": 2,
+      "chase_p": 3,
+      "d_exact": 5,
+      "G_sha256": "d6f7c6f769213bcfc946be235e66feccbddf2433022c694a76e9137cdea0318a",
+      "H_sha256": "e2d63e92bfeb7c17069ed6c9e28d6bb3e94f52cbdd07f05809bcb30b58180fa7",
+      "G_shape": [
+        8,
+        16
+      ],
+      "H_shape": [
+        8,
+        16
+      ],
+      "G_weight": 47,
+      "H_weight": 47
+    },
+    "GOPPA_16_8_CONFIG": {
+      "name": "goppa_derived_16_8",
+      "family": "goppa_derived",
+      "n": 16,
+      "k": 8,
+      "syndrome_t": 2,
+      "chase_inner_t": 2,
+      "chase_p": 3,
+      "d_exact": 5,
+      "G_sha256": "6173431188bfdecba0f37d558521d4a49e6cd1571842dc7072ca103eb5249790",
+      "H_sha256": "01996c9f34a929abe1e83765921853a9cf06ec2cfd6660362fe46ab2bfbba0f5",
+      "G_shape": [
+        8,
+        16
+      ],
+      "H_shape": [
+        8,
+        16
+      ],
+      "G_weight": 44,
+      "H_weight": 44
+    },
+    "REED_SOLOMON_16_8_CONFIG": {
+      "name": "reed_solomon_binary_16_8",
+      "family": "reed_solomon_binary",
+      "n": 16,
+      "k": 8,
+      "syndrome_t": 2,
+      "chase_inner_t": 2,
+      "chase_p": 3,
+      "d_exact": 5,
+      "G_sha256": "85a5d8126e9c73acef92598a59067ec8d976c4f1397c4ba7307dbf1897772dac",
+      "H_sha256": "08d98de7a8ef72ef1bf5f72149176e617917cb5ba00b86705c1b7224f169c22f",
+      "G_shape": [
+        8,
+        16
+      ],
+      "H_shape": [
+        8,
+        16
+      ],
+      "G_weight": 50,
+      "H_weight": 45
+    },
+    "LDPC_16_8_CONFIG": {
+      "name": "ldpc_16_8",
+      "family": "ldpc",
+      "n": 16,
+      "k": 8,
+      "syndrome_t": 2,
+      "chase_inner_t": 2,
+      "chase_p": 3,
+      "d_exact": 5,
+      "G_sha256": "ead745dfb8264528b297b303be59339ece6bbbd86af1d99146a758faed039510",
+      "H_sha256": "35269b4d606f0f4e5e580654a8e8e477c0d321784a2e6b92e0dd53322f25d465",
+      "G_shape": [
+        8,
+        16
+      ],
+      "H_shape": [
+        8,
+        16
+      ],
+      "G_weight": 44,
+      "H_weight": 43
+    },
+    "WAVELET_32_16_CONFIG": {
+      "name": "wavelet_32_16",
+      "family": "wavelet",
+      "n": 32,
+      "k": 16,
+      "syndrome_t": 3,
+      "chase_inner_t": 3,
+      "chase_p": 4,
+      "d_exact": 8,
+      "G_sha256": "01d33caf69c3837ada721be41fb8c7b46a45035f6393a4ec0d4a84b7c2fec8d2",
+      "H_sha256": "3c96d10e93fa53c3fca347be8979d3f547f621801947ee6e09fdde0f68e59c4e",
+      "G_shape": [
+        16,
+        32
+      ],
+      "H_shape": [
+        16,
+        32
+      ],
+      "G_weight": 144,
+      "H_weight": 240
+    },
+    "BCH_DERIVED_32_16_CONFIG": {
+      "name": "bch_derived_32_16",
+      "family": "bch_derived",
+      "n": 32,
+      "k": 16,
+      "syndrome_t": 3,
+      "chase_inner_t": 3,
+      "chase_p": 4,
+      "d_exact": 8,
+      "G_sha256": "7eb86634eada915ba85143b1c3941a3d9b38521a6299470a010397ba92e2adf7",
+      "H_sha256": "ed9060859f73355c9aa84ad01b13f3f9d025cde97f6a050e0ac4dbfb82b380eb",
+      "G_shape": [
+        16,
+        32
+      ],
+      "H_shape": [
+        16,
+        32
+      ],
+      "G_weight": 152,
+      "H_weight": 152
+    },
+    "GOPPA_32_16_CONFIG": {
+      "name": "goppa_derived_32_16",
+      "family": "goppa_derived",
+      "n": 32,
+      "k": 16,
+      "syndrome_t": 3,
+      "chase_inner_t": 3,
+      "chase_p": 4,
+      "d_exact": 8,
+      "G_sha256": "193e992ca8fa78e20eee70c9c8ae69d669fe9ba0d3a2f4d0612e919812bd4352",
+      "H_sha256": "34b6dac1e1cb724ab25b15d1c989f6b4dd35eae448ecfddf09753395ec301139",
+      "G_shape": [
+        16,
+        32
+      ],
+      "H_shape": [
+        16,
+        32
+      ],
+      "G_weight": 152,
+      "H_weight": 152
+    },
+    "REED_SOLOMON_32_16_CONFIG": {
+      "name": "reed_solomon_binary_32_16",
+      "family": "reed_solomon_binary",
+      "n": 32,
+      "k": 16,
+      "syndrome_t": 3,
+      "chase_inner_t": 3,
+      "chase_p": 4,
+      "d_exact": 7,
+      "G_sha256": "2cd8ab763840b1007bf85fe136d4733c39f1fbbc554bcdb2f71b4e19259b37f0",
+      "H_sha256": "2185ee32d3ade195110047ce7d2aa19ab3dcbf29a786cc27a6a97824ac7622a5",
+      "G_shape": [
+        16,
+        32
+      ],
+      "H_shape": [
+        16,
+        32
+      ],
+      "G_weight": 238,
+      "H_weight": 148
+    },
+    "LDPC_32_16_CONFIG": {
+      "name": "ldpc_32_16",
+      "family": "ldpc",
+      "n": 32,
+      "k": 16,
+      "syndrome_t": 3,
+      "chase_inner_t": 3,
+      "chase_p": 4,
+      "d_exact": 8,
+      "G_sha256": "6034e513bb7f0da5256cd64d5d6e1a5099add72ee159b12635863d11d9125012",
+      "H_sha256": "7dd6a847513548bfeaaf7b31579ba7d83a0829afe060eb8d40146342c82daa2f",
+      "G_shape": [
+        16,
+        32
+      ],
+      "H_shape": [
+        16,
+        32
+      ],
+      "G_weight": 140,
+      "H_weight": 128
+    },
+    "WAVELET_64_32_CONFIG": {
+      "name": "wavelet_64_32",
+      "family": "wavelet",
+      "n": 64,
+      "k": 32,
+      "syndrome_t": 4,
+      "chase_inner_t": 4,
+      "chase_p": 5,
+      "d_exact": null,
+      "G_sha256": "b566521d28109ba6bb9e19770482172f6eba89887b6d44925e5cca23e2672726",
+      "H_sha256": "6881372f62b615be66fc665c8060c850684c3280bdbb76ff920e582e570d2a26",
+      "G_shape": [
+        32,
+        64
+      ],
+      "H_shape": [
+        32,
+        64
+      ],
+      "G_weight": 448,
+      "H_weight": 960
+    },
+    "BCH_DERIVED_64_32_CONFIG": {
+      "name": "bch_derived_64_32",
+      "family": "bch_derived",
+      "n": 64,
+      "k": 32,
+      "syndrome_t": 4,
+      "chase_inner_t": 4,
+      "chase_p": 5,
+      "d_exact": null,
+      "G_sha256": "c77ee48d9860356143604959c84960f9042220a13b0032a62f59c2c5cb71a914",
+      "H_sha256": "ae3690069cf42bbc4a0db6f3703cf934c8f7adf84d821d33127392db3f5fd475",
+      "G_shape": [
+        32,
+        64
+      ],
+      "H_shape": [
+        32,
+        64
+      ],
+      "G_weight": 600,
+      "H_weight": 600
+    },
+    "GOPPA_64_32_CONFIG": {
+      "name": "goppa_derived_64_32",
+      "family": "goppa_derived",
+      "n": 64,
+      "k": 32,
+      "syndrome_t": 4,
+      "chase_inner_t": 4,
+      "chase_p": 5,
+      "d_exact": null,
+      "G_sha256": "3794663d25a7c09b5edc4479aa12b7b2a30384992164f552fccd67feae2c60fc",
+      "H_sha256": "c5e687d9e9810adf43829ba34f3d2bf1fd2ebfca5c9f56b3f00147809bc09aca",
+      "G_shape": [
+        32,
+        64
+      ],
+      "H_shape": [
+        32,
+        64
+      ],
+      "G_weight": 438,
+      "H_weight": 438
+    },
+    "REED_SOLOMON_64_32_CONFIG": {
+      "name": "reed_solomon_binary_64_32",
+      "family": "reed_solomon_binary",
+      "n": 64,
+      "k": 32,
+      "syndrome_t": 4,
+      "chase_inner_t": 4,
+      "chase_p": 5,
+      "d_exact": null,
+      "G_sha256": "95141af9d0dcde7c08ecd30303bfb0447a3e33ade3f7ad35852eb242b8d18176",
+      "H_sha256": "abf28b085a0ae494200b8e79fbf7276c6945d744557d8c8851a189fa660cfd1e",
+      "G_shape": [
+        32,
+        64
+      ],
+      "H_shape": [
+        32,
+        64
+      ],
+      "G_weight": 958,
+      "H_weight": 576
+    },
+    "LDPC_64_32_CONFIG": {
+      "name": "ldpc_64_32",
+      "family": "ldpc",
+      "n": 64,
+      "k": 32,
+      "syndrome_t": 4,
+      "chase_inner_t": 4,
+      "chase_p": 5,
+      "d_exact": null,
+      "G_sha256": "de810f1cfb93ccbcc6b310f0c089e827157b4fd8e2413c4cb86343e83cfbeeaf",
+      "H_sha256": "c4afc8ac43b99600f611397648ee6f5a3ae10479acfd9fc45c0e3fab29ee35d4",
+      "G_shape": [
+        32,
+        64
+      ],
+      "H_shape": [
+        32,
+        64
+      ],
+      "G_weight": 511,
+      "H_weight": 219
+    }
+  },
+  "scenario_100k_presets": {
+    "16_8": {
+      "awgn": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_16_8",
+        "channel_type": "awgn",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 2,
+          "chase_unreliable_positions_count": 3,
+          "chase_inner_decoder_max_error_weight": 2,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_16_8_four_family",
+          "bch_derived_16_8_four_family",
+          "goppa_derived_16_8_four_family",
+          "reed_solomon_binary_16_8_four_family",
+          "ldpc_16_8_five_family"
+        ]
+      },
+      "_RAYLEIGH": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_16_8_RAYLEIGH",
+        "channel_type": "rayleigh",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 2,
+          "chase_unreliable_positions_count": 3,
+          "chase_inner_decoder_max_error_weight": 2,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_16_8_four_family",
+          "bch_derived_16_8_four_family",
+          "goppa_derived_16_8_four_family",
+          "reed_solomon_binary_16_8_four_family",
+          "ldpc_16_8_five_family"
+        ]
+      },
+      "_RAYLEIGH_AWGN": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_16_8_RAYLEIGH_AWGN",
+        "channel_type": "rayleigh_awgn",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 2,
+          "chase_unreliable_positions_count": 3,
+          "chase_inner_decoder_max_error_weight": 2,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_16_8_four_family",
+          "bch_derived_16_8_four_family",
+          "goppa_derived_16_8_four_family",
+          "reed_solomon_binary_16_8_four_family",
+          "ldpc_16_8_five_family"
+        ]
+      },
+      "_SINUSOIDAL": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_16_8_SINUSOIDAL",
+        "channel_type": "sinusoidal",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 2,
+          "chase_unreliable_positions_count": 3,
+          "chase_inner_decoder_max_error_weight": 2,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_16_8_four_family",
+          "bch_derived_16_8_four_family",
+          "goppa_derived_16_8_four_family",
+          "reed_solomon_binary_16_8_four_family",
+          "ldpc_16_8_five_family"
+        ]
+      }
+    },
+    "32_16": {
+      "awgn": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_32_16",
+        "channel_type": "awgn",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 3,
+          "chase_unreliable_positions_count": 4,
+          "chase_inner_decoder_max_error_weight": 3,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_32_16_four_family",
+          "bch_derived_32_16_four_family",
+          "goppa_derived_32_16_four_family",
+          "reed_solomon_binary_32_16_four_family",
+          "ldpc_32_16_five_family"
+        ]
+      },
+      "_RAYLEIGH": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_32_16_RAYLEIGH",
+        "channel_type": "rayleigh",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 3,
+          "chase_unreliable_positions_count": 4,
+          "chase_inner_decoder_max_error_weight": 3,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_32_16_four_family",
+          "bch_derived_32_16_four_family",
+          "goppa_derived_32_16_four_family",
+          "reed_solomon_binary_32_16_four_family",
+          "ldpc_32_16_five_family"
+        ]
+      },
+      "_RAYLEIGH_AWGN": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_32_16_RAYLEIGH_AWGN",
+        "channel_type": "rayleigh_awgn",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 3,
+          "chase_unreliable_positions_count": 4,
+          "chase_inner_decoder_max_error_weight": 3,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_32_16_four_family",
+          "bch_derived_32_16_four_family",
+          "goppa_derived_32_16_four_family",
+          "reed_solomon_binary_32_16_four_family",
+          "ldpc_32_16_five_family"
+        ]
+      },
+      "_SINUSOIDAL": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_32_16_SINUSOIDAL",
+        "channel_type": "sinusoidal",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 3,
+          "chase_unreliable_positions_count": 4,
+          "chase_inner_decoder_max_error_weight": 3,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_32_16_four_family",
+          "bch_derived_32_16_four_family",
+          "goppa_derived_32_16_four_family",
+          "reed_solomon_binary_32_16_four_family",
+          "ldpc_32_16_five_family"
+        ]
+      }
+    },
+    "64_32": {
+      "awgn": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_64_32",
+        "channel_type": "awgn",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 4,
+          "chase_unreliable_positions_count": 5,
+          "chase_inner_decoder_max_error_weight": 4,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_64_32_four_family",
+          "bch_derived_64_32_four_family",
+          "goppa_derived_64_32_four_family",
+          "reed_solomon_binary_64_32_four_family",
+          "ldpc_64_32_five_family"
+        ]
+      },
+      "_RAYLEIGH": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_64_32_RAYLEIGH",
+        "channel_type": "rayleigh",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 4,
+          "chase_unreliable_positions_count": 5,
+          "chase_inner_decoder_max_error_weight": 4,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_64_32_four_family",
+          "bch_derived_64_32_four_family",
+          "goppa_derived_64_32_four_family",
+          "reed_solomon_binary_64_32_four_family",
+          "ldpc_64_32_five_family"
+        ]
+      },
+      "_RAYLEIGH_AWGN": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_64_32_RAYLEIGH_AWGN",
+        "channel_type": "rayleigh_awgn",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 4,
+          "chase_unreliable_positions_count": 5,
+          "chase_inner_decoder_max_error_weight": 4,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_64_32_four_family",
+          "bch_derived_64_32_four_family",
+          "goppa_derived_64_32_four_family",
+          "reed_solomon_binary_64_32_four_family",
+          "ldpc_64_32_five_family"
+        ]
+      },
+      "_SINUSOIDAL": {
+        "preset": "FIVE_FAMILIES_1K_FULL_DECODERS_64_32_SINUSOIDAL",
+        "channel_type": "sinusoidal",
+        "message_count_preset": 1000,
+        "ebn0_db_values_preset": [
+          0.0,
+          0.5,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ],
+        "decoders": {
+          "syndrome_max_error_weight": 4,
+          "chase_unreliable_positions_count": 5,
+          "chase_inner_decoder_max_error_weight": 4,
+          "run_syndrome": true,
+          "run_hard_mld": true,
+          "run_soft_mld": true,
+          "run_chase": true,
+          "max_k_for_mld": 16
+        },
+        "codes": [
+          "wavelet_64_32_four_family",
+          "bch_derived_64_32_four_family",
+          "goppa_derived_64_32_four_family",
+          "reed_solomon_binary_64_32_four_family",
+          "ldpc_64_32_five_family"
+        ]
+      }
+    }
+  },
+  "scenario_fair_t_64_32": {
+    "RAYLEIGH": {
+      "preset": "FIVE_FAMILIES_64_32_FAIR_T_RAYLEIGH",
+      "channel_type": "rayleigh",
+      "message_count": 100000,
+      "ebn0_db_values": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        10.0,
+        11.0,
+        12.0
+      ],
+      "codes": [
+        {
+          "name": "wavelet_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 5,
+          "inner_t": 5,
+          "p": 6
+        },
+        {
+          "name": "bch_derived_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        },
+        {
+          "name": "goppa_derived_64_32_deg5",
+          "n": 64,
+          "k": 32,
+          "t": 5,
+          "inner_t": 5,
+          "p": 6
+        },
+        {
+          "name": "reed_solomon_binary_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        },
+        {
+          "name": "ldpc_64_32_five_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        }
+      ]
+    },
+    "RAYLEIGH_AWGN": {
+      "preset": "FIVE_FAMILIES_64_32_FAIR_T_RAYLEIGH_AWGN",
+      "channel_type": "rayleigh_awgn",
+      "message_count": 100000,
+      "ebn0_db_values": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        10.0,
+        11.0,
+        12.0
+      ],
+      "codes": [
+        {
+          "name": "wavelet_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 5,
+          "inner_t": 5,
+          "p": 6
+        },
+        {
+          "name": "bch_derived_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        },
+        {
+          "name": "goppa_derived_64_32_deg5",
+          "n": 64,
+          "k": 32,
+          "t": 5,
+          "inner_t": 5,
+          "p": 6
+        },
+        {
+          "name": "reed_solomon_binary_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        },
+        {
+          "name": "ldpc_64_32_five_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        }
+      ]
+    },
+    "SINUSOIDAL": {
+      "preset": "FIVE_FAMILIES_64_32_FAIR_T_SINUSOIDAL",
+      "channel_type": "sinusoidal",
+      "message_count": 100000,
+      "ebn0_db_values": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        10.0,
+        11.0,
+        12.0
+      ],
+      "codes": [
+        {
+          "name": "wavelet_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 5,
+          "inner_t": 5,
+          "p": 6
+        },
+        {
+          "name": "bch_derived_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        },
+        {
+          "name": "goppa_derived_64_32_deg5",
+          "n": 64,
+          "k": 32,
+          "t": 5,
+          "inner_t": 5,
+          "p": 6
+        },
+        {
+          "name": "reed_solomon_binary_64_32_four_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        },
+        {
+          "name": "ldpc_64_32_five_family",
+          "n": 64,
+          "k": 32,
+          "t": 4,
+          "inner_t": 4,
+          "p": 5
+        }
+      ]
+    }
+  },
+  "scenario_mc_full_50seeds": {
+    "settings": {
+      "mode": "full",
+      "num_seeds": 50,
+      "words_per_seed": 1000,
+      "ebn0_db_values": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "channels": [
+        "rayleigh",
+        "rayleigh_awgn",
+        "sinusoidal"
+      ],
+      "decoders": [
+        "syndrome",
+        "chase",
+        "hard_mld",
+        "soft_mld"
+      ],
+      "codes": [
+        "wavelet_16_8",
+        "bch_derived_16_8",
+        "goppa_derived_16_8",
+        "reed_solomon_binary_16_8",
+        "ldpc_16_8",
+        "wavelet_32_16",
+        "bch_derived_32_16",
+        "goppa_derived_32_16",
+        "reed_solomon_binary_32_16",
+        "ldpc_32_16",
+        "wavelet_64_32",
+        "bch_derived_64_32",
+        "goppa_derived_64_32",
+        "reed_solomon_binary_64_32",
+        "ldpc_64_32"
+      ]
+    },
+    "codes": {
+      "wavelet_16_8": {
+        "n": 16,
+        "k": 8,
+        "syndrome_max_error_weight": 2,
+        "chase_inner_decoder_max_error_weight": 2,
+        "chase_unreliable_positions_count": 3
+      },
+      "bch_derived_16_8": {
+        "n": 16,
+        "k": 8,
+        "syndrome_max_error_weight": 2,
+        "chase_inner_decoder_max_error_weight": 2,
+        "chase_unreliable_positions_count": 3
+      },
+      "goppa_derived_16_8": {
+        "n": 16,
+        "k": 8,
+        "syndrome_max_error_weight": 2,
+        "chase_inner_decoder_max_error_weight": 2,
+        "chase_unreliable_positions_count": 3
+      },
+      "reed_solomon_binary_16_8": {
+        "n": 16,
+        "k": 8,
+        "syndrome_max_error_weight": 2,
+        "chase_inner_decoder_max_error_weight": 2,
+        "chase_unreliable_positions_count": 3
+      },
+      "ldpc_16_8": {
+        "n": 16,
+        "k": 8,
+        "syndrome_max_error_weight": 2,
+        "chase_inner_decoder_max_error_weight": 2,
+        "chase_unreliable_positions_count": 3
+      },
+      "wavelet_32_16": {
+        "n": 32,
+        "k": 16,
+        "syndrome_max_error_weight": 3,
+        "chase_inner_decoder_max_error_weight": 3,
+        "chase_unreliable_positions_count": 4
+      },
+      "bch_derived_32_16": {
+        "n": 32,
+        "k": 16,
+        "syndrome_max_error_weight": 3,
+        "chase_inner_decoder_max_error_weight": 3,
+        "chase_unreliable_positions_count": 4
+      },
+      "goppa_derived_32_16": {
+        "n": 32,
+        "k": 16,
+        "syndrome_max_error_weight": 3,
+        "chase_inner_decoder_max_error_weight": 3,
+        "chase_unreliable_positions_count": 4
+      },
+      "reed_solomon_binary_32_16": {
+        "n": 32,
+        "k": 16,
+        "syndrome_max_error_weight": 3,
+        "chase_inner_decoder_max_error_weight": 3,
+        "chase_unreliable_positions_count": 4
+      },
+      "ldpc_32_16": {
+        "n": 32,
+        "k": 16,
+        "syndrome_max_error_weight": 3,
+        "chase_inner_decoder_max_error_weight": 3,
+        "chase_unreliable_positions_count": 4
+      },
+      "wavelet_64_32": {
+        "n": 64,
+        "k": 32,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      },
+      "bch_derived_64_32": {
+        "n": 64,
+        "k": 32,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      },
+      "goppa_derived_64_32": {
+        "n": 64,
+        "k": 32,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      },
+      "reed_solomon_binary_64_32": {
+        "n": 64,
+        "k": 32,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      },
+      "ldpc_64_32": {
+        "n": 64,
+        "k": 32,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      }
+    },
+    "channels": [
+      "rayleigh_awgn",
+      "rayleigh",
+      "sinusoidal"
+    ],
+    "decoders": [
+      "syndrome",
+      "chase",
+      "hard_mld",
+      "soft_mld"
+    ],
+    "channel_params": {
+      "rayleigh_awgn": "i.i.d. Rayleigh h (E[h^2]=1) + gaussian noise",
+      "rayleigh": "quasi-static Rayleigh h (E[h^2]=1) + scaled noise",
+      "sinusoidal": {
+        "mode": "realistic",
+        "num_interferers": 3,
+        "amplitude_distribution": "uniform",
+        "amplitude_range": [
+          0.1,
+          0.5
+        ],
+        "frequency_range": [
+          0.01,
+          0.5
+        ],
+        "drift": true,
+        "drift_amplitude_step": 0.002,
+        "drift_frequency_step": 0.00015,
+        "drift_phase_step": 0.004
+      }
+    },
+    "seed_scheme": "message_seed=seed, noise_seed=10000+seed, seed 0..N-1",
+    "note_mld": "hard/soft MLD для всех кодов (64,32) skipped: k=32 > max_k_for_mld=16 (2^32 перебор неприменим)"
+  },
+  "scenario_mc_fair_t_64_32": {
+    "settings": null,
+    "codes": {
+      "wavelet_64_32_fair": {
+        "n": 64,
+        "k": 32,
+        "family": "wavelet",
+        "minimum_distance_exact": 12,
+        "syndrome_max_error_weight": 5,
+        "chase_inner_decoder_max_error_weight": 5,
+        "chase_unreliable_positions_count": 6
+      },
+      "bch_derived_64_32_fair": {
+        "n": 64,
+        "k": 32,
+        "family": "bch_derived",
+        "minimum_distance_exact": 9,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      },
+      "goppa_derived_64_32_deg5_fair": {
+        "n": 64,
+        "k": 32,
+        "family": "goppa_derived",
+        "minimum_distance_exact": 11,
+        "syndrome_max_error_weight": 5,
+        "chase_inner_decoder_max_error_weight": 5,
+        "chase_unreliable_positions_count": 6
+      },
+      "reed_solomon_binary_64_32_fair": {
+        "n": 64,
+        "k": 32,
+        "family": "reed_solomon_binary",
+        "minimum_distance_exact": 10,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      },
+      "ldpc_64_32_fair": {
+        "n": 64,
+        "k": 32,
+        "family": "ldpc",
+        "minimum_distance_exact": 9,
+        "syndrome_max_error_weight": 4,
+        "chase_inner_decoder_max_error_weight": 4,
+        "chase_unreliable_positions_count": 5
+      }
+    },
+    "channels": [
+      "rayleigh",
+      "rayleigh_awgn",
+      "sinusoidal"
+    ],
+    "decoders": [
+      "syndrome",
+      "chase",
+      "hard_mld",
+      "soft_mld"
+    ],
+    "channel_params": null,
+    "seed_scheme": "message_seed=seed, noise_seed=10000+seed, seed 0..N-1",
+    "note_mld": "hard/soft MLD для всех (64,32) skipped: k=32 > max_k_for_mld=16"
+  },
+  "notes": [
+    "100k-прогон фактически сделан с message_count=100000 и сеткой 0..5 dB шаг 0.5 (presets FIVE_FAMILIES_1K_*).",
+    "64/32 в five_families_full_100k/*/64_32_100k — это FAIR_T прогон (wavelet/goppa t=5, остальные t=4, сетка 0..12 dB, 18 точек); старые t=4 версии — в 64_32_100k_t4_backup.",
+    "MC full 50 seeds: 15 кодов, сетка 0..6 dB, 50 seeds x 1000 слов.",
+    "MC fair_t 64_32: 5 кодов, сетка 0..12 dB (18 точек), 50 seeds x 1000.",
+    "BER-столбец 'ber' в v1 = pessimistic (отказ = k битовых ошибок); наблюдаемый BER восстановленных битов — отдельно в ber_on_success.",
+    "d_min для 64/32 уточнён полным MITM-перебором в отдельной сессии; точные значения записаны в metadata кодов FAIR_T-пресетов."
+  ]
+}
